@@ -1,4 +1,4 @@
-from ev3dev2.motor import MediumMotor, LargeMotor, OUTPUT_A, OUTPUT_B, OUTPUT_C, OUTPUT_D
+from ev3dev2.motor import MoveSteering, MediumMotor, LargeMotor, OUTPUT_A, OUTPUT_B, OUTPUT_C, OUTPUT_D
 from ev3dev2.sensor.lego import TouchSensor, ColorSensor, GyroSensor, INPUT_1, INPUT_2, INPUT_3, INPUT_4
 import xml.etree.ElementTree as ET
 import threading
@@ -20,18 +20,18 @@ def squareOnLine(speed, threshold):
     lineFound = False
     steering_drive.on(steering=0,speed=speed)
     while True:
-        colourLeft_RLI = leftColour.reflected_light_intensity
-        colourRight_RLI = rightColour.reflected_light_intensity
+        colourLeft_RLI = colourLeft.reflected_light_intensity
+        colourRight_RLI = colourRight.reflected_light_intensity
         
         if colourLeft_RLI <= threshold:
-            largeMotorLeft.on(-speed)
-            largeMotorRight.on(speed)
+            largeMotor_Left.on(-speed)
+            largeMotor_Right.on(speed)
             lineFound = True
             print('{} left found it'.format(colourLeft_RLI))
 
         if colourRight_RLI <=threshold:
-            largeMotorLeft.on(speed)
-            largeMotorRight.on(-speed)
+            largeMotor_Left.on(speed)
+            largeMotor_Right.on(-speed)
             print('{} right found it'.format(colourRight_RLI))
 
         print('{} left, {} right'.format(colourLeft_RLI, colourRight_RLI))
