@@ -90,7 +90,7 @@ def launchStep(stop, action):
             motorToUse = mediumMotor_Left
         if (motor == "mediumMotor_Right"):
             motorToUse = mediumMotor_Right
-        thread = threading.Thread(target=onForSeconds, args=(stop, motorToUse, speed, rotations))
+        thread = threading.Thread(target=onForRotations, args=(stop, motorToUse, speed, rotations))
         thread.start()
         return thread
 
