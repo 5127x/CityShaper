@@ -16,6 +16,7 @@ mediumMotor_Right = MediumMotor(OUTPUT_D)
 
 def isRobotLifted():
     return colourLeft.raw[0] < 5 and colourLeft.raw[1] < 5 and colourLeft.raw[2] < 5
+    #olivia was here
 
 
 def onForSeconds(stop, motor, speed, seconds):
