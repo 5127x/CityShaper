@@ -29,41 +29,22 @@ def onForSeconds(stop, motor, speed, seconds, brake):
             break
     motor.off()
 
-def onForRotations(stop, motor, speed, rotations, brake): # should work
-    motor.on_for_rotations(speed, rotations, brake, block = False)
-    while not stop():
+def onForRotations(stop, motor, speed, rotations, brake): 
+    current_degrees = motor.position() # there isnt a way to read rotations
+    target_rotations = rotations * 360 # convert to degrees bcs its simpler
+    target_rotations = current_degrees + target_rotations
+    motor.on(speed, brake, block = False)
+    while current_degrees < target_rotations:
+        current_degrees = motor.position()
         if stop():
-            motor.off()
             break
+    motor.off()
 
 def delayForSeconds(stop, seconds):
     start_time = time.time()
     while time.time() < start_time + seconds:
         if stop():
             break
-'''
-def launchStep(stop, action):
-    name = action.get('action')
-    motor = action.get('motor')
-    speed = float(action.get('speed'))
-    seconds = float(action.get('seconds'))
-
-    if name == 'onForSeconds':
-        if (motor == "largeMotor_Left"):
-            motorToUse = largeMotor_Left
-        if (motor == "largeMotor_Right"):
-            motorToUse = largeMotor_Right
-        if (motor == "mediumMotor"):
-            motorToUse = mediumMotor
-        thread = threading.Thread(target=onForSeconds, args=(stop, motorToUse, speed, seconds))
-        thread.start()
-        return thread
-    
-    if name == 'delayForSeconds':
-        thread = threading.Thread(target=delayForSeconds, args=(stop, seconds))
-        thread.start()
-        return thread
-'''
 
 def launchStep(stop, action):
     name = action.get('action')
