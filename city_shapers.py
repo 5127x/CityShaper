@@ -5,6 +5,8 @@ import xml.etree.ElementTree as ET
 import threading
 import time
 
+from squareOnLine import squareOnLine
+
 colourAttachment = ColorSensor(INPUT_4)
 colourLeft = ColorSensor(INPUT_2)
 colourRight = ColorSensor(INPUT_3)
@@ -97,6 +99,14 @@ def launchStep(stop, action):
         thread = threading.Thread(target=delayForSeconds, args=(stop, seconds))
         thread.start()
         return thread
+
+    if name == 'squareOnLine':
+        speed = action.get('speed')
+        threshold = action.get('threshold')
+        thread = threading.Thread(target=squareOnLine, args=(speed, threshold))
+        thread.start()
+        return thread
+
 
 def main():
     threadPool = []

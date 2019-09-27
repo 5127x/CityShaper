@@ -1,3 +1,18 @@
+from ev3dev2.motor import MediumMotor, LargeMotor, OUTPUT_A, OUTPUT_B, OUTPUT_C, OUTPUT_D
+from ev3dev2.sensor.lego import TouchSensor, ColorSensor, GyroSensor, INPUT_1, INPUT_2, INPUT_3, INPUT_4
+import xml.etree.ElementTree as ET
+import threading
+import time
+
+colourAttachment = ColorSensor(INPUT_4)
+colourLeft = ColorSensor(INPUT_2)
+colourRight = ColorSensor(INPUT_3)
+gyro = GyroSensor(INPUT_1)
+largeMotor_Left= LargeMotor(OUTPUT_B)
+largeMotor_Right= LargeMotor(OUTPUT_C)
+mediumMotor_Left = MediumMotor(OUTPUT_A)
+mediumMotor_Right = MediumMotor(OUTPUT_D)
+
 def squareOnLine(speed, threshold):
     colourLeft_RLI = 0
     colourRight_RLI = 0
