@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from ev3dev2.motor import MediumMotor, LargeMotor, OUTPUT_A, OUTPUT_B, OUTPUT_C, OUTPUT_D
+from ev3dev2.motor import MoveSteering, MediumMotor, LargeMotor, OUTPUT_A, OUTPUT_B, OUTPUT_C, OUTPUT_D
 from ev3dev2.sensor.lego import TouchSensor, ColorSensor, GyroSensor, INPUT_1, INPUT_2, INPUT_3, INPUT_4
 import xml.etree.ElementTree as ET
 import threading
@@ -11,6 +11,7 @@ colourAttachment = ColorSensor(INPUT_4)
 colourLeft = ColorSensor(INPUT_2)
 colourRight = ColorSensor(INPUT_3)
 gyro = GyroSensor(INPUT_1)
+steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
 mediumMotor_Left = MediumMotor(OUTPUT_A)
@@ -20,15 +21,20 @@ def isRobotLifted():
     return colourLeft.raw[0] < 5 and colourLeft.raw[1] < 5 and colourLeft.raw[2] < 5
     #olivia was here
 
-
-def onForSeconds(stop, motor, speed, seconds):
+def onForSeconds(stop, motor, speed, seconds, brake):
     start_time = time.time()
-    motor.on(speed, brake = True, block = False)
+    motor.on(speed, brake = brake, block = False)
     while time.time() < start_time + seconds:
         if stop():
             break
     motor.off()
 
+def onForRotations(stop, motor, speed, rotations, brake): # should work
+    motor.on_for_rotations(speed, rotations, brake, block = False)
+    while not stop():
+        if stop():
+            motor.off()
+            break
 
 def delayForSeconds(stop, seconds):
     start_time = time.time()
@@ -78,7 +84,7 @@ def launchStep(stop, action):
         thread.start()
         return thread
     
-    if name == 'onForRotations':
+    if name == 'onForRotations': 
         motor = action.get('motor')
         speed = float(action.get('speed'))
         rotations = float(action.get('rotations'))

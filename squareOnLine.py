@@ -8,6 +8,7 @@ colourAttachment = ColorSensor(INPUT_4)
 colourLeft = ColorSensor(INPUT_2)
 colourRight = ColorSensor(INPUT_3)
 gyro = GyroSensor(INPUT_1)
+steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
 mediumMotor_Left = MediumMotor(OUTPUT_A)
@@ -17,7 +18,7 @@ def squareOnLine(speed, threshold):
     colourLeft_RLI = 0
     colourRight_RLI = 0
     lineFound = False
-    steering.on(steering=0,speed=speed)
+    steering_drive.on(steering=0,speed=speed)
     while True:
         colourLeft_RLI = leftColour.reflected_light_intensity
         colourRight_RLI = rightColour.reflected_light_intensity
