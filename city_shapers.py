@@ -107,8 +107,8 @@ def launchStep(stop, action):
         return thread
 
     if name == 'squareOnLine':
-        speed = action.get('speed')
-        threshold = action.get('threshold')
+        speed = action.get(float('speed'))
+        threshold = action.get(float('threshold'))
         thread = threading.Thread(target=squareOnLine, args=(speed, threshold))
         thread.start()
         return thread
