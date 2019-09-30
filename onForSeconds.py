@@ -11,8 +11,8 @@ gyro = GyroSensor(INPUT_1)
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
-mediumMotor_Left = MediumMotor(OUTPUT_A)
-mediumMotor_Right = MediumMotor(OUTPUT_D)
+# mediumMotor_Left = MediumMotor(OUTPUT_A)
+mediumMotor = MediumMotor(OUTPUT_D)
 
 def onForSeconds(stop, motor, speed, seconds, brake):
     start_time = time.time()

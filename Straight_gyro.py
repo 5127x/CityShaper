@@ -4,6 +4,8 @@ import xml.etree.ElementTree as ET
 import threading
 import time
 
+
+
 colourAttachment = ColorSensor(INPUT_4)
 colourLeft = ColorSensor(INPUT_2)
 colourRight = ColorSensor(INPUT_3)
@@ -12,13 +14,13 @@ steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
-mediumMotor_Left = MediumMotor(OUTPUT_A)
-mediumMotor_Right = MediumMotor(OUTPUT_D)
+# mediumMotor_Left = MediumMotor(OUTPUT_A)
+mediumMotor = MediumMotor(OUTPUT_D)
 
 def Straight_gyro(stop, speed, rotations):
     current_degrees = largeMotor_Left.position # convert to degrees
     rotations = rotations * 360
-    target_rotations = current_degrees+ rotations
+    target_rotations = current_degrees+ rotations
     current_gyro_reading = gyro.angle
     print(“Current Gyro Reading: {}“.format(current_gyro_reading))
 

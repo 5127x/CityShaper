@@ -12,11 +12,13 @@ gyro = GyroSensor(INPUT_1)
 
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
-mediumMotor_Left = MediumMotor(OUTPUT_A)
-mediumMotor_Right = MediumMotor(OUTPUT_D)
+# mediumMotor_Left = MediumMotor(OUTPUT_A)
+mediumMotor = MediumMotor(OUTPUT_D)
 
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
+
+mediumMotor.reset  #May be degrees or rotations ??
 
 prev_RLI = 0
 #__________________________________________________________________Turning Certain amt or degrees   
@@ -133,13 +135,13 @@ def MediumMotor(stop, motor, numberOfRotations, speed): # do we really need th
         mediumMotor_Left.on_for_rotations(rotations = numberOfRotations, speed = speed)
         
     if motor == “Right”:
-        motor = mediumMotor_Right
-        mediumMotor_Right.on_for_rotations(rotations = numberOfRotations, speed = speed)
+        motor = mediumMotor
+        mediumMotor.on_for_rotations(rotations = numberOfRotations, speed = speed)
 #_______________________________________________________________________________
 '''
 #_______________________________________________________________________________
 
-def squareOnLine(speed, threshold):
+def squareOnLine(speed, target):
     colourLeft_RLI = 0
     colourRight_RLI = 0
     lineFound = False
@@ -148,13 +150,13 @@ def squareOnLine(speed, threshold):
         colourLeft_RLI = colourLeft.reflected_light_intensity
         colourRight_RLI = colourRight.reflected_light_intensity
         
-        if colourLeft_RLI <= threshold:
+        if colourLeft_RLI <= target:
             largeMotor_Left.on(-speed)
             largeMotor_Right.on(speed)
             lineFound = True
             print('{} left found it'.format(colourLeft_RLI))
 
-        if colourRight_RLI <=threshold:
+        if colourRight_RLI <=target:
             largeMotor_Left.on(speed)
             largeMotor_Right.on(-speed)
             print('{} right found it'.format(colourRight_RLI))

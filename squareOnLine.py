@@ -11,10 +11,10 @@ gyro = GyroSensor(INPUT_1)
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
-mediumMotor_Left = MediumMotor(OUTPUT_A)
-mediumMotor_Right = MediumMotor(OUTPUT_D)
+# mediumMotor_Left = MediumMotor(OUTPUT_A)
+mediumMotor = MediumMotor(OUTPUT_D)
 
-def squareOnLine(stop, speed, threshold):
+def squareOnLine(stop, speed, target):
     colourLeft_RLI = 0
     colourRight_RLI = 0
     lineFound = False
@@ -23,13 +23,13 @@ def squareOnLine(stop, speed, threshold):
         colourLeft_RLI = colourLeft.reflected_light_intensity
         colourRight_RLI = colourRight.reflected_light_intensity
         
-        if colourLeft_RLI <= threshold:
+        if colourLeft_RLI <= target:
             largeMotor_Left.on(-speed)
             largeMotor_Right.on(speed)
             lineFound = True
             print('{} left found it'.format(colourLeft_RLI))
 
-        if colourRight_RLI <=threshold:
+        if colourRight_RLI <=target:
             largeMotor_Left.on(speed)
             largeMotor_Right.on(-speed)
             print('{} right found it'.format(colourRight_RLI))

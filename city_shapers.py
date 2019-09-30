@@ -24,12 +24,11 @@ tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
-mediumMotor_Left = MediumMotor(OUTPUT_A)
-mediumMotor_Right = MediumMotor(OUTPUT_D)
+# mediumMotor_Left = MediumMotor(OUTPUT_A)
+mediumMotor = MediumMotor(OUTPUT_D)
 
 def isRobotLifted():
     return colourLeft.raw[0] < 5 and colourLeft.raw[1] < 5 and colourLeft.raw[2] < 5
-    #olivia was here
 
 def launchStep(stop, action):
     name = action.get('action')
@@ -43,10 +42,9 @@ def launchStep(stop, action):
             motorToUse = largeMotor_Left
         if (motor == "largeMotor_Right"):
             motorToUse = largeMotor_Right
-        if (motor == "mediumMotor_Left"):
-            motorToUse = mediumMotor_Left
-        if (motor == "mediumMotor_Right"):
-            motorToUse = mediumMotor_Right
+        # if (motor == "mediumMotor_Left"): motorToUse = mediumMotor_Left
+        if (motor == "mediumMotor"):
+            motorToUse = mediumMotor
         thread = threading.Thread(target=onForSeconds, args=(stop, motorToUse, speed, seconds, brake))
         thread.start()
         return thread
@@ -60,10 +58,9 @@ def launchStep(stop, action):
             motorToUse = largeMotor_Left
         if (motor == "largeMotor_Right"):
             motorToUse = largeMotor_Right
-        if (motor == "mediumMotor_Left"):
-            motorToUse = mediumMotor_Left
-        if (motor == "mediumMotor_Right"):
-            motorToUse = mediumMotor_Right
+        #if (motor == "mediumMotor_Left"): motorToUse = mediumMotor_Left
+        if (motor == "mediumMotor"):
+            motorToUse = mediumMotor
         thread = threading.Thread(target=onForRotations, args=(stop, motorToUse, speed, rotations, brake))
         thread.start()
         return thread
@@ -92,10 +89,10 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
-    if name == 'squareOnLine': # (stop, speed, threshold)
+    if name == 'squareOnLine': # (stop, speed, target)
         speed = float(action.get('speed'))
-        threshold = float(action.get('threshold'))
-        thread = threading.Thread(target=squareOnLine, args=(stop, speed, threshold))
+        target = float(action.get('target'))
+        thread = threading.Thread(target=squareOnLine, args=(stop, speed, target))
         thread.start()
         return thread
     
@@ -122,6 +119,7 @@ def main():
     programs = programXML.getroot()
     while True:
         rgb = cl.raw
+        mediumMotor.reset # could be the other motor
         for program in programs:
             programName = program.get('name')
             rProgram = int(program.get('r'))
