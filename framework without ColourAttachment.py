@@ -14,7 +14,6 @@ from onForSeconds import onForSeconds
 from Steering_rotations import Steering_rotations
 from Steering_seconds import Steering_seconds
 
-colourAttachment = ColorSensor(INPUT_4)
 colourLeft = ColorSensor(INPUT_2)
 colourRight = ColorSensor(INPUT_3)
 gyro = GyroSensor(INPUT_1)
@@ -114,52 +113,39 @@ def main():
     threadPool = []
     actions = []
     stopProcessing = False
-    cl = ColorSensor(colourAttachment)
-    programXML = ET.parse('overall_programming.xml')
+    programXML = ET.parse('programming_test.xml')
     programs = programXML.getroot()
-    while True:
-        rgb = cl.raw
-        
-        for program in programs:
-            programName = program.get('name')
-            rProgram = int(program.get('r'))
-            gProgram = int(program.get('g'))
-            bProgram = int(program.get('b'))
-            rColourSensor = rgb[0]
-            gColourSensor = rgb[1]
-            bColourSensor = rgb[2]
-            if abs(rColourSensor - rProgram) < 20 and abs(gColourSensor - gProgram) < 20 and abs(bColourSensor - bProgram) < 20:
-                mediumMotor.reset # could be the other motor
-                fileName = program.get('fileName')
-                dataXML = ET.parse(fileName)
-                steps = dataXML.getroot()
-                for step in steps:
-                    action = step.get('action')
-                    # are their multiple actions to execute in parallel?
-                    if action == 'launchInParallel':
-                        for subSteps in step:
-                            thread = launchStep(lambda:stopProcessing, subSteps)
-                            threadPool.append(thread)
-                    # is there a single action to execute?
-                    else:
-                        thread = launchStep(lambda:stopProcessing, step)
-                        threadPool.append(thread)
-                    while not stopProcessing:
-                        # remove any completed threads from the pool
-                        for thread in threadPool:
-                            if not thread.isAlive():
-                                threadPool.remove(thread)
-                        # if there are no threads running, exist the 'while' loop 
-                        # and start the next action from the list 
-                        if not threadPool:
-                            break
-                        # if the robot has been lifted then complete everything
-                        if isRobotLifted():
-                            stopProcessing = True
-                            break
-                        #sleep(0.25)
-                    # if the 'stopProcessing' flag has been set then finish the step loop
-                    if stopProcessing:
-                        break
+    mediumMotor.reset # could be the other motor
+    fileName = program.get('fileName')
+    dataXML = ET.parse(fileName)
+    steps = dataXML.getroot()
+    for step in steps:
+        action = step.get('action')
+        # are their multiple actions to execute in parallel?
+        if action == 'launchInParallel':
+            for subSteps in step:
+                thread = launchStep(lambda:stopProcessing, subSteps)
+                threadPool.append(thread)
+        # is there a single action to execute?
+        else:
+            thread = launchStep(lambda:stopProcessing, step)
+            threadPool.append(thread)
+        while not stopProcessing:
+            # remove any completed threads from the pool
+            for thread in threadPool:
+                if not thread.isAlive():
+                    threadPool.remove(thread)
+            # if there are no threads running, exist the 'while' loop 
+            # and start the next action from the list 
+            if not threadPool:
+                break
+            # if the robot has been lifted then complete everything
+            if isRobotLifted():
+                stopProcessing = True
+                break
+            #sleep(0.25)
+        # if the 'stopProcessing' flag has been set then finish the step loop
+        if stopProcessing:
+            break
 
 main()

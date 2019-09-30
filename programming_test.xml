@@ -1,19 +1,4 @@
 <steps>
-    <step action="launchInParallel">
-        <step action="onForSeconds" motor="largeMotor_Left" speed="20" seconds="4" brake="True"/>
-        <step action="onForSeconds" motor="largeMotor_Right" speed="40" seconds="3" /> 
-    </step>
-    <step action="delayForSeconds" seconds="2" />
-    <step action="onForSeconds" motor="mediumMotor" speed="10" seconds="8" /> 
-</steps>
-
-<steps>
-    <step action="launchInParallel">
-        <step action="onForSeconds" motor="largeMotor_Left" speed="20" seconds="4" /> 
-        <step action="launchInSeries">
-            <step action="delayForSeconds" seconds="2" />
-            <step action="onForSeconds" motor="largeMotor_Right" speed="40" seconds="3"/> 
-        </step>
-    </step>
-    <step action="onForSeconds" motor="mediumMotor" speed="10" seconds="8" /> 
+    <step action="onForSeconds" motor="mediumMotor" speed="30" seconds="2" brake="True"/>
+    <step action="Straight_gyro" speed="20" rotations="5"/> 
 </steps>
