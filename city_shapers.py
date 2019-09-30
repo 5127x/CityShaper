@@ -122,10 +122,6 @@ def main():
     programs = programXML.getroot()
     while True:
         rgb = cl.raw
-<<<<<<< HEAD
-=======
-        
->>>>>>> 8538d59ed11a76394425a02c59ef8c0eed4742d5
         for program in programs:
             programName = program.get('name')
             rProgram = int(program.get('r'))
