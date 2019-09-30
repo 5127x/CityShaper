@@ -16,12 +16,12 @@ mediumMotor_Left = MediumMotor(OUTPUT_A)
 mediumMotor_Right = MediumMotor(OUTPUT_D)
 
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
-tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
+tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
-prev_RLI = 0
+prev_RLI = 0
 #__________________________________________________________________Turning Certain amt or degrees   
-def Turn_degrees(stop, speed, degrees): #gyro.mode=‘GYRO-ANG’    gyro.reset
-    current_gyro_reading = gyro.angle
+def Turn_degrees(stop, speed, degrees):#gyro.mode=‘GYRO-ANG’    gyro.reset
+    current_gyro_reading = gyro.angle
     print(“Current Gyro Reading: {}“.format(current_gyro_reading))
     
     if degrees < 0:
@@ -31,7 +31,6 @@ def Turn_degrees(stop, speed, degrees): #gyro.mode=‘GYRO-ANG’    gyro.rese
             print(“Current Gyro Reading: {}“.format(current_gyro_reading))
             tank_block.on(right_speed = speed, left_speed = -speed)
             if stop():
-                tank_block.off() # FIXFIXFIXFIXFIX
                 break
 
     if degrees > 0:
@@ -40,6 +39,8 @@ def Turn_degrees(stop, speed, degrees): #gyro.mode=‘GYRO-ANG’    gyro.rese
             current_gyro_reading = gyro.angle
             print(“Current Gyro Reading: {}“.format(current_gyro_reading))
             tank_block.on(right_speed = -speed, left_speed = speed)
+            if stop(): 
+                break
     tank_block.off()
 #_______________________________________________________________________________
 def Straight_Gyro(stop, speed, rotations):
@@ -94,62 +95,37 @@ def function(stop, rotations, speed, LineSide, colourSensor):
     
     while int(target_rotations) = int(current_rotations):
         correction = 0.95
-        
         if colourSensor == “RIGHT”:
             current_RLI = colourRight.reflected_light_intensity
-            #print(“Current COLOUR SENSOR RIGHT”)
 
         if colourSensor == “LEFT”:
             current_RLI = colourLeft.reflected_light_intensity
-            #print (“Current COLOUR SENSOR LEFT”)
 
-        #print (“Current Rotations: “,(current_rotations))
-        #print(“Current Light Reading: “, current_RLI, “Previous Light Reading: “, prev_RLI)
-        
-        # with a steering_drive, we can slow the left or right wheel down to get the robot to turn that way.
-        #steering_drive.on_for_rotations(steering=0, speed=50, rotations = 2
-        
-        #print (“In loop line 65”)
         if LineSide == “LEFT”:
-            #print (“Line side = Left”)
             if current_RLI > prev_RLI:
                 print(“turn right”)
-                #print(“”)
                 steering_drive.on(steering=50, speed=speed)
-                
             elif current_RLI < prev_RLI:
                 steering_drive.on(steering=-50, speed=speed) 
                 print(“turn left”)
-              #  print(“”)
-
             else:
-                print (“In loop line Left”)                
+                print (“In loop line Left”)
                 steering_drive.on(steering=0, speed=speed) 
-
         if LineSide == “RIGHT”:
-            #print (“Line side = Right”) more  black
             if current_RLI < prev_RLI:
                 print(“turn right”)
-                #print(“”)                
                 steering_drive.on(steering=50, speed=speed)
-                
             elif current_RLI > prev_RLI:
                 steering_drive.on(steering=-50, speed=speed) 
                 print(“turn left”)
-                #print(“”)less black
-                
             else:
-                #print (“In loop line Left”)
                 steering_drive.on(steering=0, speed=speed) 
 
-        # Do this after we have moved.  If we haven’t reached the target_rotations, it will repeat again.
         current_rotations = largeMotor_Left.position
-        #print (“Current Rotations2: “,(current_rotations))
-
-    # We have gone the required distance, stop the motor.
     steering_drive.off()
 # function(numberOfRotations = 10, speed = 10, LineSide = “LEFT”, colourSensor = “RIGHT” )
 #_______________________________________________________________________________
+'''
 def MediumMotor(stop, motor, numberOfRotations, speed): # do we really need this? we can just use onForRotations
     
     if motor == “Left”:
@@ -160,23 +136,62 @@ def MediumMotor(stop, motor, numberOfRotations, speed): # do we really need th
         motor = mediumMotor_Right
         mediumMotor_Right.on_for_rotations(rotations = numberOfRotations, speed = speed)
 #_______________________________________________________________________________
-
+'''
 #_______________________________________________________________________________
 
-#_______________________________________________________________________________
+def squareOnLine(speed, threshold):
+    colourLeft_RLI = 0
+    colourRight_RLI = 0
+    lineFound = False
+    steering_drive.on(steering=0,speed=speed)
+    while True:
+        colourLeft_RLI = colourLeft.reflected_light_intensity
+        colourRight_RLI = colourRight.reflected_light_intensity
+        
+        if colourLeft_RLI <= threshold:
+            largeMotor_Left.on(-speed)
+            largeMotor_Right.on(speed)
+            lineFound = True
+            print('{} left found it'.format(colourLeft_RLI))
+
+        if colourRight_RLI <=threshold:
+            largeMotor_Left.on(speed)
+            largeMotor_Right.on(-speed)
+            print('{} right found it'.format(colourRight_RLI))
+        print('{} left, {} right'.format(colourLeft_RLI, colourRight_RLI))
+    
+        if colourLeft_RLI == colourRight_RLI and lineFound:
+            break
 
 #_______________________________________________________________________________
 def onForRotations(stop, motor, speed, rotations, brake): 
-    current_degrees = motor.position() # there isnt a way to read rotations
+    current_degrees = motor.position # there isnt a way to read rotations
     target_rotations = rotations * 360 # convert to degrees bcs its simpler
     target_rotations = current_degrees + target_rotations
 
-    motor.on(speed, brake, block = False)
+    motor.on(speed=speed, brake=brake, block = False)
     while current_degrees < target_rotations:
-        current_degrees = motor.position()
+        current_degrees = motor.position
         if stop():
             break
     motor.off()
 #_______________________________________________________________________________ 
-
+def Steering_rotations(stop, speed, rotations, steering, brake):
+    current_degrees = motor.position # there isnt a way to read rotations
+    target_rotations = rotations * 360 # convert to degrees bcs its simpler
+    target_rotations = current_degrees + target_rotations
+    steering_drive.on(steering = steering, speed= speed, brake = brake, block = False)
+    while current_degrees < target_rotations:
+        current_degrees = motor.position
+        if stop():
+            break
+    steering_drive.off()
+#_______________________________________________________________________________
+def Steering_seconds(stop, speed, seconds, steering, brake): 
+    start_time = time.time()
+    steering_drive.on(speed, brake = brake, block = False)
+    while time.time() < start_time + seconds:
+        if stop():
+            break
+    steering_drive.off()
 #_______________________________________________________________________________

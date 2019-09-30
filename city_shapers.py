@@ -1,17 +1,27 @@
 #!/usr/bin/env python3
-from ev3dev2.motor import MoveSteering, MediumMotor, LargeMotor, OUTPUT_A, OUTPUT_B, OUTPUT_C, OUTPUT_D
+from ev3dev2.motor import MoveSteering, MoveTank, MediumMotor, LargeMotor, OUTPUT_A, OUTPUT_B, OUTPUT_C, OUTPUT_D
 from ev3dev2.sensor.lego import TouchSensor, ColorSensor, GyroSensor, INPUT_1, INPUT_2, INPUT_3, INPUT_4
 import xml.etree.ElementTree as ET
 import threading
 import time
 
+from delayForSeconds import delayForSeconds
 from squareOnLine import squareOnLine
+from Turn_degrees import Turn_degrees
+from Straight_gyro import Straight_gyro
+from onForRotations import onForRotations
+from onForSeconds import onForSeconds
+from Steering_rotations import Steering_rotations
+from Steering_seconds import Steering_seconds
 
 colourAttachment = ColorSensor(INPUT_4)
 colourLeft = ColorSensor(INPUT_2)
 colourRight = ColorSensor(INPUT_3)
 gyro = GyroSensor(INPUT_1)
+
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
+tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
+
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
 mediumMotor_Left = MediumMotor(OUTPUT_A)
@@ -21,38 +31,14 @@ def isRobotLifted():
     return colourLeft.raw[0] < 5 and colourLeft.raw[1] < 5 and colourLeft.raw[2] < 5
     #olivia was here
 
-def onForSeconds(stop, motor, speed, seconds, brake):
-    start_time = time.time()
-    motor.on(speed, brake = brake, block = False)
-    while time.time() < start_time + seconds:
-        if stop():
-            break
-    motor.off()
-
-def onForRotations(stop, motor, speed, rotations, brake): 
-    current_degrees = motor.position() # there isnt a way to read rotations
-    target_rotations = rotations * 360 # convert to degrees bcs its simpler
-    target_rotations = current_degrees + target_rotations
-    motor.on(speed, brake, block = False)
-    while current_degrees < target_rotations:
-        current_degrees = motor.position()
-        if stop():
-            break
-    motor.off()
-
-def delayForSeconds(stop, seconds):
-    start_time = time.time()
-    while time.time() < start_time + seconds:
-        if stop():
-            break
-
 def launchStep(stop, action):
     name = action.get('action')
 
-    if name == 'onForSeconds':
+    if name == 'onForSeconds': # (stop, motor, speed, seconds, brake)
         motor = action.get('motor')
         speed = float(action.get('speed'))
         seconds = float(action.get('seconds'))
+        brake = bool(action.get('brake'))
         if (motor == "largeMotor_Left"):
             motorToUse = largeMotor_Left
         if (motor == "largeMotor_Right"):
@@ -61,14 +47,15 @@ def launchStep(stop, action):
             motorToUse = mediumMotor_Left
         if (motor == "mediumMotor_Right"):
             motorToUse = mediumMotor_Right
-        thread = threading.Thread(target=onForSeconds, args=(stop, motorToUse, speed, seconds))
+        thread = threading.Thread(target=onForSeconds, args=(stop, motorToUse, speed, seconds, brake))
         thread.start()
         return thread
     
-    if name == 'onForRotations': 
+    if name == 'onForRotations': # (stop, motor, speed, rotations, brake)
         motor = action.get('motor')
         speed = float(action.get('speed'))
         rotations = float(action.get('rotations'))
+        brake = bool(action.get('brake'))
         if (motor == "largeMotor_Left"):
             motorToUse = largeMotor_Left
         if (motor == "largeMotor_Right"):
@@ -77,23 +64,54 @@ def launchStep(stop, action):
             motorToUse = mediumMotor_Left
         if (motor == "mediumMotor_Right"):
             motorToUse = mediumMotor_Right
-        thread = threading.Thread(target=onForRotations, args=(stop, motorToUse, speed, rotations))
+        thread = threading.Thread(target=onForRotations, args=(stop, motorToUse, speed, rotations, brake))
         thread.start()
         return thread
 
-    if name == 'delayForSeconds':
+    if name == 'Steering_seconds': # (stop, speed, seconds, steering, brake)
+        speed = float(action.get('speed'))
+        seconds = float(action.get('seconds'))
+        steering = float(action.get('steering'))
+        brake = bool(action.get('brake'))
+        thread = threading.Thread(target=Steering_seconds, args= (stop, speed, steering, brake))
+        thread.start
+        return thread
+
+    if name == 'Steering_rotations': # (stop, speed, rotations, steering, brake)
+        speed = float(action.get('speed'))
+        rotations = float(action.get('rotations'))
+        steering = float(action.get('steering'))
+        brake = bool(action.get('brake'))
+        thread = threading.Thread(target=Steering_rotations, args=(stop, speed, rotations, steering, brake))
+        thread.start
+        return thread
+
+    if name == 'delayForSeconds': # (stop, seconds)
         seconds = float(action.get('seconds'))
         thread = threading.Thread(target=delayForSeconds, args=(stop, seconds))
         thread.start()
         return thread
 
-    if name == 'squareOnLine':
-        speed = action.get(float('speed'))
-        threshold = action.get(float('threshold'))
-        thread = threading.Thread(target=squareOnLine, args=(speed, threshold))
+    if name == 'squareOnLine': # (stop, speed, threshold)
+        speed = float(action.get('speed'))
+        threshold = float(action.get('threshold'))
+        thread = threading.Thread(target=squareOnLine, args=(stop, speed, threshold))
         thread.start()
         return thread
+    
+    if name == 'Turn_degrees': # (stop, speed, degrees)
+        speed = float(action.get('speed'))
+        degrees = float(action.get('degrees'))
+        thread = threading.Thread(target = Turn_degrees, agrs=(stop, speed, degrees))
+        thread.start
+        return thread
 
+    if name == 'Straight_gyro': # (stop, speed, rotations)
+        speed = float(action.get('speed'))
+        rotations = float(action.get('rotations'))
+        thread = threading.Thread(target = Straight_gyro, agrs=(stop, speed, degrees))
+        thread.start
+        return thread
 
 def main():
     threadPool = []

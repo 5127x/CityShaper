@@ -14,7 +14,7 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 mediumMotor_Left = MediumMotor(OUTPUT_A)
 mediumMotor_Right = MediumMotor(OUTPUT_D)
 
-def squareOnLine(speed, threshold):
+def squareOnLine(stop, speed, threshold):
     colourLeft_RLI = 0
     colourRight_RLI = 0
     lineFound = False
@@ -38,3 +38,6 @@ def squareOnLine(speed, threshold):
     
         if colourLeft_RLI == colourRight_RLI and lineFound:
             break
+        if stop():
+            break
+    steering_drive.off()
