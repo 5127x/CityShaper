@@ -14,7 +14,6 @@ from onForSeconds import onForSeconds
 from Steering_rotations import Steering_rotations
 from Steering_seconds import Steering_seconds
 
-colourAttachment = ColorSensor(INPUT_4)
 colourLeft = ColorSensor(INPUT_2)
 colourRight = ColorSensor(INPUT_3)
 gyro = GyroSensor(INPUT_1)
@@ -24,12 +23,11 @@ tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
-mediumMotor_Left = MediumMotor(OUTPUT_A)
-mediumMotor_Right = MediumMotor(OUTPUT_D)
+# mediumMotor_Left = MediumMotor(OUTPUT_A)
+mediumMotor = MediumMotor(OUTPUT_D)
 
 def isRobotLifted():
     return colourLeft.raw[0] < 5 and colourLeft.raw[1] < 5 and colourLeft.raw[2] < 5
-    #olivia was here
 
 def launchStep(stop, action):
     name = action.get('action')
@@ -43,10 +41,9 @@ def launchStep(stop, action):
             motorToUse = largeMotor_Left
         if (motor == "largeMotor_Right"):
             motorToUse = largeMotor_Right
-        if (motor == "mediumMotor_Left"):
-            motorToUse = mediumMotor_Left
-        if (motor == "mediumMotor_Right"):
-            motorToUse = mediumMotor_Right
+        # if (motor == "mediumMotor_Left"): motorToUse = mediumMotor_Left
+        if (motor == "mediumMotor"):
+            motorToUse = mediumMotor
         thread = threading.Thread(target=onForSeconds, args=(stop, motorToUse, speed, seconds, brake))
         thread.start()
         return thread
@@ -60,10 +57,9 @@ def launchStep(stop, action):
             motorToUse = largeMotor_Left
         if (motor == "largeMotor_Right"):
             motorToUse = largeMotor_Right
-        if (motor == "mediumMotor_Left"):
-            motorToUse = mediumMotor_Left
-        if (motor == "mediumMotor_Right"):
-            motorToUse = mediumMotor_Right
+        #if (motor == "mediumMotor_Left"): motorToUse = mediumMotor_Left
+        if (motor == "mediumMotor"):
+            motorToUse = mediumMotor
         thread = threading.Thread(target=onForRotations, args=(stop, motorToUse, speed, rotations, brake))
         thread.start()
         return thread
@@ -92,10 +88,10 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
-    if name == 'squareOnLine': # (stop, speed, threshold)
+    if name == 'squareOnLine': # (stop, speed, target)
         speed = float(action.get('speed'))
-        threshold = float(action.get('threshold'))
-        thread = threading.Thread(target=squareOnLine, args=(stop, speed, threshold))
+        target = float(action.get('target'))
+        thread = threading.Thread(target=squareOnLine, args=(stop, speed, target))
         thread.start()
         return thread
     
@@ -117,55 +113,39 @@ def main():
     threadPool = []
     actions = []
     stopProcessing = False
-    cl = ColorSensor(colourAttachment)
-    programXML = ET.parse('overall_programming.xml')
+    programXML = ET.parse('programming_test.xml')
     programs = programXML.getroot()
-    while True:
-        rgb = cl.raw
-<<<<<<< HEAD
-=======
-        
->>>>>>> 8538d59ed11a76394425a02c59ef8c0eed4742d5
-        for program in programs:
-            programName = program.get('name')
-            rProgram = int(program.get('r'))
-            gProgram = int(program.get('g'))
-            bProgram = int(program.get('b'))
-            rColourSensor = rgb[0]
-            gColourSensor = rgb[1]
-            bColourSensor = rgb[2]
-            if abs(rColourSensor - rProgram) < 20 and abs(gColourSensor - gProgram) < 20 and abs(bColourSensor - bProgram) < 20:
-                mediumMotor.reset # could be the other motor
-                fileName = program.get('fileName')
-                dataXML = ET.parse(fileName)
-                steps = dataXML.getroot()
-                for step in steps:
-                    action = step.get('action')
-                    # are their multiple actions to execute in parallel?
-                    if action == 'launchInParallel':
-                        for subSteps in step:
-                            thread = launchStep(lambda:stopProcessing, subSteps)
-                            threadPool.append(thread)
-                    # is there a single action to execute?
-                    else:
-                        thread = launchStep(lambda:stopProcessing, step)
-                        threadPool.append(thread)
-                    while not stopProcessing:
-                        # remove any completed threads from the pool
-                        for thread in threadPool:
-                            if not thread.isAlive():
-                                threadPool.remove(thread)
-                        # if there are no threads running, exist the 'while' loop 
-                        # and start the next action from the list 
-                        if not threadPool:
-                            break
-                        # if the robot has been lifted then complete everything
-                        if isRobotLifted():
-                            stopProcessing = True
-                            break
-                        #sleep(0.25)
-                    # if the 'stopProcessing' flag has been set then finish the step loop
-                    if stopProcessing:
-                        break
+    mediumMotor.reset # could be the other motor
+    fileName = program.get('fileName')
+    dataXML = ET.parse(fileName)
+    steps = dataXML.getroot()
+    for step in steps:
+        action = step.get('action')
+        # are their multiple actions to execute in parallel?
+        if action == 'launchInParallel':
+            for subSteps in step:
+                thread = launchStep(lambda:stopProcessing, subSteps)
+                threadPool.append(thread)
+        # is there a single action to execute?
+        else:
+            thread = launchStep(lambda:stopProcessing, step)
+            threadPool.append(thread)
+        while not stopProcessing:
+            # remove any completed threads from the pool
+            for thread in threadPool:
+                if not thread.isAlive():
+                    threadPool.remove(thread)
+            # if there are no threads running, exist the 'while' loop 
+            # and start the next action from the list 
+            if not threadPool:
+                break
+            # if the robot has been lifted then complete everything
+            if isRobotLifted():
+                stopProcessing = True
+                break
+            #sleep(0.25)
+        # if the 'stopProcessing' flag has been set then finish the step loop
+        if stopProcessing:
+            break
 
 main()
