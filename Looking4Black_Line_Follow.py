@@ -84,7 +84,7 @@ def function(numberOfRotations, speed, LineSide, colourSensor):
         
         #print ("In loop line 65")
         if LineSide == "LEFT":
-            #print ("Line side = Left")
+            print("Current RLI: {}  Previous RLI: {}".format (current_RLI, prev_RLI))
             if current_RLI > prev_RLI:
                 print("turn right")
                 #print("")
@@ -97,10 +97,11 @@ def function(numberOfRotations, speed, LineSide, colourSensor):
                 
                 
             else:
-                print ("In loop line Left")                
+                print ("Driving Foward")                
                 steering_drive.on(steering=0, speed=speed) 
         #__________________________________________________________________________
         if LineSide == "RIGHT":
+            print("Current RLI: {}  Previous RLI: {}".format (current_RLI, prev_RLI))
             #print ("Line side = Right") more  black
             if current_RLI < prev_RLI:
                 print("turn right")
@@ -113,7 +114,7 @@ def function(numberOfRotations, speed, LineSide, colourSensor):
                 #print("")less black                
                 
             else:
-                #print ("In loop line Left")
+                print ("Driving Foward")
                 steering_drive.on(steering=0, speed=speed) 
         #__________________________________________________________________________
 
@@ -129,7 +130,7 @@ def function(numberOfRotations, speed, LineSide, colourSensor):
 #_______________________________________________________________________________Defining Colour Sensor
 #numberOfRotations, speed, LineSide, colourSensor):
 
-function(numberOfRotations = 10, speed = 10, LineSide = "LEFT", colourSensor = "RIGHT" )
+function(numberOfRotations = 10, speed = 12, LineSide = "LEFT", colourSensor = "RIGHT" )
 #_______________________________________________________________________________
 
 #LEFT RIGHT _______ 1041 125  f
