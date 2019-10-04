@@ -36,8 +36,8 @@ def function(numberOfRotations, speed, LineSide, colourSensor):
         print ("COLOUR SENSOR LEFT")
         
         #_______________________________________________________________________
-    stopping_rotations = float(numberOfRotations/360/1.9)
-    print(stopping_rotations)
+    stopping_rotations = float(numberOfRotations/360/1.9584)
+    print float(stopping_rotations)
         #_______________________________________________________________________    
         
 
@@ -82,43 +82,54 @@ def function(numberOfRotations, speed, LineSide, colourSensor):
         if LineSide == "LEFT":
            
             currentLeft_RLI = colourLeft.reflected_light_intensity
-            print("Current RLI: {} Right RLI: {}  Prev RLI {}".format (current_RLI, currentRight_RLI, prev_RLI))
-            print("Current Rotations{}".format (current_rotations/360))
+            print("Current RLI: {}___Prev RLI {}___Left Colour {} ".format (current_RLI,  prev_RLI, currentLeft_RLI))
+            print("                                                 CR {}".format (current_rotations/360))
             
             #________________________________________________________PRINTING
             
-
-            if int(current_rotations/360) >= stopping_rotations:
-                    if prev_RLI == currentRight_RLI:
-                            print("STOP")
-                            steering_drive.off()
-                            break
+            if (current_rotations/360) >= stopping_rotations:
+                if prev_RLI >= 100:
+                    if currentLeft_RLI <= 30:
+                        print("STOP")
+                        steering_drive.off()
+                        break
+                    else:
+                        print("NO")
+                        continue
             
-            elif current_RLI <= 19:
+            elif current_RLI <= 25:
                 steering_drive.on(steering=-80, speed=speed)
                 
 
             
             elif current_RLI > target_RLI:
-                #print("right")
-                steering_drive.on(steering=40, speed=speed)
+                if currentLeft_RLI <= 100:
+                    steering_drive.on(steering=40, speed=speed/1.5)
+                else:
+                    steering_drive.on(steering=40, speed=speed)
 
                     
                         
             elif current_RLI < target_RLI:
-                steering_drive.on(steering=-40, speed=speed) 
+                if currentLeft_RLI <= 100:
+                    steering_drive.on(steering=-40, speed=speed/1.5)
+                else:
+                    steering_drive.on(steering=-40, speed=speed)
+
 
 
                 
             else:
-                #print ("Driving Foward")                
-                steering_drive.on(steering=0, speed=speed)
+                if currentLeft_RLI <= 100:
+                    steering_drive.on(steering=0, speed=speed/1.5)
+                else:
+                    steering_drive.on(steering=0, speed=speed)
 
         #__________________________
         #__________________________________________________________________________
         if LineSide == "RIGHT":
-            currentLeft_RLI = colourLeft.reflected_light_intensity
-            print("Current RLI: {} Right RLI: {}  Prev RLI {}".format (current_RLI, currentRight_RLI, prev_RLI))
+            currentRight_RLI = colourRight.reflected_light_intensity
+            print("Current RLI: {} Current RIGHT RLI {}  Prev RLI {}".format (current_RLI,currentRight_RLI, prev_RLI))
             print("Current Rotations{}".format (current_rotations/360))
             
             #________________________________________________________PRINTING
