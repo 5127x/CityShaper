@@ -93,13 +93,18 @@ def function(numberOfRotations, speed, LineSide, colourSensor):
                         print("STOP")
                         steering_drive.off()
                         break
+                    
+                    elif current_RLI <= 25:
+                        steering_drive.on(steering=-50, speed=speed)
+                        print("LARGE TURN")
+                
                     else:
                         print("NO")
                         continue
             
             elif current_RLI <= 25:
-                steering_drive.on(steering=-80, speed=speed)
-                
+                steering_drive.on(steering=-75, speed=speed)
+                print("LARGE TURN")
 
             
             elif current_RLI > target_RLI:
