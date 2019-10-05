@@ -26,4 +26,6 @@ def onForRotations(stop, motor, speed, rotations, brake):
         current_degrees = motor.position
         if stop():
             break
+        if current_degrees >= target_rotations:
+            break
     motor.off()

@@ -1,3 +1,11 @@
 <steps>
-    <step action='Stopping_on_black_line' rotations='4' speed='30' LineSide='LEFT' colourSensor='RIGHT'/> 
+    <step action='reset_gyro'/>
+    <step action='Steering_rotations' speed='50' rotations='0.3' steering='20' brake='True'/>
+    <step action='Straight_gyro' speed='25' rotations='2.5'/>
+    <step action='launchInParallel'>
+        <step action='Steering_rotations' speed='50' rotations='1' steering='20' brake='True'/>
+        <step action='onForRotations' motor='mediumMotor' speed='-100' rotations='-0.25' brake='True'/>
+    </step>
+    <step action='delayForSeconds' seconds='1'/>
+    <step action= 'Steering_rotations' speed='-20' rotations='1' steering='0' brake='True'/>
 </steps>
