@@ -15,11 +15,11 @@ prev_RLI = 0
     
 
 #_______________________________________________________________________________
-def Stopping_on_black_line(stop, rotations, speed, LineSide, colourSensor):
+def Stopping_on_black_line(numberOfRotations, speed, LineSide, colourSensor):
 
 
     prev_RLI = 0
-    rotations = rotations * largeMotor_Left.count_per_rot
+    numberOfRotations = numberOfRotations * largeMotor_Left.count_per_rot
 
     current_rotations = largeMotor_Left.position
     
@@ -36,15 +36,19 @@ def Stopping_on_black_line(stop, rotations, speed, LineSide, colourSensor):
         print ("COLOUR SENSOR LEFT")
         
         #_______________________________________________________________________
-    stopping_rotations = float(rotations/360/1.9584)
+    stopping_rotations = float(numberOfRotations/360/1.9584)
+    print float(stopping_rotations)
         #_______________________________________________________________________    
         
 
-    target_rotations = int(rotations) + int(current_rotations)
+    target_rotations = int(numberOfRotations) + int(current_rotations)
   
     if colourSensor == "RIGHT":
         current_RLI = colourRight.reflected_light_intensity
-            
+    
+    steering_drive.on_for_rotations(steering=0, rotations=.25, speed=speed) 
+    print("Searching")
+    
     while current_RLI > 20:
         steering_drive.on(steering = 0, speed=speed)
         
@@ -55,9 +59,6 @@ def Stopping_on_black_line(stop, rotations, speed, LineSide, colourSensor):
         if colourSensor == "LEFT":
             current_RLI = colourLeft.reflected_light_intensity
             currentRight_RLI = colourRight.reflected_light_intensity
-        
-        if stop():
-            break
     #===========================================================================
     print("FOUND BLACK LINE")
     steering_drive.on_for_rotations(steering=0, speed=-speed, rotations = 0.06)
@@ -68,9 +69,7 @@ def Stopping_on_black_line(stop, rotations, speed, LineSide, colourSensor):
     #===========================================================================
     while int(target_rotations) >= int(current_rotations):
 
-        if stop():
-            break
-
+        
         if colourSensor == "RIGHT":
             current_RLI = colourRight.reflected_light_intensity
             currentLeft_RLI = colourLeft.reflected_light_intensity
@@ -86,8 +85,8 @@ def Stopping_on_black_line(stop, rotations, speed, LineSide, colourSensor):
         if LineSide == "LEFT":
            
             currentLeft_RLI = colourLeft.reflected_light_intensity
-            print("Current RLI: {}___Prev RLI {}___Left Colour {} ".format (current_RLI,  prev_RLI, currentLeft_RLI))
-            print("                                                 CR {}".format (current_rotations/360))
+            #print("Current RLI: {}___Prev RLI {}___Left Colour {} ".format (current_RLI,  prev_RLI, currentLeft_RLI))
+            #print("                                                 CR {}".format (current_rotations/360))
             
             #________________________________________________________PRINTING
             
@@ -105,14 +104,13 @@ def Stopping_on_black_line(stop, rotations, speed, LineSide, colourSensor):
                     else:
                         print("NO")
                         continue
-            """
+            
             elif current_RLI <= 25:
                 steering_drive.on(steering=-75, speed=speed)
                 print("LARGE TURN")
-            """
 
             
-            if current_RLI > target_RLI:
+            elif current_RLI > target_RLI:
                 if currentLeft_RLI <= 100:
                     steering_drive.on(steering=40, speed=speed/1.5)
                 else:
@@ -139,8 +137,8 @@ def Stopping_on_black_line(stop, rotations, speed, LineSide, colourSensor):
         #__________________________________________________________________________
         if LineSide == "RIGHT":
             currentRight_RLI = colourRight.reflected_light_intensity
-            print("Current RLI: {} Current RIGHT RLI {}  Prev RLI {}".format (current_RLI,currentRight_RLI, prev_RLI))
-            print("Current Rotations{}".format (current_rotations/360))
+            #print("Current RLI: {} Current RIGHT RLI {}  Prev RLI {}".format (current_RLI,currentRight_RLI, prev_RLI))
+            #print("Current Rotations{}".format (current_rotations/360))
             
             #________________________________________________________PRINTING
             
@@ -183,9 +181,13 @@ def Stopping_on_black_line(stop, rotations, speed, LineSide, colourSensor):
     steering_drive.off()
     
     currentRight_RLI = colourRight.reflected_light_intensity
-    currentLeft_RLI = colourLeft.reflected_light_intensity
+    currentLeft_RLI = cdolourLeft.reflected_light_intensity
         
     print ("")
     print ("")
     print ("")
+    
 
+
+
+Stopping_On_Black_Line(numberOfRotations = 3, speed = 15, LineSide = "LEFT", colourSensor = "RIGHT" )
