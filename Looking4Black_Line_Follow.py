@@ -1,7 +1,9 @@
+#This one is combined with the wirerd one wihout the wierd tur LARGE RIGHT
+
 # Demo of a simple proportional line follower using two sensors
 # It's deliberately flawed and will exit with errors in some circumstances;
 # try fixing it!
-
+#ev3.dev2
 from ev3dev2.motor import  LargeMotor, MoveSteering, OUTPUT_B, OUTPUT_C
 from ev3dev2.sensor import INPUT_1, INPUT_2, INPUT_3, INPUT_4
 from ev3dev2.sensor.lego import ColorSensor, GyroSensor
@@ -51,90 +53,89 @@ def function(numberOfRotations, speed, LineSide, colourSensor):
         if colourSensor == "LEFT":
             current_RLI = colourLeft.reflected_light_intensity
     #===========================================================================
+
     steering_drive.on_for_rotations(steering=0, speed=-speed, rotations = 0.01)
     print("GOING BACK")
     steering_drive.on(steering=0, speed=speed) 
     largeMotor_Left.on_for_rotations(rotations = .07, speed= -5)
     print("turns")
     #===========================================================================
-    while int(target_rotations ) >= int(current_rotations):
+    while int(target_rotations) >= int(current_rotations):
         
         correction = 0.95
         
         if colourSensor == "RIGHT":
             current_RLI = colourRight.reflected_light_intensity
-
+            #print("Current COLOUR SENSOR RIGHT")
 
         if colourSensor == "LEFT":
             current_RLI = colourLeft.reflected_light_intensity
+            #print ("Current COLOUR SENSOR LEFT")
 
-        #======================================================================
         
+    
+        #print ("Current Rotations: ",(current_rotations))
+        #print("Current Light Reading: ", current_RLI, "Previous Light Reading: ", prev_RLI)
         
+        # with a steering_drive, we can slow the left or right wheel down to get the robot to turn that way.
+        #steering_drive.on_for_rotations(steering=0, speed=50, rotations = 2
+
        #__________________________________________________________________________
         
         #print ("In loop line 65")
         if LineSide == "LEFT":
-            print(current_RLI, prev_RLI)
-        
-            if current_RLI - prev_RLI > 1:
+            print("Current RLI: {}  Previous RLI: {}".format (current_RLI, prev_RLI))
+            if current_RLI > prev_RLI:
+                print("turn right")
+                #print("")
+                steering_drive.on(steering=55, speed=speed)
                 
-                if current_RLI > prev_RLI:
-                    print("turn right")
-                    
-                    #More Black
-                    steering_drive.on(steering=80, speed=speed)
-                    
-                elif current_RLI < prev_RLI:
-                    steering_drive.on(steering=-80, speed=speed) 
-                    print("turn left")
-                    #Less Black
-                    
-                    
-                else:
-                    print ("DRIVING FOWARD")                
-                    steering_drive.on(steering=0, speed=speed) 
-                    
-            elif current_RLI+prev_RLI == 510:
-                print("LARGE TURN RIGHT")
-                largeMotor_Right.on_for_rotations(rotations = .00002, speed= -5, brake = False)
+            elif current_RLI < prev_RLI:
+                steering_drive.on(steering=-55, speed=speed) 
+                print("turn left")
+              #  print("")
+                
                 
             else:
-                print ("DRIVING FOWARD ______ 1")                
+                print ("Driving Foward")                
                 steering_drive.on(steering=0, speed=speed) 
         #__________________________________________________________________________
         if LineSide == "RIGHT":
+            print("Current RLI: {}  Previous RLI: {}".format (current_RLI, prev_RLI))
             #print ("Line side = Right") more  black
             if current_RLI < prev_RLI:
                 print("turn right")
-                #Less Black                
-                steering_drive.on(steering=-80, speed=speed)
+                #print("")                
+                steering_drive.on(steering=55, speed=speed)
                 
             elif current_RLI > prev_RLI:
-                steering_drive.on(steering=80, speed=speed) 
+                steering_drive.on(steering=-55, speed=speed) 
                 print("turn left")
-                #More White            
+                #print("")less black                
                 
             else:
-                print ("DRIVING FOWARD") 
+                print ("Driving Foward")
                 steering_drive.on(steering=0, speed=speed) 
         #__________________________________________________________________________
 
     
-
+        # Do this after we have moved.  If we haven't reached the target_rotations, it will repeat again.
         current_rotations = largeMotor_Left.position
-        prev_RLI = current_RLI
+        #print ("Current Rotations2: ",(current_rotations))
 
+    # We have gone the required distance, stop the motor.
     steering_drive.off()
  #_______________________________________________________________________________Taking Input
 
-
+#_______________________________________________________________________________Defining Colour Sensor
 #numberOfRotations, speed, LineSide, colourSensor):
 
-function(numberOfRotations = 10, speed = 7, LineSide = "LEFT", colourSensor = "RIGHT" )
+function(numberOfRotations = 10, speed = 12, LineSide = "LEFT", colourSensor = "RIGHT" )
 #_______________________________________________________________________________
 
 #LEFT RIGHT _______ 1041 125  f
 #LEFT LEFT ________ 1080 125  t
 #RIGHT RIGHT________ 1067 125 t until 1/2 way between 2nd and third corner  t
 #Right LEft__________ 1110 125 t until third corner and comes back the other way t
+
+        
