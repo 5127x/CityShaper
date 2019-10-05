@@ -1,4 +1,3 @@
 <steps>
-    <step action="Straight_gyro" speed="20" rotations="5"/> 
-    <step action="onForSeconds" motor="mediumMotor" speed="30" seconds="2" brake="True"/>
+    <step action='Stopping_on_black_line' rotations='4' speed='30' LineSide='LEFT' colourSensor='RIGHT'/> 
 </steps>

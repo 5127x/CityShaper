@@ -15,6 +15,7 @@ from onForRotations import onForRotations
 from onForSeconds import onForSeconds
 from Steering_rotations import Steering_rotations
 from Steering_seconds import Steering_seconds
+from Stopping_on_black_line import Stopping_on_black_line
 
 print("Hello!", file=stderr)
 
@@ -31,7 +32,7 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 mediumMotor = MediumMotor(OUTPUT_D)
 
 def isRobotLifted():
-    return colourLeft.raw[0] < 5 and colourLeft.raw[1] < 5 and colourLeft.raw[2] < 5
+    return colourLeft.reflected_light_intensity < 2 # colourLeft.raw[0] < 5 and colourLeft.raw[1] < 5 and colourLeft.raw[2] < 5
 
 def launchStep(stop, action):
     name = action.get('action')
@@ -111,6 +112,15 @@ def launchStep(stop, action):
         speed = float(action.get('speed'))
         rotations = float(action.get('rotations'))
         thread = threading.Thread(target=Straight_gyro, args=(stop, speed, rotations))
+        thread.start()
+        return thread
+
+    if name == 'Stopping_on_black_line': # stop, rotations, speed, LineSide, colourSensor
+        rotations = float(action.get('rotations'))
+        speed = float(action.get('speed'))
+        LineSide = action.get('LineSide')
+        colourSensor = action.get('colourSensor')
+        thread = threading.Thread(target = Stopping_on_black_line, args=(stop, rotations, speed, LineSide, colourSensor))
         thread.start()
         return thread
 
