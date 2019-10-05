@@ -5,6 +5,7 @@ from ev3dev2.sensor import INPUT_1, INPUT_2, INPUT_3, INPUT_4
 import xml.etree.ElementTree as ET
 import threading
 import time
+from sys import stderr
 
 from delayForSeconds import delayForSeconds
 from squareOnLine import squareOnLine
@@ -73,7 +74,7 @@ def launchStep(stop, action):
         steering = float(action.get('steering'))
         brake = bool(action.get('brake'))
         thread = threading.Thread(target=Steering_seconds, args= (stop, speed, steering, brake))
-        thread.start
+        thread.start()
         return thread
 
     if name == 'Steering_rotations': # (stop, speed, rotations, steering, brake)
@@ -82,7 +83,7 @@ def launchStep(stop, action):
         steering = float(action.get('steering'))
         brake = bool(action.get('brake'))
         thread = threading.Thread(target=Steering_rotations, args=(stop, speed, rotations, steering, brake))
-        thread.start
+        thread.start()
         return thread
 
     if name == 'delayForSeconds': # (stop, seconds)
@@ -102,14 +103,14 @@ def launchStep(stop, action):
         speed = float(action.get('speed'))
         degrees = float(action.get('degrees'))
         thread = threading.Thread(target = Turn_degrees, agrs=(stop, speed, degrees))
-        thread.start
+        thread.start()
         return thread
 
     if name == 'Straight_gyro': # (stop, speed, rotations)
         speed = float(action.get('speed'))
         rotations = float(action.get('rotations'))
         thread = threading.Thread(target = Straight_gyro, agrs=(stop, speed, degrees))
-        thread.start
+        thread.start()
         return thread
 
 def main():

@@ -16,7 +16,7 @@ from onForSeconds import onForSeconds
 from Steering_rotations import Steering_rotations
 from Steering_seconds import Steering_seconds
 
-print("Hello Phoebe!", file=stderr)
+print("Hello!", file=stderr)
 
 colourLeft = ColorSensor(INPUT_3) # bcs apparently they have to be backwards...
 colourRight = ColorSensor(INPUT_2)
