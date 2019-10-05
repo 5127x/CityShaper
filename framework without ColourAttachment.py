@@ -16,6 +16,7 @@ from onForSeconds import onForSeconds
 from Steering_rotations import Steering_rotations
 from Steering_seconds import Steering_seconds
 from Stopping_on_black_line import Stopping_on_black_line
+from reset_gyro import reset_gyro
 
 print("Hello!", file=stderr)
 
@@ -54,6 +55,7 @@ def launchStep(stop, action):
         return thread
     
     if name == 'onForRotations': # (stop, motor, speed, rotations, brake)
+        print("onForRotations", file=stderr)
         motor = action.get('motor')
         speed = float(action.get('speed'))
         rotations = float(action.get('rotations'))
@@ -75,7 +77,7 @@ def launchStep(stop, action):
         steering = float(action.get('steering'))
         brake = bool(action.get('brake'))
         thread = threading.Thread(target=Steering_seconds, args= (stop, speed, steering, brake))
-        thread.start
+        thread.start()
         return thread
 
     if name == 'Steering_rotations': # (stop, speed, rotations, steering, brake)
@@ -84,10 +86,11 @@ def launchStep(stop, action):
         steering = float(action.get('steering'))
         brake = bool(action.get('brake'))
         thread = threading.Thread(target=Steering_rotations, args=(stop, speed, rotations, steering, brake))
-        thread.start
+        thread.start()
         return thread
 
     if name == 'delayForSeconds': # (stop, seconds)
+        print("delayForSeconds", file=stderr)
         seconds = float(action.get('seconds'))
         thread = threading.Thread(target=delayForSeconds, args=(stop, seconds))
         thread.start()
@@ -121,6 +124,11 @@ def launchStep(stop, action):
         LineSide = action.get('LineSide')
         colourSensor = action.get('colourSensor')
         thread = threading.Thread(target = Stopping_on_black_line, args=(stop, rotations, speed, LineSide, colourSensor))
+        thread.start()
+        return thread
+
+    if name == 'reset_gyro': 
+        thread = threading.Thread(target=reset_gyro)
         thread.start()
         return thread
 
