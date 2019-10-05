@@ -12,17 +12,17 @@ colourRight = ColorSensor(INPUT_3)
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C) 
 largeMotor_Left = LargeMotor(OUTPUT_B)
 largeMotor_Right = LargeMotor(OUTPUT_C)
-mediumMotor_Left = MediumMOtor(OUTPUT_A)
-mediumMotor_Right = MediumMOtor(OUTPUT_D)
+#mediumMotor_Left = MediumMOtor(OUTPUT_A)
+mediumMotor = MediumMOtor(OUTPUT_D)
 
     
 
 #_______________________________________________________________________________
 def MediumMotor(whichMotor,numberOfRotations, speed):
     #===========================================================================
-    if whichMotor = "Left":
+    '''if whichMotor = "Left":
         whichMotor = mediumMotor_Left
-        mediumMotor_Left.on_for_rotations(rotations = numberOfRotations, speed = speed)
+        mediumMotor_Left.on_for_rotations(rotations = numberOfRotations, speed = speed)'''
     #===========================================================================    
     if whichMotor = "Right":
         whichMotor = mediumMotor_Right

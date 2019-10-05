@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 from ev3dev2.motor import MoveSteering, MoveTank, MediumMotor, LargeMotor, OUTPUT_A, OUTPUT_B, OUTPUT_C, OUTPUT_D
-from ev3dev2.sensor.lego import TouchSensor, ColorSensor, GyroSensor, INPUT_1, INPUT_2, INPUT_3, INPUT_4
+from ev3dev2.sensor.lego import TouchSensor, ColorSensor, GyroSensor
+from ev3dev2.sensor import INPUT_1, INPUT_2, INPUT_3, INPUT_4
 import xml.etree.ElementTree as ET
 import threading
 import time
+from sys import stderr
 
 from delayForSeconds import delayForSeconds
 from squareOnLine import squareOnLine
@@ -14,8 +16,10 @@ from onForSeconds import onForSeconds
 from Steering_rotations import Steering_rotations
 from Steering_seconds import Steering_seconds
 
-colourLeft = ColorSensor(INPUT_2)
-colourRight = ColorSensor(INPUT_3)
+print("Hello Phoebe!", file=stderr)
+
+colourLeft = ColorSensor(INPUT_3) # bcs apparently they have to be backwards...
+colourRight = ColorSensor(INPUT_2)
 gyro = GyroSensor(INPUT_1)
 
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
@@ -98,15 +102,16 @@ def launchStep(stop, action):
     if name == 'Turn_degrees': # (stop, speed, degrees)
         speed = float(action.get('speed'))
         degrees = float(action.get('degrees'))
-        thread = threading.Thread(target = Turn_degrees, agrs=(stop, speed, degrees))
-        thread.start
+        thread = threading.Thread(target = Turn_degrees, args=(stop, speed, degrees))
+        thread.start()
         return thread
 
     if name == 'Straight_gyro': # (stop, speed, rotations)
+        print("asdasdas", file=stderr)
         speed = float(action.get('speed'))
         rotations = float(action.get('rotations'))
-        thread = threading.Thread(target = Straight_gyro, agrs=(stop, speed, degrees))
-        thread.start
+        thread = threading.Thread(target=Straight_gyro, args=(stop, speed, rotations))
+        thread.start()
         return thread
 
 def main():
@@ -116,9 +121,7 @@ def main():
     programXML = ET.parse('programming_test.xml')
     programs = programXML.getroot()
     mediumMotor.reset # could be the other motor
-    fileName = program.get('fileName')
-    dataXML = ET.parse(fileName)
-    steps = dataXML.getroot()
+    steps = programXML.getroot()
     for step in steps:
         action = step.get('action')
         # are their multiple actions to execute in parallel?
@@ -147,5 +150,7 @@ def main():
         # if the 'stopProcessing' flag has been set then finish the step loop
         if stopProcessing:
             break
-
+gyro.mode = 'GYRO-ANG'
+gyro.mode = 'GYRO-RATE'
+gyro.mode = 'GYRO-ANG'
 main()
