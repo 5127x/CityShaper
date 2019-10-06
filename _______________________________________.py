@@ -16,6 +16,7 @@ def function(numberOfRotations, speed, colourSensor):
     largeMotor_Left = LargeMotor(OUTPUT_B)
     largeMotor_Right = LargeMotor(OUTPUT_C)
     target_RLI = 0
+    prev_RLI = 300
     
     numberOfRotations = numberOfRotations * largeMotor_Left.count_per_rot
 
@@ -23,25 +24,47 @@ def function(numberOfRotations, speed, colourSensor):
 
     if colourSensor == "RIGHT":
         target_RLI = colourRight.reflected_light_intensity
+        current_RLI = colourRight.reflected_light_intensity
         print("Previous COLOUR SENSOR RIGHT")
 
     if colourSensor == "LEFT":
         target_RLI = colourLeft.reflected_light_intensity
+        current_RLI = colourLeft.reflected_light_intensity
         print ("Previous COLOUR SENSOR LEFT")
-
+    
 
     target_rotations = int(numberOfRotations) + int(current_rotations)
-  
+
+    #...................................................................................................
     
-    print ("Target Rotations ")
-    print (target_rotations)
-    print("")
-    print ("Current Rotations ")
-    print (current_rotations)
-    correction = 0
+    while prev_RLI > 120:
+        if current_RLI <= 10:
+            print("FOUND BLACK LINE")
+            break
+        else:
+            continue
+        
+        steering_drive.on(steering = 0, speed=speed)
+        print("Looking for Black Line")
+        if colourSensor == "RIGHT":
+            current_RLI = colourRight.reflected_light_intensity
+
+        if colourSensor == "LEFT":
+            current_RLI = colourLeft.reflected_light_intensity
+    #===========================================================================
+
+    steering_drive.on_for_rotations(steering=0, speed=-speed, rotations = 0.01)
+    print("GOING BACK")
+    steering_drive.on(steering=0, speed=speed) 
+    largeMotor_Left.on_for_rotations(rotations = .07, speed= -5)
+    print("turns")
+    #...................................................................................................
+    #...................................................................................................
+    #...................................................................................................
+    
     while int(target_rotations) >= int(current_rotations):
         
-        
+        print ("{} rotations left.".format (target_rotations/360 - current_rotations/360))
         
         if colourSensor == "RIGHT":
             current_RLI = colourRight.reflected_light_intensity
@@ -64,4 +87,4 @@ def function(numberOfRotations, speed, colourSensor):
     steering_drive.off()
 
 
-function(numberOfRotations = 10, speed = 10, colourSensor = "RIGHT" )
+function(numberOfRotations = 2, speed = 15, colourSensor = "RIGHT" )
