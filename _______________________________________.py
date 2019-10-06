@@ -4,10 +4,11 @@ block = False# Demo of a simple proportional line follower using two sensors
 
 from ev3dev2.motor import  LargeMotor, MoveSteering, OUTPUT_B, OUTPUT_C
 from ev3dev2.sensor import INPUT_1, INPUT_2, INPUT_3, INPUT_4
+from ev3dev2.sensor.lego import ColorSensor, GyroSensor
 from time import sleep
 
 #_______________________________________________________________________________
-def function(numberOfRotations, speed, LineSide, colourSensor):
+def function(numberOfRotations, speed, colourSensor):
 
     colourLeft = ColorSensor(INPUT_2)
     colourRight = ColorSensor(INPUT_3)
@@ -37,10 +38,10 @@ def function(numberOfRotations, speed, LineSide, colourSensor):
     print("")
     print ("Current Rotations ")
     print (current_rotations)
-    
+    correction = 0
     while int(target_rotations) >= int(current_rotations):
         
-        correction = 0.95
+        
         
         if colourSensor == "RIGHT":
             current_RLI = colourRight.reflected_light_intensity
@@ -49,47 +50,18 @@ def function(numberOfRotations, speed, LineSide, colourSensor):
         if colourSensor == "LEFT":
             current_RLI = colourLeft.reflected_light_intensity
         #______________________________________________________________________________
-        if LineSide == "LEFT":
-            error = target_RLI - current_RLI
-            correction = error *.25
-            steering_drive.on(steering=correction, speed=speed)
 
-        #__________________________________________________________________________
-        if LineSide == "RIGHT":
-            #print ("Line side = Right") more  black
-            if current_RLI < target_RLI:
-                print("turn right")
-                #print("")                
-                steering_drive.on(steering=50, speed=speed)
-                
-            elif current_RLI > target_RLI:
-                steering_drive.on(steering=-50, speed=speed) 
-                print("turn left")
-                #print("")less black                
-                
-            else:
+        error = target_RLI - current_RLI
+        correction = error *1.01
+        print("Correction: {} Error: {}".format (correction,error))
+        steering_drive.on(steering=-correction, speed=speed)
 
-                steering_drive.on(steering=0, speed=speed) 
-        #__________________________________________________________________________
 
     
         # Do this after we have moved.  If we haven't reached the target_rotations, it will repeat again.
         current_rotations = largeMotor_Left.position
-        #print ("Current Rotations2: ",(current_rotations))
 
-    # We have gone the required distance, stop the motor.
     steering_drive.off()
- #_______________________________________________________________________________Taking Input
 
-#_______________________________________________________________________________Defining Colour Sensor
-#numberOfRotations, speed, LineSide, colourSensor):
 
-function(numberOfRotations = 10, speed = 10, LineSide = "LEFT", colourSensor = "RIGHT" )
-#_______________________________________________________________________________
-
-#LEFT RIGHT _______ 1041 125  f
-#LEFT LEFT ________ 1080 125  t
-#RIGHT RIGHT________ 1067 125 t until 1/2 way between 2nd and third corner  t
-#Right LEft__________ 1110 125 t until third corner and comes back the other way t
-
-        
+function(numberOfRotations = 10, speed = 10, colourSensor = "RIGHT" )
