@@ -15,6 +15,8 @@ from onForRotations import onForRotations
 from onForSeconds import onForSeconds
 from Steering_rotations import Steering_rotations
 from Steering_seconds import Steering_seconds
+from tank_rotations import tank_rotations
+from tank_seconds import tank_seconds
 from Stopping_on_black_line import Stopping_on_black_line
 from reset_gyro import reset_gyro
 
@@ -38,11 +40,11 @@ def isRobotLifted():
 def launchStep(stop, action):
     name = action.get('action')
 
-    if name == 'onForSeconds': # (stop, motor, speed, seconds, brake)
+    if name == 'onForSeconds': # (stop, motor, speed, seconds)
+        print("Starting onForSeconds", file=stderr)
         motor = action.get('motor')
         speed = float(action.get('speed'))
         seconds = float(action.get('seconds'))
-        brake = bool(action.get('brake'))
         if (motor == "largeMotor_Left"):
             motorToUse = largeMotor_Left
         if (motor == "largeMotor_Right"):
@@ -50,16 +52,15 @@ def launchStep(stop, action):
         # if (motor == "mediumMotor_Left"): motorToUse = mediumMotor_Left
         if (motor == "mediumMotor"):
             motorToUse = mediumMotor
-        thread = threading.Thread(target=onForSeconds, args=(stop, motorToUse, speed, seconds, brake))
+        thread = threading.Thread(target=onForSeconds, args=(stop, motorToUse, speed, seconds))
         thread.start()
         return thread
     
-    if name == 'onForRotations': # (stop, motor, speed, rotations, brake)
-        print("onForRotations", file=stderr)
+    if name == 'onForRotations': # (stop, motor, speed, rotations)
+        print("Starting onForRotations", file=stderr)
         motor = action.get('motor')
         speed = float(action.get('speed'))
         rotations = float(action.get('rotations'))
-        brake = bool(action.get('brake'))
         if (motor == "largeMotor_Left"):
             motorToUse = largeMotor_Left
         if (motor == "largeMotor_Right"):
@@ -67,36 +68,37 @@ def launchStep(stop, action):
         #if (motor == "mediumMotor_Left"): motorToUse = mediumMotor_Left
         if (motor == "mediumMotor"):
             motorToUse = mediumMotor
-        thread = threading.Thread(target=onForRotations, args=(stop, motorToUse, speed, rotations, brake))
+        thread = threading.Thread(target=onForRotations, args=(stop, motorToUse, speed, rotations))
         thread.start()
         return thread
 
-    if name == 'Steering_seconds': # (stop, speed, seconds, steering, brake)
+    if name == 'Steering_seconds': # (stop, speed, seconds, steering)
+        print("Starting Steering_seconds", file=stderr)
         speed = float(action.get('speed'))
         seconds = float(action.get('seconds'))
         steering = float(action.get('steering'))
-        brake = bool(action.get('brake'))
-        thread = threading.Thread(target=Steering_seconds, args= (stop, speed, steering, brake))
+        thread = threading.Thread(target=Steering_seconds, args= (stop, speed, steering))
         thread.start()
         return thread
 
-    if name == 'Steering_rotations': # (stop, speed, rotations, steering, brake)
+    if name == 'Steering_rotations': # (stop, speed, rotations, steering)
+        print("Starting Steering_rotations", file=stderr)
         speed = float(action.get('speed'))
         rotations = float(action.get('rotations'))
         steering = float(action.get('steering'))
-        brake = bool(action.get('brake'))
-        thread = threading.Thread(target=Steering_rotations, args=(stop, speed, rotations, steering, brake))
+        thread = threading.Thread(target=Steering_rotations, args=(stop, speed, rotations, steering))
         thread.start()
         return thread
 
     if name == 'delayForSeconds': # (stop, seconds)
-        print("delayForSeconds", file=stderr)
+        print("Starting delayForSeconds", file=stderr)
         seconds = float(action.get('seconds'))
         thread = threading.Thread(target=delayForSeconds, args=(stop, seconds))
         thread.start()
         return thread
 
     if name == 'squareOnLine': # (stop, speed, target)
+        print("Starting squareOnLine", file=stderr)
         speed = float(action.get('speed'))
         target = float(action.get('target'))
         thread = threading.Thread(target=squareOnLine, args=(stop, speed, target))
@@ -104,6 +106,7 @@ def launchStep(stop, action):
         return thread
     
     if name == 'Turn_degrees': # (stop, speed, degrees)
+        print("Starting Turn_degrees", file=stderr)
         speed = float(action.get('speed'))
         degrees = float(action.get('degrees'))
         thread = threading.Thread(target = Turn_degrees, args=(stop, speed, degrees))
@@ -111,7 +114,7 @@ def launchStep(stop, action):
         return thread
 
     if name == 'Straight_gyro': # (stop, speed, rotations)
-        print("Straight_gyro", file=stderr)
+        print("Starting Straight_gyro", file=stderr)
         speed = float(action.get('speed'))
         rotations = float(action.get('rotations'))
         thread = threading.Thread(target=Straight_gyro, args=(stop, speed, rotations))
@@ -119,6 +122,7 @@ def launchStep(stop, action):
         return thread
 
     if name == 'Stopping_on_black_line': # stop, rotations, speed, LineSide, colourSensor
+        print("Starting Stopping_on_black_line", file=stderr)
         rotations = float(action.get('rotations'))
         speed = float(action.get('speed'))
         LineSide = action.get('LineSide')
@@ -128,7 +132,26 @@ def launchStep(stop, action):
         return thread
 
     if name == 'reset_gyro': 
+        print("Starting reset_gyro", file=stderr)
         thread = threading.Thread(target=reset_gyro)
+        thread.start()
+        return thread
+
+    if name == 'tank_rotations': # stop, left_speed, right_speed, rotations
+        print("Starting tank_rotations", file=stderr)
+        left_speed = float(action.get('left_speed'))
+        right_speed = float(action.get('right_speed'))
+        rotations = float(action.get('rotations'))
+        thread = threading.Thread(target = tank_rotations, args=(stop, left_speed, right_speed, rotations))
+        thread.start()
+        return thread
+
+    if name == 'tank_seconds': # stop, left_speed, right_speed, seconds
+        print("Starting tank_seconds", file=stderr)
+        left_speed = float(action.get('left_speed'))
+        right_speed = float(action.get('right_speed'))
+        seconds = float(action.get('seconds'))
+        thread = threading.Thread(target = tank_seconds, args=(stop, left_speed, right_speed, seconds))
         thread.start()
         return thread
 
@@ -168,7 +191,4 @@ def main():
         # if the 'stopProcessing' flag has been set then finish the step loop
         if stopProcessing:
             break
-gyro.mode = 'GYRO-ANG'
-gyro.mode = 'GYRO-RATE'
-gyro.mode = 'GYRO-ANG'
 main()

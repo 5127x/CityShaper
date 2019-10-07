@@ -7,27 +7,29 @@ import threading
 import time
 from sys import stderr
 
-colourAttachment = ColorSensor(INPUT_4) 
-colourLeft = ColorSensor(INPUT_2)
-colourRight = ColorSensor(INPUT_3)
+colourLeft = ColorSensor(INPUT_3) # bcs apparently they have to be backwards...
+colourRight = ColorSensor(INPUT_2)
 gyro = GyroSensor(INPUT_1)
+
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
+tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
+
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
 # mediumMotor_Left = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
 
-def onForRotations(stop, motor, speed, rotations, brake): 
+def onForRotations(stop, motor, speed, rotations): 
     print("In onForRotations", file=stderr)
-    '''
-    if speed<0:
-        rotations=rotations*-1
-    '''
+    
+    if speed < 0:
+        rotations = -rotations # CHECK
+    
     current_degrees = motor.position # there isnt a way to read rotations
     target_rotations = rotations * 360 # convert to degrees bcs its simpler
     target_rotations = current_degrees + target_rotations
 
-    motor.on(speed=speed, brake=brake, block = False)
+    motor.on(speed=speed)
     while current_degrees < target_rotations:
         current_degrees = motor.position
         if stop():

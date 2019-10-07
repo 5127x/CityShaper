@@ -6,27 +6,33 @@ import xml.etree.ElementTree as ET
 import threading
 import time
 from sys import stderr
+
 colourLeft = ColorSensor(INPUT_3) # bcs apparently they have to be backwards...
 colourRight = ColorSensor(INPUT_2)
 gyro = GyroSensor(INPUT_1)
+
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
+
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
 # mediumMotor_Left = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
 
-def tank_rotations(stop, speed, rotations): 
+def tank_rotations(stop, left_speed, right_speed, rotations): 
     print("In tank_rotations", file=stderr)
-    current_degrees = largeMotor_Left.position # there isnt a way to read rotations
+    current_degrees_left = largeMotor_Left.position # there isnt a way to read rotations
+    current_degrees_right = largeMotor_Right.position
     target_rotations = rotations * 360 # convert to degrees bcs its simpler
-    target_rotations = current_degrees + target_rotations
+    target_rotations_left = current_degrees_left + target_rotations
+    target_rotations_right = current_degrees_right + target_rotations
 
-    tank_block.on(right_speed=speed, left_speed=speed)
-    while current_degrees < target_rotations:
-        current_degrees = motor.position
+    tank_block.on(right_speed=right_speed, left_speed=left_speed)
+    while current_degrees_left < target_rotations_left or current_degrees_right < target_rotations_right: # how its done in tank onForRotations
+        current_degrees_left = largeMotor_Left.position 
+        current_degrees_right = largeMotor_Right.position
         if stop():
             break
-        if current_degrees >= target_rotations:
+        if current_degrees_left >= target_rotations_left or current_degrees_right >= target_rotations_right:
             break
     tank_block.off()

@@ -5,18 +5,18 @@ from ev3dev2.sensor import INPUT_1, INPUT_2, INPUT_3, INPUT_4
 import xml.etree.ElementTree as ET
 import threading
 import time
-
 from sys import stderr
 
-colourAttachment = ColorSensor(INPUT_4)
-colourLeft = ColorSensor(INPUT_2)
-colourRight = ColorSensor(INPUT_3)
+colourLeft = ColorSensor(INPUT_3) # bcs apparently they have to be backwards...
+colourRight = ColorSensor(INPUT_2)
 gyro = GyroSensor(INPUT_1)
+
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
+
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
-#mediumMotor_Left = MediumMotor(OUTPUT_A)
+# mediumMotor_Left = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
 
 def Straight_gyro(stop, speed, rotations):

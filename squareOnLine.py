@@ -5,18 +5,22 @@ from ev3dev2.sensor import INPUT_1, INPUT_2, INPUT_3, INPUT_4
 import xml.etree.ElementTree as ET
 import threading
 import time
+from sys import stderr
 
-colourAttachment = ColorSensor(INPUT_4)
-colourLeft = ColorSensor(INPUT_2)
-colourRight = ColorSensor(INPUT_3)
+colourLeft = ColorSensor(INPUT_3) # bcs apparently they have to be backwards...
+colourRight = ColorSensor(INPUT_2)
 gyro = GyroSensor(INPUT_1)
+
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
+tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
+
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
 # mediumMotor_Left = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
 
-def squareOnLine(stop, speed, threshold):
+def squareOnLine(stop, speed, target):
+    print("In squareOnLine", file=stderr)
     colourLeft_RLI = 0
     colourRight_RLI = 0
     lineFound = False
@@ -25,13 +29,13 @@ def squareOnLine(stop, speed, threshold):
         colourLeft_RLI = colourLeft.reflected_light_intensity
         colourRight_RLI = colourRight.reflected_light_intensity
         
-        if colourLeft_RLI <= threshold:
+        if colourLeft_RLI <= target:
             largeMotor_Left.on(-speed)
             largeMotor_Right.on(speed)
             lineFound = True
             print('{} left found it'.format(colourLeft_RLI))
 
-        if colourRight_RLI <=threshold:
+        if colourRight_RLI <=target:
             largeMotor_Left.on(speed)
             largeMotor_Right.on(-speed)
             print('{} right found it'.format(colourRight_RLI))

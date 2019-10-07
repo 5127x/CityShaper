@@ -1,5 +1,4 @@
 <steps>
-    <step action='onForRotations' motor='mediumMotor' speed='50' rotations='2' />
     <step action='reset_gyro'/>
     <step action='Straight_gyro' speed='25' rotations='2.7'/>
     <step action='launchInParallel'>
