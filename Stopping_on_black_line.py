@@ -1,4 +1,4 @@
-block = False# Demo of a simple proportional line follower using two sensors
+# Demo of a simple proportional line follower using two sensors
 # It's deliberately flawed and will exit with errors in some circumstances;
 # try fixing it!
 
@@ -108,6 +108,6 @@ def function(numberOfRotations, speed, colourSensor):
         
 
     steering_drive.off()
-    print("NUMBER OF ROTATIONS HAS FINISHED")
+    
 
 function(numberOfRotations = 4, speed = 14, colourSensor = "RIGHT" )
