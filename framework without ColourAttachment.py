@@ -192,7 +192,7 @@ def main():
     programXML = ET.parse('programming_test.xml')
     programs = programXML.getroot()
     mediumMotor.reset # could be the other motor
-    steps = programXML.getroot(),.
+    steps = programXML.getroot()
     for step in steps:
         action = step.get('action')
         # are their multiple actions to execute in parallel?
