@@ -37,7 +37,6 @@ def Stopping_on_black_line(numberOfRotations, speed, LineSide, colourSensor):
         
         #_______________________________________________________________________
     stopping_rotations = float(numberOfRotations/360/1.9584)
-    print float(stopping_rotations)
         #_______________________________________________________________________    
         
 
@@ -96,14 +95,15 @@ def Stopping_on_black_line(numberOfRotations, speed, LineSide, colourSensor):
                         print("STOP")
                         steering_drive.off()
                         break
-                    
+                    '''
                     elif current_RLI <= 25:
                         steering_drive.on(steering=-50, speed=speed)
                         print("LARGE TURN")
-                
+                    
                     else:
                         print("NO")
                         continue
+                    '''
             
             elif current_RLI <= 25:
                 steering_drive.on(steering=-75, speed=speed)
@@ -187,7 +187,3 @@ def Stopping_on_black_line(numberOfRotations, speed, LineSide, colourSensor):
     print ("")
     print ("")
     
-
-
-
-Stopping_On_Black_Line(numberOfRotations = 3, speed = 15, LineSide = "LEFT", colourSensor = "RIGHT" )

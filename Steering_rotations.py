@@ -17,12 +17,12 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 mediumMotor = MediumMotor(OUTPUT_D)
 
 def Steering_rotations(stop, speed, rotations, steering, brake):
-    current_degrees = motor.position # there isnt a way to read rotations
+    current_degrees = largeMotor_Left.position # there isnt a way to read rotations
     target_rotations = rotations * 360 # convert to degrees bcs its simpler
     target_rotations = current_degrees + target_rotations
-    steering_drive.on(steering = steering, speed= speed, brake = brake, block = False)
+    steering_drive.on(steering = steering, speed= speed)
     while current_degrees < target_rotations:
-        current_degrees = motor.position
+        current_degrees = largeMotor_Left.position
         if stop():
             break
     steering_drive.off()

@@ -111,7 +111,7 @@ def launchStep(stop, action):
         return thread
 
     if name == 'Straight_gyro': # (stop, speed, rotations)
-        print("asdasdas", file=stderr)
+        print("Straight_gyro", file=stderr)
         speed = float(action.get('speed'))
         rotations = float(action.get('rotations'))
         thread = threading.Thread(target=Straight_gyro, args=(stop, speed, rotations))

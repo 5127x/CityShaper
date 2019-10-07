@@ -5,6 +5,7 @@ from ev3dev2.sensor import INPUT_1, INPUT_2, INPUT_3, INPUT_4
 import xml.etree.ElementTree as ET
 import threading
 import time
+from sys import stderr
 
 colourAttachment = ColorSensor(INPUT_4) 
 colourLeft = ColorSensor(INPUT_2)
@@ -17,6 +18,11 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 mediumMotor = MediumMotor(OUTPUT_D)
 
 def onForRotations(stop, motor, speed, rotations, brake): 
+    print("In onForRotations", file=stderr)
+    '''
+    if speed<0:
+        rotations=rotations*-1
+    '''
     current_degrees = motor.position # there isnt a way to read rotations
     target_rotations = rotations * 360 # convert to degrees bcs its simpler
     target_rotations = current_degrees + target_rotations
