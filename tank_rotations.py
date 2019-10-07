@@ -19,7 +19,7 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 # mediumMotor_Left = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
 
-def tank_rotations(stop, left_speed, right_speed, rotations): 
+def tank_rotations(stop, left_speed, right_speed, rotations): # needs to be changed to work with - and + speeds (Test other function)
     print("In tank_rotations", file=stderr)
     current_degrees_left = largeMotor_Left.position # there isnt a way to read rotations
     current_degrees_right = largeMotor_Right.position
