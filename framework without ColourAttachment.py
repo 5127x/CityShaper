@@ -19,6 +19,8 @@ from tank_rotations import tank_rotations
 from tank_seconds import tank_seconds
 from Stopping_on_black_line import Stopping_on_black_line
 from reset_gyro import reset_gyro
+from Line_following_rotations import Line_following_rotations
+from Looking4Black_Line_Follow import Looking4Black_Line_Follow
 
 print("Hello!", file=stderr)
 
@@ -155,6 +157,34 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
+    if name == 'Stopping_on_black_line': # stop, rotations, speed, colourSensor
+        print('Starting Stopping_on_black_line', file=stderr)
+        rotations = float(action.get('rotations'))
+        speed = float(action.get('speed'))
+        colourSensor = action.get('colourSensor')
+        thread = threading.Thread(target = Stopping_on_black_line, args=(stop, rotations, speed, colourSensor))
+        thread.start()
+        return thread
+
+    if name == 'Looking4Black_Line_Follow': # stop, rotations, speed, colourSensor
+        print('Starting Looking4Black_Line_Follow', file=stderr)
+        rotations = float(action.get('rotations'))
+        speed = float(action.get('speed'))
+        colourSensor = action.get('colourSensor')
+        thread = threading.Thread(target = Looking4Black_Line_Follow, args=(stop, rotations, speed, colourSensor))
+        thread.start()
+        return thread
+
+    if name == "Line_following_rotation": # stop, rotations, speed, colourSensor
+        print('Starting Line_following_rotation', file=stderr)
+        rotations = float(action.get('rotations'))
+        speed = float(action.get('speed'))
+        colourSensor = action.get('colourSensor')
+        thread = threading.Thread(target = Line_following_rotation, args=(stop, rotations, speed, colourSensor))
+        thread.start()
+        return thread
+
+
 def main():
     threadPool = []
     actions = []
@@ -162,7 +192,7 @@ def main():
     programXML = ET.parse('programming_test.xml')
     programs = programXML.getroot()
     mediumMotor.reset # could be the other motor
-    steps = programXML.getroot()
+    steps = programXML.getroot(),.
     for step in steps:
         action = step.get('action')
         # are their multiple actions to execute in parallel?

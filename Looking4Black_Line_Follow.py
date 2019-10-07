@@ -8,7 +8,7 @@ from ev3dev2.sensor.lego import ColorSensor, GyroSensor
 from time import sleep
 
 #_______________________________________________________________________________
-def function(numberOfRotations, speed, colourSensor):
+def Looking4Black_Line_Follow(rotations, speed, colourSensor):
 
     colourLeft = ColorSensor(INPUT_2)
     colourRight = ColorSensor(INPUT_3)
@@ -18,7 +18,7 @@ def function(numberOfRotations, speed, colourSensor):
     target_RLI = 165
     prev_RLI = 300
     
-    numberOfRotations = numberOfRotations * largeMotor_Left.count_per_rot
+    rotations = rotations * largeMotor_Left.count_per_rot
 
     current_rotations = largeMotor_Left.position
 
@@ -33,12 +33,15 @@ def function(numberOfRotations, speed, colourSensor):
         print ("Previous COLOUR SENSOR LEFT")
     
 
-    target_rotations = int(numberOfRotations) + int(current_rotations)
+    target_rotations = int(rotations) + int(current_rotations)
 
     #...................................................................................................
     while current_RLI > 10:
         steering_drive.on(steering = 0, speed=speed)
         print("Looking for Black Line")
+        if stop():
+            break
+
         if colourSensor == "RIGHT":
             current_RLI = colourRight.reflected_light_intensity
 
@@ -60,6 +63,9 @@ def function(numberOfRotations, speed, colourSensor):
         
         #print ("{} rotations left.".format (target_rotations/360 - current_rotations/360))
         
+        if stop():
+            break
+
         if colourSensor == "RIGHT":
             current_RLI = colourRight.reflected_light_intensity
             #print("Current COLOUR SENSOR RIGHT")
@@ -89,4 +95,4 @@ def function(numberOfRotations, speed, colourSensor):
     steering_drive.off()
     print("NUMBER OF ROTATIONS HAS FINISHED")
 
-function(numberOfRotations = 4, speed = 14, colourSensor = "RIGHT" )
+# function(rotations = 4, speed = 14, colourSensor = "RIGHT" )
