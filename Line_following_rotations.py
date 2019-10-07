@@ -8,7 +8,7 @@ from ev3dev2.sensor.lego import ColorSensor, GyroSensor
 from time import sleep
 
 #_______________________________________________________________________________
-def function(numberOfRotations, speed, colourSensor):
+def Line_following_rotations(rotations, speed, colourSensor):
 
     colourLeft = ColorSensor(INPUT_2)
     colourRight = ColorSensor(INPUT_3)
@@ -17,7 +17,7 @@ def function(numberOfRotations, speed, colourSensor):
     largeMotor_Right = LargeMotor(OUTPUT_C)
     target_RLI = 0
     
-    numberOfRotations = numberOfRotations * largeMotor_Left.count_per_rot
+    rotations = rotations * largeMotor_Left.count_per_rot
 
     current_rotations = largeMotor_Left.position
 
@@ -30,7 +30,7 @@ def function(numberOfRotations, speed, colourSensor):
         print ("Previous COLOUR SENSOR LEFT")
 
 
-    target_rotations = int(numberOfRotations) + int(current_rotations)
+    target_rotations = int(rotations) + int(current_rotations)
   
     
     print ("Target Rotations ")
@@ -64,4 +64,4 @@ def function(numberOfRotations, speed, colourSensor):
     steering_drive.off()
 
 
-function(numberOfRotations = 2, speed = 15, colourSensor = "RIGHT" )
+# function(rotations = 2, speed = 15, colourSensor = "RIGHT" )

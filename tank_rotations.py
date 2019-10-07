@@ -19,20 +19,20 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 # mediumMotor_Left = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
 
-def Steering_rotations(stop, speed, rotations, steering):
-    print("In Steering_rotations", file=stderr)
+def tank_rotations(stop, left_speed, right_speed, rotations): # needs to be changed to work with - and + speeds (Test other function)
+    print("In tank_rotations", file=stderr)
     current_degrees_left = largeMotor_Left.position # there isnt a way to read rotations
     current_degrees_right = largeMotor_Right.position
     target_rotations = rotations * 360 # convert to degrees bcs its simpler
     target_rotations_left = current_degrees_left + target_rotations
     target_rotations_right = current_degrees_right + target_rotations
 
-    steering_drive.on(steering = steering, speed= speed)
-    while current_degrees_left < target_rotations_left or current_degrees_right < target_rotations_right:
+    tank_block.on(right_speed=right_speed, left_speed=left_speed)
+    while current_degrees_left < target_rotations_left or current_degrees_right < target_rotations_right: # how its done in tank onForRotations
         current_degrees_left = largeMotor_Left.position 
         current_degrees_right = largeMotor_Right.position
         if stop():
             break
-        if current_degrees_left < target_rotations_left or current_degrees_right < target_rotations_right:
+        if current_degrees_left >= target_rotations_left or current_degrees_right >= target_rotations_right:
             break
-    steering_drive.off()
+    tank_block.off()

@@ -8,7 +8,7 @@ from ev3dev2.sensor.lego import ColorSensor, GyroSensor
 from time import sleep
 
 #_______________________________________________________________________________
-def function(numberOfRotations, speed, colourSensor):
+def Stopping_on_black_line(stop, rotations, speed, colourSensor):
 
     colourLeft = ColorSensor(INPUT_2)
     colourRight = ColorSensor(INPUT_3)
@@ -19,7 +19,7 @@ def function(numberOfRotations, speed, colourSensor):
     prev_RLI = 300
     error1 = 0
     
-    numberOfRotations = numberOfRotations * largeMotor_Left.count_per_rot
+    rotations = rotations * largeMotor_Left.count_per_rot
 
     current_rotations = largeMotor_Left.position
 
@@ -29,23 +29,24 @@ def function(numberOfRotations, speed, colourSensor):
         print("Previous COLOUR SENSOR RIGHT")
 
     if colourSensor == "LEFT":
-
         current_RLI = colourLeft.reflected_light_intensity
         print ("Previous COLOUR SENSOR LEFT")
     
 
-    target_rotations = int(numberOfRotations) + int(current_rotations)
+    target_rotations = int(rotations) + int(current_rotations)
 
     #...................................................................................................
     while current_RLI >= 12:
         steering_drive.on(steering = 0, speed=speed)
         print(current_RLI)
+        if stop():
+            break
         if colourSensor == "RIGHT":
             current_RLI = colourRight.reflected_light_intensity
 
         if colourSensor == "LEFT":
             current_RLI = colourLeft.reflected_light_intensity
-    #===========================================================================
+    #=========================================================================== # maybe change to function? ? ?
 
     steering_drive.on_for_rotations(steering=0, speed=-speed, rotations = 0.01)
     print("GOING BACK")
@@ -60,7 +61,9 @@ def function(numberOfRotations, speed, colourSensor):
     while int(target_rotations) >= int(current_rotations):
         
         #print ("{} rotations left.".format (target_rotations/360 - current_rotations/360))
-        
+        if stop():
+            break
+
         if colourSensor == "RIGHT":
             current_RLI = colourRight.reflected_light_intensity
             currentLeft_RLI = colourLeft.reflected_light_intensity
@@ -110,4 +113,4 @@ def function(numberOfRotations, speed, colourSensor):
     steering_drive.off()
     
 
-function(numberOfRotations = 4, speed = 14, colourSensor = "RIGHT" )
+# function(rotations = 4, speed = 14, colourSensor = "RIGHT" )

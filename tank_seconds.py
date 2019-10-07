@@ -19,11 +19,11 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 # mediumMotor_Left = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
 
-def onForSeconds(stop, motor, speed, seconds):
-    print("In onForSeconds", file=stderr)
+def tank_seconds(stop, left_speed, right_speed, seconds): 
+    print("In tank_seconds", file=stderr)
     start_time = time.time()
-    motor.on(speed=speed)
+    tank_block.on(right_speed=right_speed, left_speed=left_speed)
     while time.time() < start_time + seconds:
         if stop():
             break
-    motor.off()
+    tank_block.off()
