@@ -59,7 +59,7 @@ def Stopping_on_black_line(stop, rotations, speed, colourSensor):
     #...................................................................................................
     #...................................................................................................
     
-    while target_rotations >= float(current_rotations):
+    while float(target_rotations) >= float(current_rotations):
         
         #print ("{} rotations left.".format (target_rotations/360 - current_rotations/360))
         if stop:
