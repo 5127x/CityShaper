@@ -34,13 +34,13 @@ def Straight_gyro(stop, speed, rotations):
             correction = 0 - current_gyro_reading
             correction = correction * .25
             print("Turning Right")
-            print("Current Gyro Reading: {}".format(current_gyro_reading), file=stderr)
+            #print("Current Gyro Reading: {}".format(current_gyro_reading), file=stderr)
             steering_drive.on(steering = correction , speed = speed)
         if current_gyro_reading > 0:
             correction = 0 - current_gyro_reading
             correction = correction * .25   
             print("Turning Left")
-            print("Current Gyro Reading: {}".format(current_gyro_reading), file=stderr)
+            #   print("Current Gyro Reading: {}".format(current_gyro_reading), file=stderr)
             steering_drive.on(steering = correction , speed = speed)
         if current_gyro_reading == 0:
             steering_drive.on(steering = 0 , speed = speed)

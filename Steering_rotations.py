@@ -19,7 +19,7 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 # mediumMotor_Left = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
 
-def Steering_rotations(stop, speed, rotations, steering):
+def Steering_rotations(stop, speed, rotations, steering, brake):
     print("In Steering_rotations", file=stderr)
     current_degrees_left = largeMotor_Left.position # there isnt a way to read rotations
     current_degrees_right = largeMotor_Right.position
@@ -33,6 +33,6 @@ def Steering_rotations(stop, speed, rotations, steering):
         current_degrees_right = largeMotor_Right.position
         if stop():
             break
-        if current_degrees_left < target_rotations_left or current_degrees_right < target_rotations_right:
+        if current_degrees_left >= target_rotations_left or current_degrees_right >= target_rotations_right:
             break
-    steering_drive.off()
+    steering_drive.off(brake=brake)
