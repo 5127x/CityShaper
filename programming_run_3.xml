@@ -1,0 +1,6 @@
+<steps>
+    <step action='reset_gyro'/>
+    <step action='Straight_gyro' speed='25' rotations='2.2'/>
+    <step action='tank_rotations' left_speed = '-10' right_speed = '-10' rotations = '.5' />
+    <step action= 'Turn_degrees' speed = '25' degrees = '90'/>
+</steps>

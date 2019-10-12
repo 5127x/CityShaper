@@ -205,7 +205,7 @@ def main():
     threadPool = []
     actions = []
     stopProcessing = False
-    programXML = ET.parse('programming_run_1.xml')
+    programXML = ET.parse('programming_run_3.xml')
     programs = programXML.getroot()
     mediumMotor.reset # could be the other motor
     steps = programXML.getroot()
