@@ -20,7 +20,8 @@ from tank_seconds import tank_seconds
 from Stopping_on_black_line import Stopping_on_black_line
 from reset_gyro import reset_gyro
 from Line_following_rotations import Line_following_rotations
-from Looking4Black_Line_Follow import Looking4Black_Line_Follow
+from Looking4Black_Line_Follow import Stopping_on_black_line
+from Degrees_aim import turn_to_degrees
 
 print("Hello!", file=stderr)
 
@@ -147,6 +148,9 @@ def launchStep(stop, action):
         left_speed = float(action.get('left_speed'))
         right_speed = float(action.get('right_speed'))
         rotations = float(action.get('rotations'))
+        print(left_speed, file=stderr)
+        print(right_speed, file=stderr)
+        print(rotations, file=stderr)
         thread = threading.Thread(target = tank_rotations, args=(stop, left_speed, right_speed, rotations))
         thread.start()
         return thread
@@ -184,6 +188,15 @@ def launchStep(stop, action):
         speed = float(action.get('speed'))
         colourSensor = action.get('colourSensor')
         thread = threading.Thread(target = Line_following_rotation, args=(stop, rotations, speed, colourSensor))
+        thread.start()
+        return thread
+
+    if name == 'turn_to_degrees': # stop, speed, degrees, direction
+        print('Starting turn_to_degrees', file=stderr)
+        speed = float(action.get('speed'))
+        degrees = float(action.get('degrees'))
+        direction = action.get('direction')
+        thread = threading.Thread(target = turn_to_degrees, args=(stop, speed, degrees, direction))
         thread.start()
         return thread
 
