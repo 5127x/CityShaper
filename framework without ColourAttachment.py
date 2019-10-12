@@ -211,6 +211,10 @@ def main():
     steps = programXML.getroot()
     for step in steps:
         action = step.get('action')
+
+        current_gyro_reading = gyro.angle
+        print("Framework Gyro: {}".format (float(current_gyro_reading)), file=stderr)
+        
         # are their multiple actions to execute in parallel?
         if action == 'launchInParallel':
             for subSteps in step:

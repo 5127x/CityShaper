@@ -12,5 +12,6 @@
     <step action='delayForSeconds' seconds='1'/>
     <step action='tank_rotations' left_speed='-20' right_speed='-20' rotations='1' />
     <step action='turn_to_degrees' speed='20' degrees='0' direction='LEFT' />
+    <step action='delayForSeconds' seconds='1'/>
     <step action='tank_rotations' left_speed='-20' right_speed='-20' rotations='8' />
 </steps>
