@@ -28,11 +28,20 @@ def tank_rotations(stop, left_speed, right_speed, rotations): # needs to be chan
     target_rotations_right = current_degrees_right + target_rotations
 
     tank_block.on(right_speed=right_speed, left_speed=left_speed)
-    while current_degrees_left < target_rotations_left or current_degrees_right < target_rotations_right: # how its done in tank onForRotations
-        current_degrees_left = largeMotor_Left.position 
-        current_degrees_right = largeMotor_Right.position
-        if stop():
-            break
-        if current_degrees_left >= target_rotations_left or current_degrees_right >= target_rotations_right:
-            break
+    if speed <0:
+        while current_degrees_left < target_rotations_left or current_degrees_right < target_rotations_right: # how its done in tank onForRotations
+            current_degrees_left = largeMotor_Left.position 
+            current_degrees_right = largeMotor_Right.position
+            if stop():
+                break
+            if current_degrees_left >= target_rotations_left or current_degrees_right >= target_rotations_right:
+                break
+    elif speed >0 :
+        while current_degrees_left < target_rotations_left or current_degrees_right < target_rotations_right: # how its done in tank onForRotations
+            current_degrees_left = largeMotor_Left.position 
+            current_degrees_right = largeMotor_Right.position
+            if stop():
+                break
+            if current_degrees_left >= target_rotations_left or current_degrees_right >= target_rotations_right:
+                break
     tank_block.off()
