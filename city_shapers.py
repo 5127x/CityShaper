@@ -56,11 +56,12 @@ def launchStep(stop, action):
         thread.start()
         return thread
     
-    if name == 'onForRotations': # (stop, motor, speed, rotations)
+    if name == 'onForRotations': # (stop, motor, speed, rotations, gearRatio)
         print("Starting onForRotations", file=stderr)
         motor = action.get('motor')
         speed = float(action.get('speed'))
         rotations = float(action.get('rotations'))
+        gearRatio = float(action.get('gearRatio'))
         if (motor == "largeMotor_Left"):
             motorToUse = largeMotor_Left
         if (motor == "largeMotor_Right"):
@@ -68,7 +69,7 @@ def launchStep(stop, action):
         #if (motor == "mediumMotor_Left"): motorToUse = mediumMotor_Left
         if (motor == "mediumMotor"):
             motorToUse = mediumMotor
-        thread = threading.Thread(target=onForRotations, args=(stop, motorToUse, speed, rotations))
+        thread = threading.Thread(target=onForRotations, args=(stop, motorToUse, speed, rotations, gearRatio))
         thread.start()
         return thread
 
@@ -86,7 +87,8 @@ def launchStep(stop, action):
         speed = float(action.get('speed'))
         rotations = float(action.get('rotations'))
         steering = float(action.get('steering'))
-        thread = threading.Thread(target=Steering_rotations, args=(stop, speed, rotations, steering))
+        brake = bool(action.get('brake'))
+        thread = threading.Thread(target=Steering_rotations, args=(stop, speed, rotations, steering, brake))
         thread.start()
         return thread
 
@@ -152,6 +154,33 @@ def launchStep(stop, action):
         right_speed = float(action.get('right_speed'))
         seconds = float(action.get('seconds'))
         thread = threading.Thread(target = tank_seconds, args=(stop, left_speed, right_speed, seconds))
+        thread.start()
+        return thread
+
+    if name == 'Stopping_on_black_line': # stop, rotations, speed, colourSensor
+        print('Starting Stopping_on_black_line', file=stderr)
+        rotations = float(action.get('rotations'))
+        speed = float(action.get('speed'))
+        colourSensor = action.get('colourSensor')
+        thread = threading.Thread(target = Stopping_on_black_line, args=(stop, rotations, speed, colourSensor))
+        thread.start()
+        return thread
+
+    if name == 'Looking4Black_Line_Follow': # stop, rotations, speed, colourSensor
+        print('Starting Looking4Black_Line_Follow', file=stderr)
+        rotations = float(action.get('rotations'))
+        speed = float(action.get('speed'))
+        colourSensor = action.get('colourSensor')
+        thread = threading.Thread(target = Looking4Black_Line_Follow, args=(stop, rotations, speed, colourSensor))
+        thread.start()
+        return thread
+
+    if name == "Line_following_rotation": # stop, rotations, speed, colourSensor
+        print('Starting Line_following_rotation', file=stderr)
+        rotations = float(action.get('rotations'))
+        speed = float(action.get('speed'))
+        colourSensor = action.get('colourSensor')
+        thread = threading.Thread(target = Line_following_rotation, args=(stop, rotations, speed, colourSensor))
         thread.start()
         return thread
 

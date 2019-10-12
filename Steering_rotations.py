@@ -28,7 +28,7 @@ def Steering_rotations(stop, speed, rotations, steering, brake):
     target_rotations_right = current_degrees_right + target_rotations
 
     steering_drive.on(steering = steering, speed= speed)
-    if speed < 0: 
+    if current_degrees_left > target_rotations_left or current_degrees_right > target_rotations_right:
         while current_degrees_left > target_rotations_left or current_degrees_right > target_rotations_right:
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position
@@ -37,7 +37,7 @@ def Steering_rotations(stop, speed, rotations, steering, brake):
             if current_degrees_left <= target_rotations_left or current_degrees_right <= target_rotations_right:
                 break
 
-    elif speed >0:
+    elif current_degrees_left < target_rotations_left or current_degrees_right < target_rotations_right:
         while current_degrees_left < target_rotations_left or current_degrees_right < target_rotations_right:
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position

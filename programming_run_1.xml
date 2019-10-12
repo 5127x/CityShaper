@@ -2,10 +2,10 @@
     <step action='reset_gyro'/>
     <step action='launchInParallel' >
         <step action='Straight_gyro' speed='25' rotations='2.9'/>
-        <step action='onForRotations' motor='mediumMotor' speed='100' rotations='0.25' gearRatio='1.4' />
+        <step action='onForRotations' motor='mediumMotor' speed='-30' rotations='-0.2' gearRatio='1.4' />
     </step>
-    <step action='delayForSeconds' seconds='2'/>
-    <step action='onForRotations' motor='mediumMotor' speed='-100' rotations='-0.5' gearRatio='1.4'/>
     <step action='delayForSeconds' seconds='1'/>
-    <step action= 'Steering_rotations' speed='-20' rotations='-1' steering='0' />
+    <step action='onForRotations' motor='mediumMotor' speed='-60' rotations='-0.3' gearRatio='1.4'/>
+    <step action='delayForSeconds' seconds='1'/>
+    <step action='tank_rotations' left_speed='-20' right_speed='-20' rotations='1' />
 </steps>

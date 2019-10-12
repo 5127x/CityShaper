@@ -21,27 +21,50 @@ mediumMotor = MediumMotor(OUTPUT_D)
 
 def tank_rotations(stop, left_speed, right_speed, rotations): # needs to be changed to work with - and + speeds (Test other function)
     print("In tank_rotations", file=stderr)
-    current_degrees_left = largeMotor_Left.position # there isnt a way to read rotations
+    current_degrees_left = largeMotor_Left.position 
+    target_left = rotations * 360
+    if left_speed < 0: 
+        target_left= -target_left
     current_degrees_right = largeMotor_Right.position
-    target_rotations = rotations * 360 # convert to degrees bcs its simpler
-    target_rotations_left = current_degrees_left + target_rotations
-    target_rotations_right = current_degrees_right + target_rotations
-
+    target_right = rotations * 360
+    if right_speed < 0: 
+        target_right = target_right
     tank_block.on(right_speed=right_speed, left_speed=left_speed)
-    if speed <0:
-        while current_degrees_left < target_rotations_left or current_degrees_right < target_rotations_right: # how its done in tank onForRotations
+
+    # < <
+    if current_degrees_left < target_left and current_degrees_right < target_right:
+        while current_degrees_left < target_left or current_degrees_right < target_right: # how its done in tank onForRotations
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position
             if stop():
                 break
-            if current_degrees_left >= target_rotations_left or current_degrees_right >= target_rotations_right:
+            if current_degrees_left >= target_left or current_degrees_right >= target_right:
                 break
-    elif speed >0 :
-        while current_degrees_left < target_rotations_left or current_degrees_right < target_rotations_right: # how its done in tank onForRotations
+    # < >
+    elif current_degrees_left < target_left and current_degrees_right > target_right:
+        while current_degrees_left < target_left or current_degrees_right > target_right: # how its done in tank onForRotations
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position
             if stop():
                 break
-            if current_degrees_left >= target_rotations_left or current_degrees_right >= target_rotations_right:
+            if current_degrees_left >= target_left or current_degrees_right <= target_right:
+                break
+    # > <
+    elif current_degrees_left > target_left and current_degrees_right < target_right:
+        while current_degrees_left > target_left or current_degrees_right < target_right: # how its done in tank onForRotations
+            current_degrees_left = largeMotor_Left.position 
+            current_degrees_right = largeMotor_Right.position
+            if stop():
+                break
+            if current_degrees_left <= target_left or current_degrees_right >= target_right:
+                break
+    # > > 
+    elif current_degrees_left > target_left and current_degrees_right > target_right:
+        while current_degrees_left > target_left or current_degrees_right > target_right: # how its done in tank onForRotations
+            current_degrees_left = largeMotor_Left.position 
+            current_degrees_right = largeMotor_Right.position
+            if stop():
+                break
+            if current_degrees_left <= target_left or current_degrees_right <= target_right:
                 break
     tank_block.off()
