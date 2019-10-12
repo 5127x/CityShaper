@@ -1,0 +1,5 @@
+<steps>
+    <step action='tank_rotations' left_speed = '50' right_speed = '50' rotations = '.3' />
+</steps>
+
+def tank_rotations(stop, left_speed, right_speed, rotations):
