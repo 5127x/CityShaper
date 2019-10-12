@@ -11,7 +11,7 @@ tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 def turn_to_degrees(stop, speed, degrees, direction):
     print("In turn_to_degrees", file=stderr)
     current_gyro_reading = gyro.angle
-        
+    print("Current Gyro: {}".format (float(current_gyro_reading)), file=stderr)
     if direction == "RIGHT":    
         while (float(current_gyro_reading) < float(degrees)):
             print("Current Gyro: {}".format (float(current_gyro_reading)))
@@ -22,15 +22,23 @@ def turn_to_degrees(stop, speed, degrees, direction):
         
     else:    
         print("Current Gyro: {}".format (float(current_gyro_reading)), file=stderr)
-
-        while (float(current_gyro_reading) > float(degrees)):
-            print("Current Gyro: {}".format (float(current_gyro_reading)), file=stderr)
+        if current_gyro_reading > degrees:
             tank_block.on(right_speed = speed, left_speed = -speed)
-            current_gyro_reading = gyro.angle
-            if stop():
-                break
-            
+            while (float(current_gyro_reading) > float(degrees)):
+                print("Current Gyro: {}".format (float(current_gyro_reading)), file=stderr)
+                current_gyro_reading = gyro.angle
+                if stop():
+                    break
+        elif current_gyro_reading < degrees:
+            tank_block.on(right_speed = speed, left_speed = -speed)
+            while (float(current_gyro_reading) < float(degrees)):
+                print("Current Gyro: {}".format (float(current_gyro_reading)), file=stderr)
+                current_gyro_reading = gyro.angle
+                if stop():
+                    break
     tank_block.off
+    print("Leaving turn_to_degrees", file=stderr)        
+    print("Current Gyro: {}".format (float(current_gyro_reading)), file=stderr)
 
 #turn_to_degrees(100, 60, "RIGHT")
 #turn_to_degrees(100, -45, "LEFT")
