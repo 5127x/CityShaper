@@ -21,7 +21,6 @@ mediumMotor = MediumMotor(OUTPUT_D)
 
 def onForRotations(stop, motor, speed, rotations, gearRatio): 
     print("In onForRotations", file=stderr)
-    if motor ==
     current_degrees = motor.position # there isnt a way to read rotations
     rotations = rotations*gearRatio
     target_rotations = rotations * 360 # convert to degrees bcs its simpler

@@ -1,9 +1,9 @@
 <steps>
-    <step action='onForRotations' motor='mediumMotor' speed='-60' rotations='-0.5' />
+    <step action='onForRotations' motor='mediumMotor' speed='-60' rotations='-0.5' gearRatio='1.4' />
     <step action='delayForSeconds' seconds='2'/>
-    <step action='onForRotations' motor='mediumMotor' speed='60' rotations='0.3' />
+    <step action='onForRotations' motor='mediumMotor' speed='60' rotations='0.3' gearRatio='1.4' />
     <step action='delayForSeconds' seconds='2'/>
-    <step action='onForRotations' motor='mediumMotor' speed='-60' rotations='-0.4' />
+    <step action='onForRotations' motor='mediumMotor' speed='-60' rotations='-0.4' gearRatio='1.4' />
     <step action='delayForSeconds' seconds='2'/>
-    <step action='onForRotations' motor='mediumMotor' speed='60' rotations='1' />
+    <step action='onForRotations' motor='mediumMotor' speed='60' rotations='1' gearRatio='1.4' />
 </steps>
