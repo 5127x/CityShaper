@@ -1,6 +1,6 @@
-<programs>     <!-- NOT 50, 62, 57 -->
-    <program name="Run1" fileName="programming_run_1.xml" r="" g="" b="" />  <!-- IDK YET -->
-    <program name="" fileName=".xml" r="" g="" b="" /> <!--IDK yet -->
+<programs>     <!-- NOT 50, 62, 57 bcs thats what it reads without anything inserted -->
+    <program name="Run1" fileName="programming_run_1.xml" r="" g="" b="" />  <!-- White -->
+    <program name="Run2" fileName=".xml" r="" g="" b="" /> <!--IDK yet -->
     <program name="" fileName=".xml" r="130" g="51" b="24" />   <!-- Red    -->
     <program name="" fileName=".xml" r="183" g="230" b="62" />  <!-- YELLOW -->
 </programs>

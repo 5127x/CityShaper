@@ -7,23 +7,17 @@ import threading
 import time
 from sys import stderr
 from onForRotations import onForRotations
+from tank_rotations import tank_rotations
 colourLeft = ColorSensor(INPUT_3) # bcs apparently they have to be backwards...
 colourRight = ColorSensor(INPUT_2)
 gyro = GyroSensor(INPUT_1)
-
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
-
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
 # mediumMotor_Left = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
 
-colourAttachment = ColorSensor(INPUT_4)
+
 stopProcessing=False
-onForRotations(lambda:stopProcessing, motor=mediumMotor, speed=-60, rotations=-0.5, gearRatio=1.4 )
-'''
-onForRotations(lambda:stopProcessing, motor=mediumMotor, speed=60, rotations=0.3, gearRatio=1.4 )
-onForRotations(lambda:stopProcessing, motor=mediumMotor, speed=-60, rotations=-0.4, gearRatio=1.4 )
-onForRotations(lambda:stopProcessing, motor=mediumMotor, speed=60, rotations=1, gearRatio=1.4 )
-'''
+tank_rotations(lambda:stopProcessing, left_speed=30, right_speed=30, rotations=0.5 )
