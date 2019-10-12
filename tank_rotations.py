@@ -25,14 +25,18 @@ def tank_rotations(stop, left_speed, right_speed, rotations): # needs to be chan
     target_left = rotations * 360
     if left_speed < 0: 
         target_left= -target_left
+    target_left= target_left+current_degrees_left
+
     current_degrees_right = largeMotor_Right.position
     target_right = rotations * 360
     if right_speed < 0: 
         target_right = target_right
-    tank_block.on(right_speed=right_speed, left_speed=left_speed)
+    target_right=target_right+current_degrees_right
 
+    tank_block.on(right_speed=right_speed, left_speed=left_speed)
     # < <
     if current_degrees_left < target_left and current_degrees_right < target_right:
+        print("1", file=stderr)
         while current_degrees_left < target_left or current_degrees_right < target_right: # how its done in tank onForRotations
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position
@@ -42,6 +46,7 @@ def tank_rotations(stop, left_speed, right_speed, rotations): # needs to be chan
                 break
     # < >
     elif current_degrees_left < target_left and current_degrees_right > target_right:
+        print("2", file=stderr)
         while current_degrees_left < target_left or current_degrees_right > target_right: # how its done in tank onForRotations
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position
@@ -51,6 +56,7 @@ def tank_rotations(stop, left_speed, right_speed, rotations): # needs to be chan
                 break
     # > <
     elif current_degrees_left > target_left and current_degrees_right < target_right:
+        print("3", file=stderr)
         while current_degrees_left > target_left or current_degrees_right < target_right: # how its done in tank onForRotations
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position
@@ -60,6 +66,7 @@ def tank_rotations(stop, left_speed, right_speed, rotations): # needs to be chan
                 break
     # > > 
     elif current_degrees_left > target_left and current_degrees_right > target_right:
+        print("4", file=stderr)
         while current_degrees_left > target_left or current_degrees_right > target_right: # how its done in tank onForRotations
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position

@@ -20,4 +20,5 @@ mediumMotor = MediumMotor(OUTPUT_D)
 
 
 stopProcessing=False
-tank_rotations(lambda:stopProcessing, left_speed=30, right_speed=30, rotations=0.5 )
+tank_rotations(lambda:stopProcessing, left_speed=30, right_speed=20, rotations=0.6 )
+onForRotations(lambda:stopProcessing, motor=mediumMotor, speed=-30, rotations=-0.2, gearRatio=1.4)

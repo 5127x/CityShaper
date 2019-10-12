@@ -97,4 +97,4 @@ def Stopping_on_black_line(stop, rotations, speed, colourSensor):
     steering_drive.off()
     
 
-Stopping_on_black_line(stop = False, rotations = 1, speed = 14, colourSensor = "RIGHT" )
+#Stopping_on_black_line(stop = False, rotations = 1, speed = 14, colourSensor = "RIGHT" )
