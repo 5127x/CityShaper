@@ -25,3 +25,7 @@ def reset_gyro():
     gyro.mode = 'GYRO-RATE'
     gyro.mode = 'GYRO-ANG'
     time.sleep(0.5)
+    print('Leaving reset_gyro', file=stderr)
+
+#stopProcessing=False
+#reset_gyro()

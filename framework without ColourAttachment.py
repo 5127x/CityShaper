@@ -149,9 +149,6 @@ def launchStep(stop, action):
         left_speed = float(action.get('left_speed'))
         right_speed = float(action.get('right_speed'))
         rotations = float(action.get('rotations'))
-        print(left_speed, file=stderr)
-        print(right_speed, file=stderr)
-        print(rotations, file=stderr)
         thread = threading.Thread(target = tank_rotations, args=(stop, left_speed, right_speed, rotations))
         thread.start()
         return thread

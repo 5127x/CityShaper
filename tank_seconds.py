@@ -27,3 +27,7 @@ def tank_seconds(stop, left_speed, right_speed, seconds):
         if stop():
             break
     tank_block.off()
+    print('Leaving tank_seconds', file=stderr)
+
+#stopProcessing=False
+#tank_seconds(lambda:stopProcessing, left_speed=30, right_speed=30, rotations=5)

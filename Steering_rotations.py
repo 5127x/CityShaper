@@ -19,7 +19,7 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 # mediumMotor_Left = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
 
-def Steering_rotations(stop, speed, rotations, steering, brake):
+def Steering_rotations(stop, speed, rotations, steering):
     print("In Steering_rotations", file=stderr)
     current_degrees_left = largeMotor_Left.position # there isnt a way to read rotations
     current_degrees_right = largeMotor_Right.position
@@ -28,22 +28,47 @@ def Steering_rotations(stop, speed, rotations, steering, brake):
     target_rotations_right = current_degrees_right + target_rotations
 
     steering_drive.on(steering = steering, speed= speed)
-    if current_degrees_left > target_rotations_left or current_degrees_right > target_rotations_right:
-        while current_degrees_left > target_rotations_left or current_degrees_right > target_rotations_right:
+    if current_degrees_left < target_left and current_degrees_right < target_right:
+        #print("1", file=stderr)
+        while current_degrees_left < target_left or current_degrees_right < target_right: # how its done in tank onForRotations
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position
             if stop():
                 break
-            if current_degrees_left <= target_rotations_left or current_degrees_right <= target_rotations_right:
+            if current_degrees_left >= target_left or current_degrees_right >= target_right:
                 break
-
-    elif current_degrees_left < target_rotations_left or current_degrees_right < target_rotations_right:
-        while current_degrees_left < target_rotations_left or current_degrees_right < target_rotations_right:
+    # < >
+    elif current_degrees_left < target_left and current_degrees_right > target_right:
+        #print("2", file=stderr)
+        while current_degrees_left < target_left or current_degrees_right > target_right: # how its done in tank onForRotations
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position
             if stop():
                 break
-            if current_degrees_left >= target_rotations_left or current_degrees_right >= target_rotations_right:
+            if current_degrees_left >= target_left or current_degrees_right <= target_right:
                 break
+    # > <
+    elif current_degrees_left > target_left and current_degrees_right < target_right:
+        #print("3", file=stderr)
+        while current_degrees_left > target_left or current_degrees_right < target_right: # how its done in tank onForRotations
+            current_degrees_left = largeMotor_Left.position 
+            current_degrees_right = largeMotor_Right.position
+            if stop():
+                break
+            if current_degrees_left <= target_left or current_degrees_right >= target_right:
+                break
+    # > > 
+    elif current_degrees_left > target_left and current_degrees_right > target_right:
+        #print("4", file=stderr)
+        while current_degrees_left > target_left or current_degrees_right > target_right: # how its done in tank onForRotations
+            current_degrees_left = largeMotor_Left.position 
+            current_degrees_right = largeMotor_Right.position
+            if stop():
+                break
+            if current_degrees_left <= target_left or current_degrees_right <= target_right:
+                break
+    steering_drive.off()
+    print('Leaving Steering_rotations', file=stderr)
 
-    steering_drive.off(brake=brake)
+#stopProcessing=False
+#squareOnLine(lambda:stopProcessing, speed=30, rotations=5, steering=0)

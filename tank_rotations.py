@@ -9,7 +9,7 @@ from sys import stderr
 
 colourLeft = ColorSensor(INPUT_3) # bcs apparently they have to be backwards...
 colourRight = ColorSensor(INPUT_2)
-gyro = GyroSensor(INPUT_1)
+#gyro = GyroSensor(INPUT_1)
 
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
@@ -36,7 +36,7 @@ def tank_rotations(stop, left_speed, right_speed, rotations): # needs to be chan
     tank_block.on(right_speed=right_speed, left_speed=left_speed)
     # < <
     if current_degrees_left < target_left and current_degrees_right < target_right:
-        print("1", file=stderr)
+        #print("1", file=stderr)
         while current_degrees_left < target_left or current_degrees_right < target_right: # how its done in tank onForRotations
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position
@@ -46,7 +46,7 @@ def tank_rotations(stop, left_speed, right_speed, rotations): # needs to be chan
                 break
     # < >
     elif current_degrees_left < target_left and current_degrees_right > target_right:
-        print("2", file=stderr)
+        #print("2", file=stderr)
         while current_degrees_left < target_left or current_degrees_right > target_right: # how its done in tank onForRotations
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position
@@ -56,7 +56,7 @@ def tank_rotations(stop, left_speed, right_speed, rotations): # needs to be chan
                 break
     # > <
     elif current_degrees_left > target_left and current_degrees_right < target_right:
-        print("3", file=stderr)
+        #print("3", file=stderr)
         while current_degrees_left > target_left or current_degrees_right < target_right: # how its done in tank onForRotations
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position
@@ -66,7 +66,7 @@ def tank_rotations(stop, left_speed, right_speed, rotations): # needs to be chan
                 break
     # > > 
     elif current_degrees_left > target_left and current_degrees_right > target_right:
-        print("4", file=stderr)
+        #print("4", file=stderr)
         while current_degrees_left > target_left or current_degrees_right > target_right: # how its done in tank onForRotations
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position
@@ -75,3 +75,7 @@ def tank_rotations(stop, left_speed, right_speed, rotations): # needs to be chan
             if current_degrees_left <= target_left or current_degrees_right <= target_right:
                 break
     tank_block.off()
+    print('Leaving tank_rotations', file=stderr)
+
+#stopProcessing=False
+#tank_rotations(lambda:stopProcessing, left_speed=30, right_speed=30, rotations=5)

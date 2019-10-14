@@ -47,3 +47,7 @@ def squareOnLine(stop, speed, target):
         if stop():
             break
     steering_drive.off()
+    print('Leaving squareOnLine', file=stderr)
+
+#stopProcessing=False
+#squareOnLine(lambda:stopProcessing, speed=30, target=100)
