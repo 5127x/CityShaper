@@ -7,17 +7,11 @@ import threading
 import time
 from sys import stderr
 
-colourLeft = ColorSensor(INPUT_3) # bcs apparently they have to be backwards...
-colourRight = ColorSensor(INPUT_2)
 gyro = GyroSensor(INPUT_1)
-
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
-
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
-# mediumMotor_Left = MediumMotor(OUTPUT_A)
-mediumMotor = MediumMotor(OUTPUT_D)
 
 def Straight_gyro(stop, speed, rotations):
     print("In Straight_gyro", file=stderr)
@@ -49,7 +43,7 @@ def Straight_gyro(stop, speed, rotations):
         if stop():
             break
     tank_block.off()
-    print('Leaving Straight_gyro')
+    print('Leaving Straight_gyro', file=stderr)
 
 #stopProcessing=False
 #Straight_gyro(lambda:stopProcessing, speed=30, rotations=3)

@@ -210,8 +210,7 @@ def main():
         action = step.get('action')
 
         current_gyro_reading = gyro.angle
-        print("Framework Gyro: {}".format (float(current_gyro_reading)), file=stderr)
-        
+        #print("Framework Gyro: {}".format (float(current_gyro_reading)), file=stderr)
         # are their multiple actions to execute in parallel?
         if action == 'launchInParallel':
             for subSteps in step:
