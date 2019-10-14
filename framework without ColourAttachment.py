@@ -22,7 +22,6 @@ from reset_gyro import reset_gyro
 from Line_following_rotations import Line_following_rotations
 from Looking4Black_Line_Follow import Stopping_on_black_line
 from Degrees_aim import turn_to_degrees
-from Curving import curving
 #Degrees aim
 print("Hello!", file=stderr)
 
@@ -36,7 +35,7 @@ tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
-# mediumMotor_Left = MediumMotor(OUTPUT_A)
+
 mediumMotor = MediumMotor(OUTPUT_D)
 
 def isRobotLifted():
@@ -201,14 +200,6 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
-    if name == 'curving': # stop, left_speed, right_speed, rotations)
-        print('Starting curving', file=stderr)
-        left_speed = float(action.get('left_speed'))
-        right_speed = float(action.get('right_speed'))
-        rotations = action.get('rotations')
-        thread = threading.Thread(target = curving, args=(stop, left_speed, right_speed, rotations)))
-        thread.start()
-        return thread
 
 def main():
     threadPool = []
