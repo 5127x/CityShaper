@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 import threading
 import time
 from sys import stderr
-
+# import the functions 
 from delayForSeconds import delayForSeconds
 from squareOnLine import squareOnLine
 from Turn_degrees import Turn_degrees
@@ -19,24 +19,34 @@ from tank_rotations import tank_rotations
 from tank_seconds import tank_seconds
 from Stopping_on_black_line import Stopping_on_black_line
 from reset_gyro import reset_gyro
+from Line_following_rotations import Line_following_rotations
+from Looking4Black_Line_Follow import Stopping_on_black_line
+from Degrees_aim import turn_to_degrees
 
-print("Hello!", file=stderr)
+print("STARTED!", file=stderr)
 
-colourLeft = ColorSensor(INPUT_3) # bcs apparently they have to be backwards...
+# define the different sensors, motors and motor blocks
+colourAttachment = ColorSensor(INPUT_4)
+colourLeft = ColorSensor(INPUT_3) 
 colourRight = ColorSensor(INPUT_2)
 gyro = GyroSensor(INPUT_1)
+
+largeMotor_Left= LargeMotor(OUTPUT_B)
+largeMotor_Right= LargeMotor(OUTPUT_C)
+mediumMotor = MediumMotor(OUTPUT_D)
 
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
-largeMotor_Left= LargeMotor(OUTPUT_B)
-largeMotor_Right= LargeMotor(OUTPUT_C)
-# mediumMotor_Left = MediumMotor(OUTPUT_A)
-mediumMotor = MediumMotor(OUTPUT_D)
 
-def isRobotLifted():
+def isRobotLifted(): # has the robot been lifted?
     return colourLeft.reflected_light_intensity < 2 # colourLeft.raw[0] < 5 and colourLeft.raw[1] < 5 and colourLeft.raw[2] < 5
 
+def isKeyTaken(): # has the key been removed?
+    rbgA = colourAttachment.raw
+    return abs(rbgA[0] - 50) < 10 and abs(rbgA[1] - 62) < 10 and abs(rbgA[2] - 57) < 10
+
+# launch actions using threads
 def launchStep(stop, action):
     name = action.get('action')
 
@@ -184,15 +194,29 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
+    if name == 'turn_to_degrees': # stop, speed, degrees, direction
+        print('Starting turn_to_degrees', file=stderr)
+        speed = float(action.get('speed'))
+        degrees = float(action.get('degrees'))
+        thread = threading.Thread(target = turn_to_degrees, args=(stop, speed, degrees))
+        thread.start()
+        return thread
+
+# main section of the program
 def main():
+    # create dictionaries and variables
     threadPool = []
     actions = []
     stopProcessing = False
-    cl = ColorSensor(colourAttachment)
+    # open and read the overall xml file 
     programXML = ET.parse('overall_programming.xml')
     programs = programXML.getroot()
+    # loop playing the runs
     while True:
-        rgb = cl.raw
+        # reset stopProcessing each repetition
+        stopProcessing = False
+        # collect the red, green and blue raw light values from colourAttachment and 
+        rgb = colourAttachment.raw
         for program in programs:
             programName = program.get('name')
             rProgram = int(program.get('r'))
@@ -201,9 +225,10 @@ def main():
             rColourSensor = rgb[0]
             gColourSensor = rgb[1]
             bColourSensor = rgb[2]
-            if abs(rColourSensor - rProgram) < 20 and abs(gColourSensor - gProgram) < 20 and abs(bColourSensor - bProgram) < 20:
+            if abs(rColourSensor - rProgram) < 10 and abs(gColourSensor - gProgram) < 10 and abs(bColourSensor - bProgram) < 10:
                 mediumMotor.reset # could be the other motor
                 fileName = program.get('fileName')
+                print(fileName,file=stderr)
                 dataXML = ET.parse(fileName)
                 steps = dataXML.getroot()
                 for step in steps:
@@ -228,6 +253,9 @@ def main():
                             break
                         # if the robot has been lifted then complete everything
                         if isRobotLifted():
+                            stopProcessing = True
+                            break
+                        if isKeyTaken():
                             stopProcessing = True
                             break
                         #sleep(0.25)

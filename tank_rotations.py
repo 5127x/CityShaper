@@ -7,17 +7,9 @@ import threading
 import time
 from sys import stderr
 
-colourLeft = ColorSensor(INPUT_3) # bcs apparently they have to be backwards...
-colourRight = ColorSensor(INPUT_2)
-#gyro = GyroSensor(INPUT_1)
-
-steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
-
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
-# mediumMotor_Left = MediumMotor(OUTPUT_A)
-mediumMotor = MediumMotor(OUTPUT_D)
 
 def tank_rotations(stop, left_speed, right_speed, rotations): # needs to be changed to work with - and + speeds (Test other function)
     print("In tank_rotations", file=stderr)

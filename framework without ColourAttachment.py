@@ -22,7 +22,6 @@ from reset_gyro import reset_gyro
 from Line_following_rotations import Line_following_rotations
 from Looking4Black_Line_Follow import Stopping_on_black_line
 from Degrees_aim import turn_to_degrees
-from Curving import curving
 #Degrees aim
 print("Hello!", file=stderr)
 
@@ -203,7 +202,7 @@ def launchStep(stop, action):
         left_speed = float(action.get('left_speed'))
         right_speed = float(action.get('right_speed'))
         rotations = action.get('rotations')
-        thread = threading.Thread(target = curving, args=(stop, left_speed, right_speed, rotations)))
+        thread = threading.Thread(target = curving, args=(stop, left_speed, right_speed, rotations))
         thread.start()
         return thread
 
@@ -211,7 +210,7 @@ def main():
     threadPool = []
     actions = []
     stopProcessing = False
-    programXML = ET.parse('programming_run_3.xml')
+    programXML = ET.parse('programming_run_1.xml') # change when needed
     programs = programXML.getroot()
     mediumMotor.reset # could be the other motor
     steps = programXML.getroot()
@@ -219,8 +218,7 @@ def main():
         action = step.get('action')
 
         current_gyro_reading = gyro.angle
-        print("Framework Gyro: {}".format (float(current_gyro_reading)), file=stderr)
-        
+        #print("Framework Gyro: {}".format (float(current_gyro_reading)), file=stderr)
         # are their multiple actions to execute in parallel?
         if action == 'launchInParallel':
             for subSteps in step:
