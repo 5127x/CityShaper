@@ -35,7 +35,7 @@ tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
-# mediumMotor_Left = MediumMotor(OUTPUT_A)
+
 mediumMotor = MediumMotor(OUTPUT_D)
 
 def isRobotLifted():
@@ -197,20 +197,12 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
-    if name == 'curving': # stop, left_speed, right_speed, rotations)
-        print('Starting curving', file=stderr)
-        left_speed = float(action.get('left_speed'))
-        right_speed = float(action.get('right_speed'))
-        rotations = action.get('rotations')
-        thread = threading.Thread(target = curving, args=(stop, left_speed, right_speed, rotations))
-        thread.start()
-        return thread
 
 def main():
     threadPool = []
     actions = []
     stopProcessing = False
-    programXML = ET.parse('programming_run_1.xml') # change when needed
+    programXML = ET.parse('programming_run_4.xml')
     programs = programXML.getroot()
     mediumMotor.reset # could be the other motor
     steps = programXML.getroot()

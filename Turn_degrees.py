@@ -17,14 +17,14 @@ def Turn_degrees(stop, speed, degrees): #was this changed?
     if degrees < 0:
         while current_gyro_reading>degrees:
             current_gyro_reading = gyro.angle
-            tank_block.on(right_speed = speed, left_speed = -speed)
+            tank_block.on(right_speed = -speed, left_speed = speed)
             if stop():
                 break
 
     if degrees > 0:
         while current_gyro_reading < degrees:
             current_gyro_reading = gyro.angle
-            tank_block.on(right_speed = -speed, left_speed = speed)
+            tank_block.on(right_speed = speed, left_speed = -speed)
             if stop():
                 break
 
