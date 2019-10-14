@@ -27,3 +27,7 @@ def Steering_seconds(stop, speed, seconds, steering):
         if stop():
             break
     steering_drive.off()
+    print('Leaving Steering_seconds', file=stderr)
+
+#stopProcessing=False
+#Steering_seconds(lambda:stopProcessing, speed=30, seconds=3, steering=0)

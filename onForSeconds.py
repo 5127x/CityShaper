@@ -27,3 +27,7 @@ def onForSeconds(stop, motor, speed, seconds):
         if stop():
             break
     motor.off()
+    print('Leaving onForSeconds', file=stderr)
+
+#stopProcessing=False
+#onForSeconds(lambda:stopProcessing, motor=mediumMotor, speed=30, seconds=3)

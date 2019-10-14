@@ -9,7 +9,8 @@ from sys import stderr
 
 colourLeft = ColorSensor(INPUT_3) # bcs apparently they have to be backwards...
 colourRight = ColorSensor(INPUT_2)
-gyro = GyroSensor(INPUT_1)
+#gyro = GyroSensor(INPUT_1)
+
 
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
@@ -43,3 +44,7 @@ def onForRotations(stop, motor, speed, rotations, gearRatio):
             if current_degrees >= target_rotations:
                 break
     motor.off()
+    print('Leaving onForRotations', file=stderr)
+
+#stopProcessing=False
+#onForRotations(lambda:stopProcessing, motor=mediumMotor, speed=30, rotations=2, gearRatio=1.4)

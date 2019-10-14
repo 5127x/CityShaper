@@ -9,7 +9,7 @@ from sys import stderr
 
 colourLeft = ColorSensor(INPUT_3) # bcs apparently they have to be backwards...
 colourRight = ColorSensor(INPUT_2)
-gyro = GyroSensor(INPUT_1)
+#gyro = GyroSensor(INPUT_1)
 
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
@@ -25,3 +25,7 @@ def delayForSeconds(stop, seconds):
     while time.time() < start_time + seconds:
         if stop():
             break
+    print('Leaving delayForSeconds', file=stderr)
+
+#stopProcessing=False
+#delayForSeconds(lambda:stopProcessing, seconds=2)

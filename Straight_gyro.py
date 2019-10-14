@@ -49,3 +49,7 @@ def Straight_gyro(stop, speed, rotations):
         if stop():
             break
     tank_block.off()
+    print('Leaving Straight_gyro')
+
+#stopProcessing=False
+#Straight_gyro(lambda:stopProcessing, speed=30, rotations=3)
