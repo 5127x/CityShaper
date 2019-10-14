@@ -1,4 +1,12 @@
 <steps>
-        <step reset_gyro/>
-        <step action= 'Turn_degrees' speed = '-40' degrees = '90'/>
+    <step action='reset_gyro'/>
+    <step action='tank_rotations' left_speed = '20' right_speed = '20' rotations = '1' />
+    <step action= 'Turn_degrees' speed = '5' degrees = '-35'/>
+    <!--  -->
+    <step action='tank_rotations' left_speed = '30' right_speed = '30' rotations = '1.5' />
+    <!--  -->
+    <step action='tank_rotations' left_speed = '-10' right_speed = '-10' rotations = '.6' />
+    <step action='tank_rotations' left_speed = '-30' right_speed = '-40' rotations = '1' />
+    <step action='tank_rotations' left_speed = '-40' right_speed = '-40' rotations = '2' />
+
 </steps>
