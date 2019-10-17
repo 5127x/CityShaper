@@ -11,17 +11,17 @@ from delayForSeconds import delayForSeconds
 from squareOnLine import squareOnLine
 from Turn_degrees import Turn_degrees
 from Straight_gyro import Straight_gyro
-from onForRotations import onForRotations
-from onForSeconds import onForSeconds
+from Motor_onForRotations import onForRotations
+from Motor_onForSeconds import onForSeconds
 from Steering_rotations import Steering_rotations
 from Steering_seconds import Steering_seconds
 from tank_rotations import tank_rotations
 from tank_seconds import tank_seconds
-from Stopping_on_black_line import Stopping_on_black_line
+from Look4Black_line_Stop_on _black_line import Stopping_on_black_line
 from reset_gyro import reset_gyro
-from Line_following_rotations import Line_following_rotations
+from FollowingBlackLine_ import Line_following_rotations
 from Looking4Black_Line_Follow import Stopping_on_black_line
-from Degrees_aim import turn_to_degrees
+from Turning_frm_start_position import turn_to_degrees
 #Degrees aim
 print("Hello!", file=stderr)
 
