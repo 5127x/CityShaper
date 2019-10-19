@@ -20,7 +20,7 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 # mediumMotor_Left = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
 
-def onForRotations(stop, motor, speed, rotations, gearRatio): 
+def Motor_onForRotations(stop, motor, speed, rotations, gearRatio): 
     print("In onForRotations", file=stderr)
     current_degrees = motor.position # there isnt a way to read rotations
     rotations = rotations*gearRatio
@@ -47,4 +47,4 @@ def onForRotations(stop, motor, speed, rotations, gearRatio):
     print('Leaving onForRotations', file=stderr)
 
 #stopProcessing=False
-#onForRotations(lambda:stopProcessing, motor=mediumMotor, speed=30, rotations=2, gearRatio=1.4)
+#Motor_onForRotations(lambda:stopProcessing, motor=mediumMotor, speed=30, rotations=2, gearRatio=1.4)

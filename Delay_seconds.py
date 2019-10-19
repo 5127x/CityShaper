@@ -19,13 +19,13 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 # mediumMotor_Left = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
 
-def delayForSeconds(stop, seconds):
-    print("In delayForSeconds", file=stderr)
+def Delay_seconds(stop, seconds):
+    print("In Delay_seconds", file=stderr)
     start_time = time.time()
     while time.time() < start_time + seconds:
         if stop():
             break
-    print('Leaving delayForSeconds', file=stderr)
+    print('Leaving Delay_seconds', file=stderr)
 
 #stopProcessing=False
-#delayForSeconds(lambda:stopProcessing, seconds=2)
+#Delay_seconds(lambda:stopProcessing, seconds=2)

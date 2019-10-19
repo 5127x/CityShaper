@@ -1,14 +1,10 @@
-# Demo of a simple proportional line follower using two sensors
-# It's deliberately flawed and will exit with errors in some circumstances;
-# try fixing it!
-
 from ev3dev2.motor import  LargeMotor, MoveSteering, OUTPUT_B, OUTPUT_C
 from ev3dev2.sensor import INPUT_1, INPUT_2, INPUT_3, INPUT_4
 from ev3dev2.sensor.lego import ColorSensor, GyroSensor
 from time import sleep
 
 #_______________________________________________________________________________
-def Stopping_on_black_line(stop, rotations, speed, colourSensor):
+def LookingBlackLine_rotations(stop, rotations, speed, colourSensor):
 
     colourLeft = ColorSensor(INPUT_2)
     colourRight = ColorSensor(INPUT_3)
@@ -20,6 +16,7 @@ def Stopping_on_black_line(stop, rotations, speed, colourSensor):
     error1 = 0
     
     rotations = rotations * largeMotor_Left.count_per_rot
+    print(rotations)
 
     current_rotations = largeMotor_Left.position
 
@@ -39,29 +36,29 @@ def Stopping_on_black_line(stop, rotations, speed, colourSensor):
     while current_RLI >= 12:
         steering_drive.on(steering = 0, speed=speed)
         print(current_RLI)
-        if stop():
+        if stop:
             break
         if colourSensor == "RIGHT":
             current_RLI = colourRight.reflected_light_intensity
 
         if colourSensor == "LEFT":
             current_RLI = colourLeft.reflected_light_intensity
-    #=========================================================================== # maybe change to function? ? ?
+        #=========================================================================== # maybe change to function? ? ?
 
-    steering_drive.on_for_rotations(steering=0, speed=-speed, rotations = 0.01)
-    print("GOING BACK")
-    steering_drive.on(steering=0, speed=speed) 
-    largeMotor_Left.on_for_rotations(rotations = .09, speed= -5)
-    print("turns")
+        steering_drive.on_for_rotations(steering=0, speed=-speed, rotations = 0.01)
+        print("GOING BACK")
+        steering_drive.on(steering=0, speed=speed) 
+        largeMotor_Left.on_for_rotations(rotations = .09, speed= -5)
+        print("turns")
 
     #...................................................................................................
     #...................................................................................................
     #...................................................................................................
     
-    while int(target_rotations) >= float(current_rotations):
+    while float(target_rotations) >= float(current_rotations):
         
         #print ("{} rotations left.".format (target_rotations/360 - current_rotations/360))
-        if stop():
+        if stop:
             break
 
         if colourSensor == "RIGHT":
@@ -89,28 +86,11 @@ def Stopping_on_black_line(stop, rotations, speed, colourSensor):
         
         steering_drive.on(steering=-correction, speed=speed*.9)
         
-        if colourSensor == "RIGHT":
-            if currentLeft_RLI <= 20:
-                print("FOUND BLACK LINE")
-                break
-                
-                print("PREV {} current L {}".format (prevOpposite_RLI,currentLeft_RLI))
-                prevOpposite_RLI = currentLeft_RLI
-        
-        if colourSensor == "LEFT":
-            if currentRight_RLI <= 20:
-                print("FOUND BLACK LINE")
-                break
-                
-                print("PREV {} current R {}".format (prevOpposite_RLI,currentRight_RLI))
-                prevOpposite_RLI = currentRight_RLI
-
-    
 
         current_rotations = largeMotor_Left.position
-        
+        print("Current: {}".format (current_rotations))
 
     steering_drive.off()
     
 
-# function(rotations = 4, speed = 14, colourSensor = "RIGHT" )
+#LookingBlackLine_rotations(stop = False, rotations = 1, speed = 14, colourSensor = "RIGHT" )

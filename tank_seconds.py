@@ -11,7 +11,7 @@ tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
 
-def tank_seconds(stop, left_speed, right_speed, seconds): 
+def Tank_seconds(stop, left_speed, right_speed, seconds): 
     print("In tank_seconds", file=stderr)
     start_time = time.time()
     tank_block.on(right_speed=right_speed, left_speed=left_speed)
@@ -19,7 +19,7 @@ def tank_seconds(stop, left_speed, right_speed, seconds):
         if stop():
             break
     tank_block.off()
-    print('Leaving tank_seconds', file=stderr)
+    print('Leaving Tank_seconds', file=stderr)
 
 #stopProcessing=False
-#tank_seconds(lambda:stopProcessing, left_speed=30, right_speed=30, rotations=5)
+#Tank_seconds(lambda:stopProcessing, left_speed=30, right_speed=30, rotations=5)

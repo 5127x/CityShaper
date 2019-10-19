@@ -11,8 +11,8 @@ tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
 
-def tank_rotations(stop, left_speed, right_speed, rotations): # needs to be changed to work with - and + speeds (Test other function)
-    print("In tank_rotations", file=stderr)
+def Tank_rotations(stop, left_speed, right_speed, rotations): # needs to be changed to work with - and + speeds (Test other function)
+    print("In Tank_rotations", file=stderr)
     current_degrees_left = largeMotor_Left.position 
     target_left = rotations * 360
     if left_speed < 0: 
@@ -67,7 +67,7 @@ def tank_rotations(stop, left_speed, right_speed, rotations): # needs to be chan
             if current_degrees_left <= target_left or current_degrees_right <= target_right:
                 break
     tank_block.off()
-    print('Leaving tank_rotations', file=stderr)
+    print('Leaving Tank_rotations', file=stderr)
 
 #stopProcessing=False
-#tank_rotations(lambda:stopProcessing, left_speed=30, right_speed=30, rotations=5)
+#Tank_rotations(lambda:stopProcessing, left_speed=30, right_speed=30, rotations=5)
