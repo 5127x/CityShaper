@@ -35,6 +35,5 @@ def Turn_from_start_position(stop, speed, degrees):
     print("Leaving Turn_from_start_position", file=stderr)        
     print("Current Gyro: {}".format (float(current_gyro_reading)), file=stderr)
 
-
 #stopProcessing=False
 #Turn_from_start_position(lambda:stopProcessing, speed=30, degrees=90)
