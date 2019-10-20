@@ -8,6 +8,7 @@ import time
 from sys import stderr
 
 # import the functions 
+from Do_nothing import Do_nothing
 from Delay_seconds import Delay_seconds
 from Motor_onForRotations import Motor_onForRotations
 from Motor_onForSeconds import Motor_onForSeconds
@@ -50,6 +51,12 @@ def isKeyTaken(): # has the key been removed?
 # launch actions using threads
 def launchStep(stop, action):
     name = action.get('action')
+
+    if name == 'Do_nothing': # (stop)
+        print("Do_nothing", file= stderr)
+        thread = threading.Thread(target=Do_nothing, args=(stop,))
+        thread.start()
+        return thread
 
     if name == 'Delay_seconds': # (stop, seconds)
         print("Starting Delay_seconds", file=stderr)
