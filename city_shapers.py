@@ -9,8 +9,8 @@ from sys import stderr
 
 # import the functions 
 from Delay_seconds import Delay_seconds
-from Motor_onForRotations import onForRotations
-from Motor_onForSeconds import onForSeconds
+from Motor_onForRotations import Motor_onForRotations
+from Motor_onForSeconds import Motor_onForSeconds
 from Steering_rotations import Steering_rotations
 from Steering_seconds import Steering_seconds
 from Tank_rotations import Tank_rotations
