@@ -13,18 +13,18 @@ tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 def Turn_degrees(stop, speed, degrees): #was this changed?
     print("In Turn_degrees", file=stderr)
     current_gyro_reading = gyro.angle
-    
-    if degrees < 0:
-        while current_gyro_reading>degrees:
+    degrees = current_gyro_reading + degrees
+    if current_gyro_reading > degrees:
+        tank_block.on(right_speed = -speed, left_speed = speed)
+        while current_gyro_reading > degrees:
             current_gyro_reading = gyro.angle
-            tank_block.on(right_speed = -speed, left_speed = speed)
             if stop():
                 break
 
-    if degrees > 0:
+    elif current_gyro_reading < degrees:
+        tank_block.on(right_speed = speed, left_speed = -speed)
         while current_gyro_reading < degrees:
             current_gyro_reading = gyro.angle
-            tank_block.on(right_speed = speed, left_speed = -speed)
             if stop():
                 break
 

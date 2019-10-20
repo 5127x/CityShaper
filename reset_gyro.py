@@ -19,13 +19,13 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 # mediumMotor_Left = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
 
-def reset_gyro():
-    print("In reset_gyro", file=stderr)
+def Reset_gyro():
+    print("In Reset_gyro", file=stderr)
     time.sleep(0.5)
     gyro.mode = 'GYRO-RATE'
     gyro.mode = 'GYRO-ANG'
     time.sleep(0.5)
-    print('Leaving reset_gyro', file=stderr)
+    print('Leaving Reset_gyro', file=stderr)
 
 #stopProcessing=False
-#reset_gyro()
+#Reset_gyro()

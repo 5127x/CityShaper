@@ -8,7 +8,7 @@ from ev3dev2.sensor.lego import ColorSensor, GyroSensor
 from time import sleep
 
 #_______________________________________________________________________________
-def Line_following_rotations(rotations, speed, colourSensor):
+def FollowBlackLine_rotations(stop, rotations, speed, colourSensor):
 
     colourLeft = ColorSensor(INPUT_2)
     colourRight = ColorSensor(INPUT_3)
@@ -17,9 +17,9 @@ def Line_following_rotations(rotations, speed, colourSensor):
     largeMotor_Right = LargeMotor(OUTPUT_C)
     target_RLI = 0
     
-    rotations = rotations * largeMotor_Left.count_per_rot
+    rotations = rotations * 360
 
-    current_rotations = largeMotor_Left.position
+    current_degrees = largeMotor_Left.position
 
     if colourSensor == "RIGHT":
         target_RLI = colourRight.reflected_light_intensity
@@ -30,19 +30,22 @@ def Line_following_rotations(rotations, speed, colourSensor):
         print ("Previous COLOUR SENSOR LEFT")
 
 
-    target_rotations = int(rotations) + int(current_rotations)
+    target_rotations = int(rotations) + int(current_degrees)
   
     
     print ("Target Rotations ")
     print (target_rotations)
     print("")
     print ("Current Rotations ")
-    print (current_rotations)
+    print (current_degrees)
     correction = 0
-    while int(target_rotations) >= int(current_rotations):
+    while int(target_rotations) >= int(current_degrees):
         
-        print ("{} rotations left.".format (target_rotations/360 - current_rotations/360))
+        #print ("{} rotations left.".format (target_rotations/360 - current_degrees/360))
         
+        if stop():
+            break
+
         if colourSensor == "RIGHT":
             current_RLI = colourRight.reflected_light_intensity
             #print("Current COLOUR SENSOR RIGHT")
@@ -59,7 +62,7 @@ def Line_following_rotations(rotations, speed, colourSensor):
 
     
         # Do this after we have moved.  If we haven't reached the target_rotations, it will repeat again.
-        current_rotations = largeMotor_Left.position
+        current_degrees = largeMotor_Left.position
 
     steering_drive.off()
 
