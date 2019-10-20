@@ -8,6 +8,7 @@ import time
 from sys import stderr
 
 # import the functions 
+
 from Do_nothing import Do_nothing
 from Delay_seconds import Delay_seconds
 from Motor_onForRotations import Motor_onForRotations
@@ -16,10 +17,12 @@ from Steering_rotations import Steering_rotations
 from Steering_seconds import Steering_seconds
 from Tank_rotations import Tank_rotations
 from Tank_seconds import Tank_seconds
+
 from Reset_gyro import Reset_gyro
 from Straight_gyro import Straight_gyro
 from Turn_degrees import Turn_degrees
 from Turn_from_start_position import Turn_from_start_position
+
 from squareOnLine import squareOnLine
 from FollowBlackLine_rotations import FollowBlackLine_rotations
 from LookingBlackLine_stopBlack import LookingBlackLine_stopBlack
@@ -221,6 +224,7 @@ def main():
             rColourSensor = rgb[0]
             gColourSensor = rgb[1]
             bColourSensor = rgb[2]
+            print("R {} G {} B {}").format (rColourSensor, gColourSensor, bColourSensor)
             # if the values match, run the corresponding program
             if abs(rColourSensor - rProgram) < 10 and abs(gColourSensor - gProgram) < 10 and abs(bColourSensor - bProgram) < 10:
                 mediumMotor.reset 
