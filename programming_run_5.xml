@@ -5,7 +5,19 @@
     <step action='Tank_rotations' left_speed='20' right_speed='20' rotations='0.7' />
     <step action='Motor_onForRotations' motor='mediumMotor' speed='10' rotations='0.2' gearRatio='1.4' />
     <step action='Delay_seconds' seconds='0.5'/>
-    <step action='Tank_rotations' left_speed='-20' right_speed='-20' rotations='1.4' />
-    <step action='LookingBlackLine_stopBlack' rotations='0' speed='20' colourSensor='RIGHT' />
+    <step action='Tank_rotations' left_speed='-20' right_speed='-20' rotations='0.9' />
+    <step action='Delay_seconds' seconds='0.5'/>
+    <step action='Turn_from_start_position' speed='5' degrees='0' />
+    <step action='Tank_rotations' left_speed='20' right_speed='20.5' rotations='2.5' />
+    <step action='Turn_from_start_position' speed='15' degrees='77' /> <!--twice for accuracy-->
+    <step action='Turn_from_start_position' speed='5' degrees='77' />
+    <step action='Tank_rotations' left_speed='20' right_speed='20' rotations='2.1' />
+    <step action='Motor_onForRotations' motor='mediumMotor' speed='10' rotations='0.3' gearRatio='1.4' />
+    <step action='Delay_seconds' seconds='0.5'/>
+    <step action='Tank_rotations' left_speed='-20' right_speed='-20' rotations='1' />
+    <step action='Turn_from_start_position' speed='15' degrees='120' /> <!--twice for accuracy-->
+    <step action='Turn_from_start_position' speed='5' degrees='120' />
+    <step action='Tank_rotations' left_speed='20' right_speed='20' rotations='1.5' />
+    <step action='Tank_rotations' left_speed='80' right_speed='80' rotations='1' />
     <step action='Do_nothing' />
 </steps>
