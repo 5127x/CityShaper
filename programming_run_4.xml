@@ -8,5 +8,7 @@
     <step action='Tank_rotations' left_speed = '-10' right_speed = '-10' rotations = '.6' />
     <step action='Tank_rotations' left_speed = '-30' right_speed = '-40' rotations = '1' />
     <step action='Tank_rotations' left_speed = '-40' right_speed = '-40' rotations = '2' />
-
+    <!--  -->
+    <step action='off' />
+    <step action='Do_nothing' />
 </steps>

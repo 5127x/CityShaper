@@ -19,5 +19,6 @@
     <step action='Turn_from_start_position' speed='5' degrees='120' />
     <step action='Tank_rotations' left_speed='20' right_speed='20' rotations='1.5' />
     <step action='Tank_rotations' left_speed='80' right_speed='80' rotations='1' />
+    <step action='off' />
     <step action='Do_nothing' />
 </steps>
