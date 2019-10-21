@@ -21,7 +21,8 @@ from Tank_rotations import Tank_rotations
 from Tank_seconds import Tank_seconds
 
 from Reset_gyro import Reset_gyro
-from Straight_gyro import Straight_gyro
+from StraightGyro_target import StraightGyro_target
+from StraightGyro_current import StraightGyro_current
 from Turn_degrees import Turn_degrees
 from Turn_from_start_position import Turn_from_start_position
 
@@ -161,12 +162,20 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
-    if name == 'Straight_gyro': # (stop, speed, rotations, target)
-        print("Starting Straight_gyro", file=stderr)
+    if name == 'StraightGyro_target': # (stop, speed, rotations, target)
+        print("Starting StraightGyro_target", file=stderr)
         speed = float(action.get('speed'))
         rotations = float(action.get('rotations'))
         target = float(action.get('target'))
-        thread = threading.Thread(target=Straight_gyro, args=(stop, speed, rotations, target))
+        thread = threading.Thread(target=StraightGyro_target, args=(stop, speed, rotations, target))
+        thread.start()
+        return thread
+
+    if name == 'StraightGyro_current': # (stop, speed, rotations)
+        print("Starting StraightGyro_current", file=stderr)
+        speed = float(action.get('speed'))
+        rotations = float(action.get('rotations'))
+        thread = threading.Thread(target=StraightGyro_current, args=(stop, speed, rotations))
         thread.start()
         return thread
     
@@ -244,7 +253,7 @@ def main():
             rColourSensor = rgb[0]
             gColourSensor = rgb[1]
             bColourSensor = rgb[2]
-            print("R {} G {} B {}").format (rColourSensor, gColourSensor, bColourSensor)
+            # print("R {} G {} B {}").format (rColourSensor, gColourSensor, bColourSensor)
             # if the values match, run the corresponding program
             if abs(rColourSensor - rProgram) < 10 and abs(gColourSensor - gProgram) < 10 and abs(bColourSensor - bProgram) < 10:
                 mediumMotor.reset 

@@ -26,11 +26,11 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 # mediumMotor_Left = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
 
-
+print(colourAttachment.raw, file= stderr)
 #print(colourAttachment.raw, file=stderr)
 
 stopProcessing=False # lambda:stopProcessing
-LookingBlackLine_stopBlack(lambda:stopProcessing, rotations =10000, speed = 14, colourSensor ="RIGHT")
+#LookingBlackLine_stopBlack(lambda:stopProcessing, rotations =10000, speed = 14, colourSensor ="RIGHT")
 #reset_gyro()
 #turn_to_degrees(lambda:stopProcessing, speed=20, degrees=90) # speeds over 5 are inaccurate but still get more or less right (to be fair, they are inaccurate by the same amount each time...)
 #Delay_seconds(lambda:stopProcessing, 2)

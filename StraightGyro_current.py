@@ -13,12 +13,13 @@ tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
 
-def Straight_gyro(stop, speed, rotations, target):
-    print("In Straight_gyro", file=stderr)
+def StraightGyro_current(stop, speed, rotations):
+    print("In StraightGyro_current", file=stderr)
     current_degrees = largeMotor_Left.position 
     rotations = rotations * 360
     target_rotations= current_degrees + rotations
-    current_gyro_reading = gyro.angle
+    target = gyro.angle
+    current_gyro_reading = target
     # print("Current Gyro Reading: {}".format(current_gyro_reading))
     while float(current_degrees) < target_rotations:
         if stop(): 
@@ -40,7 +41,7 @@ def Straight_gyro(stop, speed, rotations, target):
         if stop():
             break
     tank_block.off()
-    print('Leaving Straight_gyro', file=stderr)
+    print('Leaving StraightGyro_current', file=stderr)
 
 #stopProcessing=False
-#Straight_gyro(lambda:stopProcessing, speed=30, rotations=3)
+#StraightGyro_current(lambda:stopProcessing, speed=30, rotations=3)

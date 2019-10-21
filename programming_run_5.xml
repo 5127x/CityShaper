@@ -1,7 +1,7 @@
 <steps>
     <!-- drive out -->
     <step action='Reset_gyro'/>
-    <step action='Straight_gyro' speed='25' rotations='3.3' target='0'/>
+    <step action='StraightGyro_target' speed='25' rotations='3.3' target='0'/>
     <!-- turn, drive forward, place block -->
     <step action='Tank_rotations' left_speed='-10' right_speed='10' rotations='0.1' />
     <step action='Tank_rotations' left_speed='20' right_speed='20' rotations='0.7' />
