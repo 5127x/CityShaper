@@ -63,6 +63,7 @@ def isKeyTaken(): # has the key been removed?
 
 # launch actions using threads
 def launchStep(stop, action):
+
     # compare the 'name' to our functions and start a thread with the matching function
     # return the thread to add to threadPool
     name = action.get('action')
@@ -268,19 +269,17 @@ def main():
                         for thread in threadPool:
                             if not thread.isAlive():
                                 threadPool.remove(thread)
-                        # if there are no threads running, exist the 'while' loop 
-                        # and start the next action from the list 
+                        # if there are no threads running start the next action
                         if not threadPool:
                             break
-                        # if the robot has been lifted then complete everything
+                        # if the robot has been lifted or the key removed then stop everything
                         if isRobotLifted():
                             stopProcessing = True
                             break
                         if isKeyTaken():
                             stopProcessing = True
                             break
-                        #sleep(0.25)
-                    # if the 'stopProcessing' flag has been set then finish the step loop
+                    # if the 'stopProcessing' flag has been set then finish the whole loop
                     if stopProcessing:
                         break
 
