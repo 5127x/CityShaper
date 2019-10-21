@@ -11,8 +11,8 @@ from sys import stderr
 
 from Do_nothing import Do_nothing
 from off import off
-
 from Delay_seconds import Delay_seconds
+
 from Motor_onForRotations import Motor_onForRotations
 from Motor_onForSeconds import Motor_onForSeconds
 from Steering_rotations import Steering_rotations
@@ -47,17 +47,24 @@ tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
 
 def isRobotLifted(): # has the robot been lifted?
+    # return true if the robot was lifted and stop the motors IF we are not doing run5
+    # driving over the gaps in bridge can accidently trigger isRobotLifted()
     if fileName != 'programming_run_5.xml':
          off()
-        return colourLeft.reflected_light_intensity < 2 # ALTERNATE VALUES: colourLeft.raw[0] < 5 and colourLeft.raw[1] < 5 and colourLeft.raw[2] < 5
+         return colourLeft.reflected_light_intensity < 2 
+        # alternate values: colourLeft.raw[0] < 5 and colourLeft.raw[1] < 5 and colourLeft.raw[2] < 5
 
 def isKeyTaken(): # has the key been removed?
+    # return True if the key was removed and stop the motors 
     rbgA = colourAttachment.raw
     off()
-    return abs(rbgA[0] - 50) < 10 and abs(rbgA[1] - 62) < 10 and abs(rbgA[2] - 57) < 10
+    # rgb values are 50, 62, 57 when the slot is empty
+    return abs(rbgA[0] - 50) < 10 and abs(rbgA[1] - 62) < 10 and abs(rbgA[2] - 57) < 10 
 
 # launch actions using threads
 def launchStep(stop, action):
+    # compare the 'name' to our functions and start a thread with the matching function
+    # return the thread to add to threadPool
     name = action.get('action')
 
     if name == 'Do_nothing': # (stop)
@@ -129,7 +136,7 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
-    if name == 'Tank_rotations': # stop, left_speed, right_speed, rotations
+    if name == 'Tank_rotations': # (stop, left_speed, right_speed, rotations)
         print("Starting Tank_rotations", file=stderr)
         left_speed = float(action.get('left_speed'))
         right_speed = float(action.get('right_speed'))
@@ -138,7 +145,7 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
-    if name == 'Tank_seconds': # stop, left_speed, right_speed, seconds
+    if name == 'Tank_seconds': # (stop, left_speed, right_speed, seconds)
         print("Starting Tank_seconds", file=stderr)
         left_speed = float(action.get('left_speed'))
         right_speed = float(action.get('right_speed'))
@@ -147,7 +154,7 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
-    if name == 'Reset_gyro': 
+    if name == 'Reset_gyro': # ()
         print("Starting Reset_gyro", file=stderr)
         thread = threading.Thread(target=Reset_gyro)
         thread.start()
@@ -221,11 +228,11 @@ def main():
     # open and read the overall XML file 
     programXML = ET.parse('overall_programming.xml')
     programs = programXML.getroot()
-    # loop playing the runs
     while True:
         # reset stopProcessing each repetition
         stopProcessing = False
-        # collect the red, green and blue raw light values from colourAttachment and compare them to the values in the overall XML file
+        # collect the raw rgb light values from colourAttachment and the overall XML file
+        # compare the sets of values
         rgb = colourAttachment.raw
         for program in programs:
             programName = program.get('name')
@@ -239,18 +246,20 @@ def main():
             # if the values match, run the corresponding program
             if abs(rColourSensor - rProgram) < 10 and abs(gColourSensor - gProgram) < 10 and abs(bColourSensor - bProgram) < 10:
                 mediumMotor.reset 
+                # read the relevant program XML
                 fileName = program.get('fileName')
                 print(fileName,file=stderr)
                 dataXML = ET.parse(fileName)
                 steps = dataXML.getroot()
+                # run each step individually unless they are run in parallel
                 for step in steps:
                     action = step.get('action')
-                    # are their multiple actions to execute in parallel?
+                    # loop through actions that should be run in parallel
                     if action == 'launchInParallel':
                         for subSteps in step:
                             thread = launchStep(lambda:stopProcessing, subSteps)
                             threadPool.append(thread)
-                    # is there a single action to execute?
+                    # run each action that isn't run in parrallel idividually
                     else:
                         thread = launchStep(lambda:stopProcessing, step)
                         threadPool.append(thread)
