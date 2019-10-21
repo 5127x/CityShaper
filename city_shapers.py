@@ -242,7 +242,7 @@ def main():
             rColourSensor = rgb[0]
             gColourSensor = rgb[1]
             bColourSensor = rgb[2]
-            print("R {} G {} B {}").format (rColourSensor, gColourSensor, bColourSensor)
+            #print("R {} G {} B {}").format (rColourSensor, gColourSensor, bColourSensor)
             # if the values match, run the corresponding program
             if abs(rColourSensor - rProgram) < 10 and abs(gColourSensor - gProgram) < 10 and abs(bColourSensor - bProgram) < 10:
                 mediumMotor.reset 

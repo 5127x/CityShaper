@@ -6,7 +6,7 @@ from ev3dev2.motor import  LargeMotor, MoveSteering, OUTPUT_B, OUTPUT_C
 from ev3dev2.sensor import INPUT_1, INPUT_2, INPUT_3, INPUT_4
 from ev3dev2.sensor.lego import ColorSensor, GyroSensor
 from time import sleep
-
+from sys import stderr
 #_______________________________________________________________________________
 def LookingBlackLine_stopBlack(stop, rotations, speed, colourSensor):
 
@@ -15,7 +15,7 @@ def LookingBlackLine_stopBlack(stop, rotations, speed, colourSensor):
     steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C) 
     largeMotor_Left = LargeMotor(OUTPUT_B)
     largeMotor_Right = LargeMotor(OUTPUT_C)
-    target_RLI = 165
+    target_RLI = colourRight.reflected_light_intensity
     
     
     rotations = rotations * largeMotor_Left.count_per_rot
@@ -34,12 +34,11 @@ def LookingBlackLine_stopBlack(stop, rotations, speed, colourSensor):
 
     target_rotations = int(rotations) + int(current_rotations)
     print(current_RLI)
-    steering_drive.on_for_rotations(steering = 0, rotations = .2, speed=speed)
+   # steering_drive.on_for_rotations(brake = False,steering = 0, rotations = .2, speed=speed)
     #...................................................................................................
     while current_RLI >= 11:
         steering_drive.on(steering = 0, speed=speed)
         print(current_RLI)
-        print("BEEN PICKED UP", file=stderr)
 
         if stop():
             break
@@ -50,17 +49,10 @@ def LookingBlackLine_stopBlack(stop, rotations, speed, colourSensor):
             current_RLI = colourLeft.reflected_light_intensity
     #=========================================================================== # maybe change to function? ? ?
 
-    """
-    steering_drive.on(steering=0, speed=speed) 
-    largeMotor_Left.on_for_rotations(rotations = .09, speed= -5)
-    print("turns")
-    """
-    #...................................................................................................
-    #...................................................................................................
     #...................................................................................................
     
-    while int(target_rotations) >=float(current_rotations):
-        
+    while True:
+        print("HELLO", file = stderr)
         #print ("{} rotations left.".format (target_rotations/360 - current_rotations/360))
         if stop():
             print("BEEN PICKED UP", file=stderr)
@@ -106,5 +98,5 @@ def LookingBlackLine_stopBlack(stop, rotations, speed, colourSensor):
     
     steering_drive.off()
     
-
-#LookingBlackLine_stopBlack(stop = False, rotations = 4, speed = 14, colourSensor = "RIGHT" )
+stopProcessing = False
+#LookingBlackLine_stopBlack(stop = lambda:stopProcessing, rotations = 4, speed = 14, colourSensor = "RIGHT" )
