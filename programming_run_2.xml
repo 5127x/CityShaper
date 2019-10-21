@@ -1,5 +1,6 @@
 <steps>
     <step action='reset_gyro'/>
     <step action= 'LookingBlackLine_rotations' rotations = '.5' speed = "10" colourSensor = 'LEFT' /> <!-- check this is the right one pls (there were two with the same name) -->
-
+    <step action='off' />
+    <step action='Do_nothing' />
 </steps>

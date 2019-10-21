@@ -10,6 +10,8 @@ from sys import stderr
 # import the functions 
 
 from Do_nothing import Do_nothing
+from off import off
+
 from Delay_seconds import Delay_seconds
 from Motor_onForRotations import Motor_onForRotations
 from Motor_onForSeconds import Motor_onForSeconds
@@ -45,10 +47,13 @@ tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
 
 def isRobotLifted(): # has the robot been lifted?
-    return colourLeft.reflected_light_intensity < 2 # ALTERNATE VALUES: colourLeft.raw[0] < 5 and colourLeft.raw[1] < 5 and colourLeft.raw[2] < 5
+    if fileName != 'programming_run_5.xml':
+         off()
+        return colourLeft.reflected_light_intensity < 2 # ALTERNATE VALUES: colourLeft.raw[0] < 5 and colourLeft.raw[1] < 5 and colourLeft.raw[2] < 5
 
 def isKeyTaken(): # has the key been removed?
     rbgA = colourAttachment.raw
+    off()
     return abs(rbgA[0] - 50) < 10 and abs(rbgA[1] - 62) < 10 and abs(rbgA[2] - 57) < 10
 
 # launch actions using threads
@@ -58,6 +63,12 @@ def launchStep(stop, action):
     if name == 'Do_nothing': # (stop)
         print("Do_nothing", file= stderr)
         thread = threading.Thread(target=Do_nothing, args=(stop,))
+        thread.start()
+        return thread
+
+    if name == 'off': # ()
+        print("Motors off", file=stderr)
+        thread = threading.Thread(target=off)
         thread.start()
         return thread
 
