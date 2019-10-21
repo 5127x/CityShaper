@@ -16,8 +16,7 @@ def LookingBlackLine_stopBlack(stop, rotations, speed, colourSensor):
     largeMotor_Left = LargeMotor(OUTPUT_B)
     largeMotor_Right = LargeMotor(OUTPUT_C)
     target_RLI = 165
-    prev_RLI = 300
-    error1 = 0
+    
     
     rotations = rotations * largeMotor_Left.count_per_rot
 
@@ -40,7 +39,9 @@ def LookingBlackLine_stopBlack(stop, rotations, speed, colourSensor):
     while current_RLI >= 11:
         steering_drive.on(steering = 0, speed=speed)
         print(current_RLI)
-        if stop:
+        print("BEEN PICKED UP", file=stderr)
+
+        if stop():
             break
         if colourSensor == "RIGHT":
             current_RLI = colourRight.reflected_light_intensity
@@ -58,10 +59,11 @@ def LookingBlackLine_stopBlack(stop, rotations, speed, colourSensor):
     #...................................................................................................
     #...................................................................................................
     
-    while int(target_rotations) >= float(current_rotations):
+    while int(target_rotations) >=float(current_rotations):
         
         #print ("{} rotations left.".format (target_rotations/360 - current_rotations/360))
-        if stop:
+        if stop():
+            print("BEEN PICKED UP", file=stderr)
             break
 
         if colourSensor == "RIGHT":
@@ -76,7 +78,7 @@ def LookingBlackLine_stopBlack(stop, rotations, speed, colourSensor):
         #______________________________________________________________________________
         error = target_RLI - current_RLI
         print("Error: {}".format (error))
-        if int(error) > 99:
+        if float(error) > 99:
             error = 99
             
             print("NEW ERROR {}".format (error))
@@ -90,19 +92,16 @@ def LookingBlackLine_stopBlack(stop, rotations, speed, colourSensor):
         
         if colourSensor == "RIGHT":
             if currentLeft_RLI <= 20:
-                print("FOUND BLACK LINE")
+                print("FOUND BLACK LINE", file=stderr)
                 break
                 
-                print("PREV {} current L {}".format (prevOpposite_RLI,currentLeft_RLI))
-                prevOpposite_RLI = currentLeft_RLI
+
         
         if colourSensor == "LEFT":
             if currentRight_RLI <= 20:
-                print("FOUND BLACK LINE")
+                print("FOUND BLACK LINE", file=stderr)
                 break
-                
-                print("PREV {} current R {}".format (prevOpposite_RLI,currentRight_RLI))
-                prevOpposite_RLI = currentRight_RLI
+
         current_rotations = largeMotor_Left.position
     
     steering_drive.off()
