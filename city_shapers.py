@@ -47,18 +47,16 @@ steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
 
-def isRobotLifted(): # has the robot been lifted?
+def isRobotLifted(fileName): # has the robot been lifted?
     # return true if the robot was lifted and stop the motors IF we are not doing run5
     # driving over the gaps in bridge can accidently trigger isRobotLifted()
     if fileName != 'programming_run_5.xml':
-         off()
          return colourLeft.reflected_light_intensity < 2 
         # alternate values: colourLeft.raw[0] < 5 and colourLeft.raw[1] < 5 and colourLeft.raw[2] < 5
 
 def isKeyTaken(): # has the key been removed?
     # return True if the key was removed and stop the motors 
     rbgA = colourAttachment.raw
-    off()
     # rgb values are 50, 62, 57 when the slot is empty
     return abs(rbgA[0] - 50) < 10 and abs(rbgA[1] - 62) < 10 and abs(rbgA[2] - 57) < 10 
 
@@ -125,7 +123,7 @@ def launchStep(stop, action):
         rotations = float(action.get('rotations'))
         steering = float(action.get('steering'))
         brake = bool(action.get('brake'))
-        thread = threading.Thread(target=Steering_rotations, args=(stop, speed, rotations, steering, brake))
+        thread = threading.Thread(target=Steering_rotations, args=(stop, speed, rotations, steering))
         thread.start()
         return thread
     
@@ -283,7 +281,7 @@ def main():
                         if not threadPool:
                             break
                         # if the robot has been lifted or the key removed then stop everything
-                        if isRobotLifted():
+                        if isRobotLifted(fileName):
                             stopProcessing = True
                             break
                         if isKeyTaken():
@@ -291,6 +289,7 @@ def main():
                             break
                     # if the 'stopProcessing' flag has been set then finish the whole loop
                     if stopProcessing:
+                        off()
                         break
 
 main()

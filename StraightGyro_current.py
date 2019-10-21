@@ -27,13 +27,13 @@ def StraightGyro_current(stop, speed, rotations):
         current_gyro_reading=gyro.angle
         current_degrees = largeMotor_Left.position
         if current_gyro_reading < target:
-            correction = 0 - current_gyro_reading
+            correction = target - current_gyro_reading
             correction = correction * .25
-            steering_drive.on(steering = correction , speed = speed)
+            steering_drive.on(steering = -correction , speed = speed)
         if current_gyro_reading > target:
-            correction = 0 - current_gyro_reading
+            correction = target - current_gyro_reading
             correction = correction * .25
-            steering_drive.on(steering = correction , speed = speed)
+            steering_drive.on(steering = -correction , speed = speed)
         if current_gyro_reading == target:
             steering_drive.on(steering = 0 , speed = speed)
         if float(current_degrees) >= target_rotations:

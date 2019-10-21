@@ -7,6 +7,7 @@ import threading
 import time
 from sys import stderr
 from LookingBlackLine_stopBlack import LookingBlackLine_stopBlack
+from Delay_seconds import Delay_seconds
 '''
 from onForRotations import onForRotations
 from tank_rotations import tank_rotations
@@ -25,11 +26,16 @@ largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
 # mediumMotor_Left = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
-
+stopProcessing=False
 print(colourAttachment.raw, file= stderr)
+Delay_seconds(lambda:stopProcessing, 1)
+print(colourAttachment.raw, file= stderr)
+Delay_seconds(lambda:stopProcessing, 1)
+print(colourAttachment.raw, file= stderr)
+Delay_seconds(lambda:stopProcessing, 1)
 #print(colourAttachment.raw, file=stderr)
 
-stopProcessing=False # lambda:stopProcessing
+ # lambda:stopProcessing
 #LookingBlackLine_stopBlack(lambda:stopProcessing, rotations =10000, speed = 14, colourSensor ="RIGHT")
 #reset_gyro()
 #turn_to_degrees(lambda:stopProcessing, speed=20, degrees=90) # speeds over 5 are inaccurate but still get more or less right (to be fair, they are inaccurate by the same amount each time...)
