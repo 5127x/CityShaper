@@ -20,6 +20,7 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 mediumMotor = MediumMotor(OUTPUT_D)
 
 def Reset_gyro():
+    # calibrate the gyro by changing modes
     print("In Reset_gyro", file=stderr)
     time.sleep(0.5)
     gyro.mode = 'GYRO-RATE'

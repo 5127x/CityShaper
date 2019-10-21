@@ -12,6 +12,7 @@ largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
 
 def Tank_seconds(stop, left_speed, right_speed, seconds): 
+    # turn the motors on for a number of seconds
     print("In tank_seconds", file=stderr)
     start_time = time.time()
     tank_block.on(right_speed=right_speed, left_speed=left_speed)
