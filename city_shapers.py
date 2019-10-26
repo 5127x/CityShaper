@@ -46,14 +46,14 @@ mediumMotor = MediumMotor(OUTPUT_D)
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
-
+'''
 def isRobotLifted(fileName): # has the robot been lifted?
     # return true if the robot was lifted and stop the motors IF we are not doing run5
     # driving over the gaps in bridge can accidently trigger isRobotLifted()
     if fileName != 'programming_run_5.xml':
          return colourLeft.reflected_light_intensity < 2 
         # alternate values: colourLeft.raw[0] < 5 and colourLeft.raw[1] < 5 and colourLeft.raw[2] < 5
-
+'''
 def isKeyTaken(): # has the key been removed?
     # return True if the key was removed and stop the motors 
     rbgA = colourAttachment.raw
@@ -281,9 +281,11 @@ def main():
                         if not threadPool:
                             break
                         # if the robot has been lifted or the key removed then stop everything
+                        '''
                         if isRobotLifted(fileName):
                             stopProcessing = True
                             break
+                        '''
                         if isKeyTaken():
                             stopProcessing = True
                             break
