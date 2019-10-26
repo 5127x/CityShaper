@@ -6,8 +6,9 @@ import xml.etree.ElementTree as ET
 import threading
 import time
 from sys import stderr
-from LookingBlackLine_stopBlack import LookingBlackLine_stopBlack
+#from LookingBlackLine_stopBlack import LookingBlackLine_stopBlack
 from FollowBlackLine_rotations import FollowBlackLine_rotations
+from LookingBlackLine_rotations import FollowBlackLine_rotations
 
 '''
 from onForRotations import onForRotations
@@ -25,16 +26,13 @@ steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
-# mediumMotor_Left = MediumMotor(OUTPUT_A)
+# mediumMotor_Left ]\
+# = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
 
+FollowBlackLine_rotations(speed= 10, rotations = 5, colourSensor= "RIGHT", lineSide = "LEFT", stop = False )
 
-#print(colourAttachment.raw, file=stderr)
-
-stopProcessing=False # lambda:stopProcessing
-FollowBlackLine_rotations(speed= 10, rotations = 5)
-
-#reset_gyro()
+#RIGHT = 4423q  
 #turn_to_degrees(lambda:stopProcessing, speed=20, degrees=90) # speeds over 5 are inaccurate but still get more or less right (to be fair, they are inaccurate by the same amount each time...)
 #Delay_seconds(lambda:stopProcessing, 2)8 
 #turn_to_degrees(lambda:stopProcessing, speed=5, degrees=90) # second time at slow speed for accuracy

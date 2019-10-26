@@ -14,6 +14,7 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 mediumMotor = MediumMotor(OUTPUT_D)
 
 def off ():
+    # turn brake off on the motors
     print('Turning motors off', file=stderr)
     largeMotor_Left.off(brake = False)
     largeMotor_Right.off(brake = False)

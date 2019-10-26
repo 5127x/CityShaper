@@ -22,12 +22,14 @@ mediumMotor = MediumMotor(OUTPUT_D)
 
 def Motor_onForRotations(stop, motor, speed, rotations, gearRatio): 
     print("In onForRotations", file=stderr)
-    current_degrees = motor.position # there isnt a way to read rotations
+    # read the motor position (degrees since there isn't a way to read rotations)
+    current_degrees = motor.position 
+    # take the gearRatio into account
     rotations = rotations*gearRatio
-    target_rotations = rotations * 360 # convert to degrees bcs its simpler
+    # create target rotations
+    target_rotations = rotations * 360
     target_rotations = current_degrees + target_rotations
-    # if speed == 0: 
-    # target_rotations = - target_rotations
+    # turn the motor on until current_degrees matches target_rotations
     motor.on(speed=speed)
     if current_degrees > target_rotations:
         while current_degrees > target_rotations:

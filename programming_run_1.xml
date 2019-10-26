@@ -1,7 +1,7 @@
 <steps>
     <step action='Reset_gyro'/>
     <step action='launchInParallel' >
-        <step action='Straight_gyro' speed='25' rotations='2.9'/>
+        <step action='StraightGyro_target' speed='25' rotations='2.9' target='0'/>
         <step action='Motor_onForRotations' motor='mediumMotor' speed='-30' rotations='-0.05' gearRatio='1.4' />
     </step>
     <step action='launchInParallel' >

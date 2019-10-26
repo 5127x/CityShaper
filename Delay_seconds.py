@@ -20,6 +20,7 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 mediumMotor = MediumMotor(OUTPUT_D)
 
 def Delay_seconds(stop, seconds):
+    # wait for a certain number of seconds
     print("In Delay_seconds", file=stderr)
     start_time = time.time()
     while time.time() < start_time + seconds:

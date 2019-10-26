@@ -8,6 +8,7 @@ import time
 from sys import stderr
 
 def Do_nothing(stop):
+    # just wait...
     print('Doing nothing...', file= stderr)
     while True:
         if stop():

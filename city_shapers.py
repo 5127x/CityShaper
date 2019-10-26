@@ -21,7 +21,8 @@ from Tank_rotations import Tank_rotations
 from Tank_seconds import Tank_seconds
 
 from Reset_gyro import Reset_gyro
-from Straight_gyro import Straight_gyro
+from StraightGyro_target import StraightGyro_target
+from StraightGyro_current import StraightGyro_current
 from Turn_degrees import Turn_degrees
 from Turn_from_start_position import Turn_from_start_position
 
@@ -46,23 +47,22 @@ steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
 
-def isRobotLifted(): # has the robot been lifted?
+def isRobotLifted(fileName): # has the robot been lifted?
     # return true if the robot was lifted and stop the motors IF we are not doing run5
     # driving over the gaps in bridge can accidently trigger isRobotLifted()
     if fileName != 'programming_run_5.xml':
-         off()
          return colourLeft.reflected_light_intensity < 2 
         # alternate values: colourLeft.raw[0] < 5 and colourLeft.raw[1] < 5 and colourLeft.raw[2] < 5
 
 def isKeyTaken(): # has the key been removed?
     # return True if the key was removed and stop the motors 
     rbgA = colourAttachment.raw
-    off()
     # rgb values are 50, 62, 57 when the slot is empty
     return abs(rbgA[0] - 50) < 10 and abs(rbgA[1] - 62) < 10 and abs(rbgA[2] - 57) < 10 
 
 # launch actions using threads
 def launchStep(stop, action):
+
     # compare the 'name' to our functions and start a thread with the matching function
     # return the thread to add to threadPool
     name = action.get('action')
@@ -123,7 +123,7 @@ def launchStep(stop, action):
         rotations = float(action.get('rotations'))
         steering = float(action.get('steering'))
         brake = bool(action.get('brake'))
-        thread = threading.Thread(target=Steering_rotations, args=(stop, speed, rotations, steering, brake))
+        thread = threading.Thread(target=Steering_rotations, args=(stop, speed, rotations, steering))
         thread.start()
         return thread
     
@@ -160,11 +160,20 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
-    if name == 'Straight_gyro': # (stop, speed, rotations)
-        print("Starting Straight_gyro", file=stderr)
+    if name == 'StraightGyro_target': # (stop, speed, rotations, target)
+        print("Starting StraightGyro_target", file=stderr)
         speed = float(action.get('speed'))
         rotations = float(action.get('rotations'))
-        thread = threading.Thread(target=Straight_gyro, args=(stop, speed, rotations))
+        target = float(action.get('target'))
+        thread = threading.Thread(target=StraightGyro_target, args=(stop, speed, rotations, target))
+        thread.start()
+        return thread
+
+    if name == 'StraightGyro_current': # (stop, speed, rotations)
+        print("Starting StraightGyro_current", file=stderr)
+        speed = float(action.get('speed'))
+        rotations = float(action.get('rotations'))
+        thread = threading.Thread(target=StraightGyro_current, args=(stop, speed, rotations))
         thread.start()
         return thread
     
@@ -268,20 +277,19 @@ def main():
                         for thread in threadPool:
                             if not thread.isAlive():
                                 threadPool.remove(thread)
-                        # if there are no threads running, exist the 'while' loop 
-                        # and start the next action from the list 
+                        # if there are no threads running start the next action
                         if not threadPool:
                             break
-                        # if the robot has been lifted then complete everything
-                        if isRobotLifted():
+                        # if the robot has been lifted or the key removed then stop everything
+                        if isRobotLifted(fileName):
                             stopProcessing = True
                             break
                         if isKeyTaken():
                             stopProcessing = True
                             break
-                        #sleep(0.25)
-                    # if the 'stopProcessing' flag has been set then finish the step loop
+                    # if the 'stopProcessing' flag has been set then finish the whole loop
                     if stopProcessing:
+                        off()
                         break
 
 main()
