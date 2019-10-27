@@ -49,7 +49,7 @@ def FollowBlackLine_rotations(rotations, speed, colourSensor, lineSide, stop):
         if lineSide == "LEFT":
             correction = correction*-1
             if current_RLI >= 65:
-                correction = error*-2
+                correction = error*-1.25
                 #print("HEERE", file = stderr)
 
 

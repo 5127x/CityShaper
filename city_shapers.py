@@ -7,6 +7,7 @@ import threading
 import time
 from sys import stderr
 
+
 # import the functions 
 
 from Do_nothing import Do_nothing
@@ -25,7 +26,7 @@ from StraightGyro_target import StraightGyro_target
 from StraightGyro_current import StraightGyro_current
 from Turn_degrees import Turn_degrees
 from Turn_from_start_position import Turn_from_start_position
-
+from squareOnLineWhite import squareOnLineWhite
 from squareOnLine import squareOnLine
 from FollowBlackLine_rotations import FollowBlackLine_rotations
 from LookingBlackLine_stopBlack import LookingBlackLine_stopBlack
@@ -58,7 +59,7 @@ def isKeyTaken(): # has the key been removed?
     # return True if the key was removed and stop the motors 
     rbgA = colourAttachment.raw
     # rgb values are 50, 62, 57 when the slot is empty
-    return abs(rbgA[0] - 50) < 10 and abs(rbgA[1] - 62) < 10 and abs(rbgA[2] - 57) < 10 
+    return abs(rbgA[0] - 50) < 10 and abs(rbgA[1] - 62) < 12 and abs(rbgA[2] - 57) < 10 
 
 # launch actions using threads
 def launchStep(stop, action):
@@ -201,6 +202,14 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
+    if name == 'squareOnLineWhite': # (stop, speed, target)
+        print("Starting squareOnLine White", file=stderr)
+        speed = float(action.get('speed'))
+        target = float(action.get('target'))
+        thread = threading.Thread(target=squareOnLine, args=(stop, speed, target))
+        thread.start()
+        return thread
+
     if name == 'FollowBlackLine_rotations': # (stop, rotations, speed, colourSensor)
         print("Starting FollowBlackLine_rotations", file=stderr)
         rotations = float(action.get('rotations'))
@@ -251,7 +260,7 @@ def main():
             rColourSensor = rgb[0]
             gColourSensor = rgb[1]
             bColourSensor = rgb[2]
-            #print("R {} G {} B {}").format (rColourSensor, gColourSensor, bColourSensor)
+            print("R {} G {} B {}".format (rColourSensor, gColourSensor, bColourSensor), file=stderr)
             # if the values match, run the corresponding program
             if abs(rColourSensor - rProgram) < 10 and abs(gColourSensor - gProgram) < 10 and abs(bColourSensor - bProgram) < 10:
                 mediumMotor.reset 
@@ -263,6 +272,7 @@ def main():
                 # run each step individually unless they are run in parallel
                 for step in steps:
                     action = step.get('action')
+                    print('Action {}'.format (action),file = stderr)
                     # loop through actions that should be run in parallel
                     if action == 'launchInParallel':
                         for subSteps in step:
