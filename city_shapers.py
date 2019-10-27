@@ -23,6 +23,8 @@ from Tank_seconds import Tank_seconds
 
 from Reset_gyro import Reset_gyro
 from StraightGyro_target import StraightGyro_target
+from StraightGyro_target_toLine import StraightGyro_target_toLine
+from StraightGyro_current import StraightGyro_current
 from StraightGyro_current import StraightGyro_current
 from Turn_degrees import Turn_degrees
 from Turn_from_start_position import Turn_from_start_position
@@ -170,11 +172,30 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
+    if name == 'StraightGyro_target_toLine': # (stop, speed, rotations, target, whiteOrBlack)
+        print("Starting StraightGyro_target", file=stderr)
+        speed = float(action.get('speed'))
+        rotations = float(action.get('rotations'))
+        target = float(action.get('target'))
+        whiteOrBlack = action.get('whiteOrBlack')
+        thread = threading.Thread(target=StraightGyro_target, args=(stop, speed, rotations, target, whiteOrBlack))
+        thread.start()
+        return thread
+
     if name == 'StraightGyro_current': # (stop, speed, rotations)
         print("Starting StraightGyro_current", file=stderr)
         speed = float(action.get('speed'))
         rotations = float(action.get('rotations'))
         thread = threading.Thread(target=StraightGyro_current, args=(stop, speed, rotations))
+        thread.start()
+        return thread
+
+    if name == 'StraightGyro_current_toLine': # (stop, speed, rotations, whiteOrBlack)
+        print("Starting StraightGyro_current", file=stderr)
+        speed = float(action.get('speed'))
+        rotations = float(action.get('rotations'))
+        whiteOrBlack = action.get('whiteOrBlack')
+        thread = threading.Thread(target=StraightGyro_current, args=(stop, speed, rotations, whiteOrBlack))
         thread.start()
         return thread
     
