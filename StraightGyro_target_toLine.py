@@ -55,7 +55,6 @@ def StraightGyro_target_toLine(stop, speed, rotations, target, whiteOrBlack):
                 break
             currentRight_RLI = colourRight.reflected_light_intensity
             currentLeft_RLI = colourLeft.reflected_light_intensity
-            steering_drive.on(steering = 0 , speed = speed / 2)
 
             if whiteOrBlack == "WHITE":
                 if currentRight_RLI > 65 or currentLeft_RLI > 65:
@@ -64,6 +63,7 @@ def StraightGyro_target_toLine(stop, speed, rotations, target, whiteOrBlack):
             if whiteOrBlack == "BLACK":
                 if currentRight_RLI < 10 or currentLeft_RLI < 10:
                     break
+            steering_drive.on(steering = 0 , speed = speed / 2)                
 
 
     tank_block.off()

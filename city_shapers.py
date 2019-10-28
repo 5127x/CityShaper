@@ -32,13 +32,11 @@ from BlackLine_rotations import BlackLine_rotations
 
 from squareOnLineWhite import squareOnLineWhite
 from squareOnLine import squareOnLine
-'''
-from FollowBlackLine_rotations import FollowBlackLine_rotations
-from LookingBlackLine_stopBlack import LookingBlackLine_stopBlack
-from LookingBlackLine_rotations import LookingBlackLine_rotationsprint("STARTED!", file=stderr)
+colourAttachment = ColorSensor(INPUT_4)
+
 
 # define the different sensors, motors and motor blocks
-colourAttachment = ColorSensor(INPUT_4)
+
 colourLeft = ColorSensor(INPUT_3) 
 colourRight = ColorSensor(INPUT_2)
 gyro = GyroSensor(INPUT_1)
@@ -50,14 +48,14 @@ mediumMotor = MediumMotor(OUTPUT_D)
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
-'''
+
 def isRobotLifted(fileName): # has the robot been lifted?
     # return true if the robot was lifted and stop the motors IF we are not doing run5
     # driving over the gaps in bridge can accidently trigger isRobotLifted()
     if fileName != 'programming_run_5.xml':
          return colourLeft.reflected_light_intensity < 2 
         # alternate values: colourLeft.raw[0] < 5 and colourLeft.raw[1] < 5 and colourLeft.raw[2] < 5
-'''
+
 def isKeyTaken(rProgram, gProgram, bProgram): # has the key been removed?
     # return True if the key was removed and stop the motors 
     rbgA = colourAttachment.raw
@@ -83,7 +81,7 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
-    if name == 'Delay_seconds': # (stop, seconds)
+    if name == 'Delay_seconds': # (stop, seconds) 
         print("Starting Delay_seconds", file=stderr)
         seconds = float(action.get('seconds'))
         thread = threading.Thread(target=Delay_seconds, args=(stop, seconds))
@@ -117,7 +115,7 @@ def launchStep(stop, action):
             motorToUse = largeMotor_Right
         if (motor == "mediumMotor"):
             motorToUse = mediumMotor
-        thread = threading.Thread(target=Motor_onForSeconds, args=(stop, motorToUse, speed, seconds))
+        thread = threading.Thread(target=Motor_onForSeconds,args=(stop, motorToUse, speed, seconds))
         thread.start()
         return thread
     
@@ -157,7 +155,7 @@ def launchStep(stop, action):
         thread = threading.Thread(target = Tank_seconds, args=(stop, left_speed, right_speed, seconds))
         thread.start()
         return thread
-
+    
     if name == 'Reset_gyro': # ()
         print("Starting Reset_gyro", file=stderr)
         thread = threading.Thread(target=Reset_gyro)
@@ -216,6 +214,7 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
+
     if name == 'squareOnLine': # (stop, speed, target)
         print("Starting squareOnLine", file=stderr)
         speed = float(action.get('speed'))
@@ -223,7 +222,7 @@ def launchStep(stop, action):
         thread = threading.Thread(target=squareOnLine, args=(stop, speed, target))
         thread.start()
         return thread
-
+    
     if name == 'squareOnLineWhite': # (stop, speed, target)
         print("Starting squareOnLine White", file=stderr)
         speed = float(action.get('speed'))
@@ -243,23 +242,6 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
-    if name == 'LookingBlackLine_rotations': # (stop, rotations, speed, colourSensor)
-        print('Starting LookingBlackLine_rotations', file=stderr)
-        rotations = float(action.get('rotations'))
-        speed = float(action.get('speed'))
-        colourSensor = action.get('colourSensor')
-        thread = threading.Thread(target = LookingBlackLine_rotations, args=(stop, rotations, speed, colourSensor))
-        thread.start()
-        return thread
-
-    if name == 'LookingBlackLine_stopBlack': # (stop, rotations, speed, colourSensor)
-        print('Starting LookingBlackLine_stopBlack', file=stderr)
-        rotations = float(action.get('rotations'))
-        speed = float(action.get('speed'))
-        colourSensor = action.get('colourSensor')
-        thread = threading.Thread(target = LookingBlackLine_stopBlack, args=(stop, rotations, speed, colourSensor))
-        thread.start()
-        return thread
 
     if name == 'StraightGyro_current_toLine': # stop, speed, rotations, whiteOrBlack
         rotations = float(action.get('rotations'))
@@ -324,11 +306,6 @@ def main():
                             break
                         # if the robot has been lifted or t=
                         # '?e key removed then stop everything
-                        '''
-                        if isRobotLifted(fileName):
-                            stopProcessing = True
-                            break
-                        '''
                         if isKeyTaken(rProgram, gProgram, bProgram):
                             stopProcessing = True
                             break
