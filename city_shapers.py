@@ -29,6 +29,8 @@ from StraightGyro_current import StraightGyro_current
 from Turn_degrees import Turn_degrees
 from Turn_from_start_position import Turn_from_start_position
 
+from BlackLine_rotations import BlackLine_rotations
+
 from squareOnLineWhite import squareOnLineWhite
 from squareOnLine import squareOnLine
 '''
@@ -233,12 +235,14 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
-    if name == 'FollowBlackLine_rotations': # (stop, rotations, speed, colourSensor)
-        print("Starting FollowBlackLine_rotations", file=stderr)
-        rotations = float(action.get('rotations'))
+    if name == 'BlackLine_rotation': # (stop, speed, rotations, sensor, lineSide, correction)
+        print("Starting BlackLine_rotations", file=stderr)
         speed = float(action.get('speed'))
-        colourSensor = action.get('colourSensor')
-        thread = threading.Thread(target = FollowBlackLine_rotations, args=(stop, rotations, speed, colourSensor))
+        rotations = float(action.get('rotations'))
+        sensor = action.get('sensor')
+        lineSide = action.get('lineSide')
+        correction = float(action.get(correction))
+        thread = threading.Thread(target = BlackLine_rotations, args=((stop, speed, rotations, sensor, lineSide, correction)))
         thread.start()
         return thread
 
