@@ -3,7 +3,7 @@
     <step action='StraightGyro_target' speed='15' rotations='.95' target='0'/>
     <step action='Turn_degrees' speed = '15' degrees = '-45'  />       
     <step action='launchInParallel' >
-        <step action='StraightGyro_target' speed='20' rotations='2.8' target='-45'/>
+        <step action='StraightGyro_current_toLine' speed='20' rotations='4' whiteOrBlack='WHITE'/>
         <step action='Motor_onForRotations' motor='mediumMotor' speed='8' rotations='0.5' gearRatio='1.4' />
     </step>
     <step action= 'squareOnLineWhite' speed = '4' target = '80'/>

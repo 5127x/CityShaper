@@ -24,7 +24,7 @@ def StraightGyro_target_toLine(stop, speed, rotations, target, whiteOrBlack):
     rotations = rotations * 360
     target_rotations= current_degrees + rotations
     current_gyro_reading = gyro.angle
-    # print("Current Gyro Reading: {}".format(current_gyro_reading))
+    # print("Current Gyro Reading: {}"(current_gyro_reading))
 
     while float(current_degrees) < target_rotations:
         if stop(): 

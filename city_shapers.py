@@ -20,11 +20,10 @@ from Steering_rotations import Steering_rotations
 from Steering_seconds import Steering_seconds
 from Tank_rotations import Tank_rotations
 from Tank_seconds import Tank_seconds
-
+from StraightGyro_current_toLine import StraightGyro_current_toLine
 from Reset_gyro import Reset_gyro
 from StraightGyro_target import StraightGyro_target
 from StraightGyro_target_toLine import StraightGyro_target_toLine
-from StraightGyro_current import StraightGyro_current
 from StraightGyro_current import StraightGyro_current
 from Turn_degrees import Turn_degrees
 from Turn_from_start_position import Turn_from_start_position
@@ -33,6 +32,7 @@ from squareOnLine import squareOnLine
 from FollowBlackLine_rotations import FollowBlackLine_rotations
 from LookingBlackLine_stopBlack import LookingBlackLine_stopBlack
 from LookingBlackLine_rotations import LookingBlackLine_rotations
+
 
 print("STARTED!", file=stderr)
 
@@ -178,7 +178,7 @@ def launchStep(stop, action):
         rotations = float(action.get('rotations'))
         target = float(action.get('target'))
         whiteOrBlack = action.get('whiteOrBlack')
-        thread = threading.Thread(target=StraightGyro_target, args=(stop, speed, rotations, target, whiteOrBlack))
+        thread = threading.Thread(target=StraightGyro_target_toLine, args=(stop, speed, rotations, target, whiteOrBlack))
         thread.start()
         return thread
 
@@ -195,7 +195,7 @@ def launchStep(stop, action):
         speed = float(action.get('speed'))
         rotations = float(action.get('rotations'))
         whiteOrBlack = action.get('whiteOrBlack')
-        thread = threading.Thread(target=StraightGyro_current, args=(stop, speed, rotations, whiteOrBlack))
+        thread = threading.Thread(target=StraightGyro_current_toLine, args=(stop, speed, rotations, whiteOrBlack))
         thread.start()
         return thread
     
@@ -258,6 +258,14 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
+    if name == 'StraightGyro_current_toLine': # stop, speed, rotations, whiteOrBlack
+        rotations = float(action.get('rotations'))
+        speed = float(action.get('speed'))
+        whiteOrBlack = action.get('whiteOrBlack')   
+        thread = threading.Thread(target = StraightGyro_current_toLine, args=(stop, rotations, speed, colourSensor))
+        thread.start()
+        return thread
+
 # main section of the program
 def main():
     # create dictionaries and variables
@@ -311,7 +319,8 @@ def main():
                         # if there are no threads running start the next action
                         if not threadPool:
                             break
-                        # if the robot has been lifted or the key removed then stop everything
+                        # if the robot has been lifted or t=
+                        # '?e key removed then stop everything
                         '''
                         if isRobotLifted(fileName):
                             stopProcessing = True
