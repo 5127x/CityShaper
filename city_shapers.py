@@ -27,14 +27,15 @@ from StraightGyro_target_toLine import StraightGyro_target_toLine
 from StraightGyro_current import StraightGyro_current
 from Turn_degrees import Turn_degrees
 from Turn_from_start_position import Turn_from_start_position
+
+from BlackLine_rotations import BlackLine_rotations
+
 from squareOnLineWhite import squareOnLineWhite
 from squareOnLine import squareOnLine
+'''
 from FollowBlackLine_rotations import FollowBlackLine_rotations
 from LookingBlackLine_stopBlack import LookingBlackLine_stopBlack
-from LookingBlackLine_rotations import LookingBlackLine_rotations
-
-
-print("STARTED!", file=stderr)
+from LookingBlackLine_rotations import LookingBlackLine_rotationsprint("STARTED!", file=stderr)
 
 # define the different sensors, motors and motor blocks
 colourAttachment = ColorSensor(INPUT_4)
@@ -57,11 +58,11 @@ def isRobotLifted(fileName): # has the robot been lifted?
          return colourLeft.reflected_light_intensity < 2 
         # alternate values: colourLeft.raw[0] < 5 and colourLeft.raw[1] < 5 and colourLeft.raw[2] < 5
 '''
-def isKeyTaken(): # has the key been removed?
+def isKeyTaken(rProgram, gProgram, bProgram): # has the key been removed?
     # return True if the key was removed and stop the motors 
     rbgA = colourAttachment.raw
     # rgb values are 50, 62, 57 when the slot is empty
-    return abs(rbgA[0] - 50) < 10 and abs(rbgA[1] - 62) < 12 and abs(rbgA[2] - 57) < 10 
+    return abs(rbgA[0] - rProgram) > 10 and abs(rbgA[1] - gProgram) > 10 and abs(rbgA[2] - bProgram) > 10 
 
 # launch actions using threads
 def launchStep(stop, action):
@@ -231,12 +232,14 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
-    if name == 'FollowBlackLine_rotations': # (stop, rotations, speed, colourSensor)
-        print("Starting FollowBlackLine_rotations", file=stderr)
-        rotations = float(action.get('rotations'))
+    if name == 'BlackLine_rotation': # (stop, speed, rotations, sensor, lineSide, correction)
+        print("Starting BlackLine_rotations", file=stderr)
         speed = float(action.get('speed'))
-        colourSensor = action.get('colourSensor')
-        thread = threading.Thread(target = FollowBlackLine_rotations, args=(stop, rotations, speed, colourSensor))
+        rotations = float(action.get('rotations'))
+        sensor = action.get('sensor')
+        lineSide = action.get('lineSide')
+        correction = float(action.get(correction))
+        thread = threading.Thread(target = BlackLine_rotations, args=((stop, speed, rotations, sensor, lineSide, correction)))
         thread.start()
         return thread
 
@@ -326,7 +329,7 @@ def main():
                             stopProcessing = True
                             break
                         '''
-                        if isKeyTaken():
+                        if isKeyTaken(rProgram, gProgram, bProgram):
                             stopProcessing = True
                             break
                     # if the 'stopProcessing' flag has been set then finish the whole loop

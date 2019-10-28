@@ -10,11 +10,11 @@ from sys import stderr
 from FollowBlackLine_rotations import FollowBlackLine_rotations
 from LookingBlackLine_rotations import LookingBlackLine_rotations
 
+from Delay_seconds import Delay_seconds
 '''
 from onForRotations import onForRotations
 from tank_rotations import tank_rotations
 from Degrees_aim import turn_to_degrees
-from Delay_seconds import Delay_seconds
 from reset_gyro import reset_gyro
 '''
 colourAttachment = ColorSensor(INPUT_4)
@@ -29,6 +29,15 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 # mediumMotor_Left ]\
 # = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
+
+stopProcessing=False
+
+print(colourAttachment.raw, file=stderr)
+Delay_seconds(lambda:stopProcessing, 1)
+print(colourAttachment.raw, file=stderr)
+Delay_seconds(lambda:stopProcessing, 1)
+print(colourAttachment.raw, file=stderr)
+#FollowBlackLine_rotations(speed= 10, rotations = 5, colourSensor= "RIGHT", lineSide = "LEFT", stop = False )
 print(colourAttachment.raw, file=stderr)
 #LookingBlackLine_rotations(speed= 18, rotations = 5, colourSensor= "RIGHT", Turning = .15,lineSide = "LEFT", stop = False )
 
