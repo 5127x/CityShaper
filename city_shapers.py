@@ -25,12 +25,12 @@ from StraightGyro_target import StraightGyro_target
 from StraightGyro_current import StraightGyro_current
 from Turn_degrees import Turn_degrees
 from Turn_from_start_position import Turn_from_start_position
-
+'''
 from squareOnLine import squareOnLine
 from FollowBlackLine_rotations import FollowBlackLine_rotations
 from LookingBlackLine_stopBlack import LookingBlackLine_stopBlack
 from LookingBlackLine_rotations import LookingBlackLine_rotations
-
+'''
 print("STARTED!", file=stderr)
 
 # define the different sensors, motors and motor blocks
@@ -54,11 +54,11 @@ def isRobotLifted(fileName): # has the robot been lifted?
          return colourLeft.reflected_light_intensity < 2 
         # alternate values: colourLeft.raw[0] < 5 and colourLeft.raw[1] < 5 and colourLeft.raw[2] < 5
 '''
-def isKeyTaken(): # has the key been removed?
+def isKeyTaken(rProgram, gProgram, bProgram): # has the key been removed?
     # return True if the key was removed and stop the motors 
     rbgA = colourAttachment.raw
     # rgb values are 50, 62, 57 when the slot is empty
-    return abs(rbgA[0] - 50) < 10 and abs(rbgA[1] - 62) < 10 and abs(rbgA[2] - 57) < 10 
+    return abs(rbgA[0] - rProgram) > 10 and abs(rbgA[1] - gProgram) > 10 and abs(rbgA[2] - bProgram) > 10 
 
 # launch actions using threads
 def launchStep(stop, action):
@@ -286,7 +286,7 @@ def main():
                             stopProcessing = True
                             break
                         '''
-                        if isKeyTaken():
+                        if isKeyTaken(rProgram, gProgram, bProgram):
                             stopProcessing = True
                             break
                     # if the 'stopProcessing' flag has been set then finish the whole loop

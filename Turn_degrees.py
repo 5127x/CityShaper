@@ -30,7 +30,7 @@ def Turn_degrees(stop, speed, degrees):
             if stop():
                 break
 
-    tank_block.off
+    tank_block.off()
     print('Leaving Turn_degrees', file= stderr)
 
 #stopProcessing=False

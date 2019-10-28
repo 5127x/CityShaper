@@ -10,11 +10,11 @@ from sys import stderr
 from FollowBlackLine_rotations import FollowBlackLine_rotations
 from LookingBlackLine_rotations import FollowBlackLine_rotations
 
+from Delay_seconds import Delay_seconds
 '''
 from onForRotations import onForRotations
 from tank_rotations import tank_rotations
 from Degrees_aim import turn_to_degrees
-from Delay_seconds import Delay_seconds
 from reset_gyro import reset_gyro
 '''
 colourAttachment = ColorSensor(INPUT_4)
@@ -30,7 +30,14 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 # = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
 
-FollowBlackLine_rotations(speed= 10, rotations = 5, colourSensor= "RIGHT", lineSide = "LEFT", stop = False )
+stopProcessing=False
+
+print(colourAttachment.raw, file=stderr)
+Delay_seconds(lambda:stopProcessing, 1)
+print(colourAttachment.raw, file=stderr)
+Delay_seconds(lambda:stopProcessing, 1)
+print(colourAttachment.raw, file=stderr)
+#FollowBlackLine_rotations(speed= 10, rotations = 5, colourSensor= "RIGHT", lineSide = "LEFT", stop = False )
 
 #RIGHT = 4423q  
 #turn_to_degrees(lambda:stopProcessing, speed=20, degrees=90) # speeds over 5 are inaccurate but still get more or less right (to be fair, they are inaccurate by the same amount each time...)
