@@ -8,7 +8,7 @@ from ev3dev2.sensor.lego import ColorSensor, GyroSensor
 from time import sleep
 from sys import stderr
 #_______________________________________________________________________________
-def FollowBlackLine_rotations(rotations, speed, colourSensor, lineSide, stop):
+def LookingBlackLine_rotations(rotations, speed, colourSensor, lineSide, Turning, stop):
     
     colourLeft = ColorSensor(INPUT_3)
     colourRight = ColorSensor(INPUT_2)
@@ -32,9 +32,9 @@ def FollowBlackLine_rotations(rotations, speed, colourSensor, lineSide, stop):
         current_RLI = colourLeft.reflected_light_intensity
 
     #==========================================================================
-    while current_RLI >= 11:
+    while current_RLI >= 15:
         steering_drive.on(steering = 0, speed=speed)
-        print(current_RLI)
+
 
         if colourSensor == "RIGHT":
             current_RLI = colourRight.reflected_light_intensity
@@ -42,7 +42,7 @@ def FollowBlackLine_rotations(rotations, speed, colourSensor, lineSide, stop):
         if colourSensor == "LEFT":
             current_RLI = colourLeft.reflected_light_intensity
     #===========================================================================
-    tank_block.on_for_rotations(right_speed = -speed, left_speed = -speed, rotations = .03)
+    tank_block.on_for_rotations(right_speed = 10, left_speed = -10, rotations = Turning)
 
     while float(target_rotations) >= float(current_rotations):
         if colourSensor == "RIGHT":
@@ -54,19 +54,19 @@ def FollowBlackLine_rotations(rotations, speed, colourSensor, lineSide, stop):
 
 
         error = (float(target_RLI) - float(current_RLI))
-        correction = error* 1.3
+        correction = error* .5
 
         if lineSide == "LEFT":
             correction = correction*-1
 
-            if current_RLI <= 10:
-                correction = error*-2
-                #print("HEERE", file = stderr)
+            if current_RLI <= 11:
+                correction = error*-1.5
+                print(current_RLI, file = stderr)
 
 
 
         if lineSide == "RIGHT":
-            if current_RLI <= 10:
+            if current_RLI < 10:
                 correction = error*1.7
 
         if correction >= 100 :

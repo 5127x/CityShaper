@@ -8,7 +8,7 @@ import time
 from sys import stderr
 #from LookingBlackLine_stopBlack import LookingBlackLine_stopBlack
 from FollowBlackLine_rotations import FollowBlackLine_rotations
-from LookingBlackLine_rotations import FollowBlackLine_rotations
+from LookingBlackLine_rotations import LookingBlackLine_rotations
 
 from Delay_seconds import Delay_seconds
 '''
@@ -38,6 +38,8 @@ print(colourAttachment.raw, file=stderr)
 Delay_seconds(lambda:stopProcessing, 1)
 print(colourAttachment.raw, file=stderr)
 #FollowBlackLine_rotations(speed= 10, rotations = 5, colourSensor= "RIGHT", lineSide = "LEFT", stop = False )
+print(colourAttachment.raw, file=stderr)
+#LookingBlackLine_rotations(speed= 18, rotations = 5, colourSensor= "RIGHT", Turning = .15,lineSide = "LEFT", stop = False )
 
 #RIGHT = 4423q  
 #turn_to_degrees(lambda:stopProcessing, speed=20, degrees=90) # speeds over 5 are inaccurate but still get more or less right (to be fair, they are inaccurate by the same amount each time...)

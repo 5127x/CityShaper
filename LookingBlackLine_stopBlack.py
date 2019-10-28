@@ -8,7 +8,7 @@ from ev3dev2.sensor.lego import ColorSensor, GyroSensor
 from time import sleep
 from sys import stderr
 #_______________________________________________________________________________
-def FollowBlackLine_rotations(rotations, speed, colourSensor, lineSide, stop):
+def LookingBlackLine_stopBlack(rotations, speed, colourSensor, lineSide, stop):
     
     colourLeft = ColorSensor(INPUT_3)
     colourRight = ColorSensor(INPUT_2)

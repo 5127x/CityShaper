@@ -19,7 +19,7 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 # mediumMotor_Left = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
 
-def squareOnLine(stop, speed, target):
+def squareOnLineWhite(stop, speed, target):
     print("In squareOnLine", file=stderr)
     colourLeft_RLI = 0
     colourRight_RLI = 0
@@ -29,21 +29,21 @@ def squareOnLine(stop, speed, target):
         colourLeft_RLI = colourLeft.reflected_light_intensity
         colourRight_RLI = colourRight.reflected_light_intensity
         
-        if colourLeft_RLI <= target:
-            largeMotor_Left.on(-speed)
+        if colourLeft_RLI >= target:
+            largeMotor_Left.on(-speed/2)
             largeMotor_Right.on(speed)
             lineFound = True
             print('{} left found it'.format(colourLeft_RLI), file = stderr)
 
-        if colourRight_RLI <=target:
+        if colourRight_RLI >=target:
             largeMotor_Left.on(speed)
-            largeMotor_Right.on(-speed)
+            largeMotor_Right.on(-speed/2)
             lineFound = True
             print('{} right found it'.format(colourRight_RLI), file = stderr)
 
         print('{} left, {} right'.format(colourLeft_RLI, colourRight_RLI), file = stderr)
     
-        if colourLeft_RLI == colourRight_RLI and lineFound:
+        if abs(colourLeft_RLI - colourRight_RLI) < 20 and lineFound:
             break
         if stop():
             break

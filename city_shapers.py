@@ -7,6 +7,7 @@ import threading
 import time
 from sys import stderr
 
+
 # import the functions 
 
 from Do_nothing import Do_nothing
@@ -22,11 +23,15 @@ from Tank_seconds import Tank_seconds
 
 from Reset_gyro import Reset_gyro
 from StraightGyro_target import StraightGyro_target
+from StraightGyro_target_toLine import StraightGyro_target_toLine
+from StraightGyro_current import StraightGyro_current
 from StraightGyro_current import StraightGyro_current
 from Turn_degrees import Turn_degrees
 from Turn_from_start_position import Turn_from_start_position
-'''
+
+from squareOnLineWhite import squareOnLineWhite
 from squareOnLine import squareOnLine
+'''
 from FollowBlackLine_rotations import FollowBlackLine_rotations
 from LookingBlackLine_stopBlack import LookingBlackLine_stopBlack
 from LookingBlackLine_rotations import LookingBlackLine_rotations
@@ -169,11 +174,30 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
+    if name == 'StraightGyro_target_toLine': # (stop, speed, rotations, target, whiteOrBlack)
+        print("Starting StraightGyro_target", file=stderr)
+        speed = float(action.get('speed'))
+        rotations = float(action.get('rotations'))
+        target = float(action.get('target'))
+        whiteOrBlack = action.get('whiteOrBlack')
+        thread = threading.Thread(target=StraightGyro_target, args=(stop, speed, rotations, target, whiteOrBlack))
+        thread.start()
+        return thread
+
     if name == 'StraightGyro_current': # (stop, speed, rotations)
         print("Starting StraightGyro_current", file=stderr)
         speed = float(action.get('speed'))
         rotations = float(action.get('rotations'))
         thread = threading.Thread(target=StraightGyro_current, args=(stop, speed, rotations))
+        thread.start()
+        return thread
+
+    if name == 'StraightGyro_current_toLine': # (stop, speed, rotations, whiteOrBlack)
+        print("Starting StraightGyro_current", file=stderr)
+        speed = float(action.get('speed'))
+        rotations = float(action.get('rotations'))
+        whiteOrBlack = action.get('whiteOrBlack')
+        thread = threading.Thread(target=StraightGyro_current, args=(stop, speed, rotations, whiteOrBlack))
         thread.start()
         return thread
     
@@ -195,6 +219,14 @@ def launchStep(stop, action):
 
     if name == 'squareOnLine': # (stop, speed, target)
         print("Starting squareOnLine", file=stderr)
+        speed = float(action.get('speed'))
+        target = float(action.get('target'))
+        thread = threading.Thread(target=squareOnLine, args=(stop, speed, target))
+        thread.start()
+        return thread
+
+    if name == 'squareOnLineWhite': # (stop, speed, target)
+        print("Starting squareOnLine White", file=stderr)
         speed = float(action.get('speed'))
         target = float(action.get('target'))
         thread = threading.Thread(target=squareOnLine, args=(stop, speed, target))
@@ -251,7 +283,7 @@ def main():
             rColourSensor = rgb[0]
             gColourSensor = rgb[1]
             bColourSensor = rgb[2]
-            #print("R {} G {} B {}").format (rColourSensor, gColourSensor, bColourSensor)
+            print("R {} G {} B {}".format (rColourSensor, gColourSensor, bColourSensor), file=stderr)
             # if the values match, run the corresponding program
             if abs(rColourSensor - rProgram) < 10 and abs(gColourSensor - gProgram) < 10 and abs(bColourSensor - bProgram) < 10:
                 mediumMotor.reset 
@@ -263,6 +295,7 @@ def main():
                 # run each step individually unless they are run in parallel
                 for step in steps:
                     action = step.get('action')
+                    print('Action {}'.format (action),file = stderr)
                     # loop through actions that should be run in parallel
                     if action == 'launchInParallel':
                         for subSteps in step:
