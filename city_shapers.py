@@ -114,7 +114,7 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
-    if name == 'Delay_seconds': # (stop, seconds)
+    if name == 'Delay_seconds': # (stop, seconds) 
         print("Starting Delay_seconds", file=stderr)
         seconds = float(action.get('seconds'))
         thread = threading.Thread(target=Delay_seconds, args=(stop, seconds))
@@ -148,7 +148,7 @@ def launchStep(stop, action):
             motorToUse = largeMotor_Right
         if (motor == "mediumMotor"):
             motorToUse = mediumMotor
-        thread = threading.Thread(target=Motor_onForSeconds, args=(stop, motorToUse, speed, seconds))
+        thread = threading.Thread(target=Motor_onForSeconds,args=(stop, motorToUse, speed, seconds))
         thread.start()
         return thread
     
@@ -188,7 +188,7 @@ def launchStep(stop, action):
         thread = threading.Thread(target = Tank_seconds, args=(stop, left_speed, right_speed, seconds))
         thread.start()
         return thread
-
+    
     if name == 'Reset_gyro': # ()
         print("Starting Reset_gyro", file=stderr)
         thread = threading.Thread(target=Reset_gyro)
@@ -247,6 +247,23 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
+
+    if name == 'squareOnLine': # (stop, speed, target)
+        print("Starting squareOnLine", file=stderr)
+        speed = float(action.get('speed'))
+        target = float(action.get('target'))
+        thread = threading.Thread(target=squareOnLine, args=(stop, speed, target))
+        thread.start()
+        return thread
+    
+    if name == 'squareOnLineWhite': # (stop, speed, target)
+        print("Starting squareOnLine White", file=stderr)
+        speed = float(action.get('speed'))
+        target = float(action.get('target'))
+        thread = threading.Thread(target=squareOnLine, args=(stop, speed, target))
+        thread.start()
+        return thread
+
     if name == 'BlackLine_rotation': # (stop, speed, rotations, sensor, lineSide, correction)
         print("Starting BlackLine_rotations", file=stderr)
         speed = float(action.get('speed'))
@@ -258,21 +275,6 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
-    if name == 'squareOnLine': # (stop, speed, target)
-        print("Starting squareOnLine", file=stderr)
-        speed = float(action.get('speed'))
-        target = float(action.get('target'))
-        thread = threading.Thread(target=squareOnLine, args=(stop, speed, target))
-        thread.start()
-        return thread
-
-    if name == 'squareOnLineWhite': # (stop, speed, target)
-        print("Starting squareOnLine White", file=stderr)
-        speed = float(action.get('speed'))
-        target = float(action.get('target'))
-        thread = threading.Thread(target=squareOnLine, args=(stop, speed, target))
-        thread.start()
-        return thread
 
 
 # main section of the program

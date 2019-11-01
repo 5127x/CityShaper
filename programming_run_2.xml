@@ -1,16 +1,15 @@
 <steps>
     <step action='Reset_gyro'/>
-    <step action='StraightGyro_target' speed='15' rotations='.95' target='0'/>
-    <step action='Turn_degrees' speed = '15' degrees = '-45'  />       
+    <step action='StraightGyro_target' speed='15' rotations='.925' target='0'/>
+    <step action='Turn_degrees' speed = '4' degrees = '-37'  />       
     <step action='launchInParallel' >
-        <step action='StraightGyro_current_toLine' speed='20' rotations='4' whiteOrBlack='WHITE'/>
-        <step action='Motor_onForRotations' motor='mediumMotor' speed='8' rotations='0.5' gearRatio='1.4' />
+        <step action='StraightGyro_target_toLine' speed='20' rotations='2.5' target = '-38' whiteOrBlack='WHITE'/>
+        <step action='Motor_onForRotations' motor='mediumMotor' speed='7' rotations='0.45' gearRatio='1.4' />
     </step>
-    <step action= 'squareOnLineWhite' speed = '4' target = '80'/>
-    <step action = 'Tank_rotations' left_speed = '-5' right_speed = '-5' rotations = '.1' />
-    <step action='Motor_onForRotations' motor='mediumMotor' speed='8' rotations='0.3' gearRatio='1.4' />
+    <step action = 'Tank_rotations' left_speed = '-5' right_speed = '-5' rotations = '.115' />
+    <step action='Motor_onForRotations' motor='mediumMotor' speed='8' rotations='0.35' gearRatio='1.4' />
     <step action = 'Tank_rotations' left_speed = '-5' right_speed = '-5' rotations = '.5' />
-
+    <step action = 'Tank_rotations' left_speed = '-68' right_speed = '-70' rotations = '4' />
 
     <step action='Do_nothing'/>
 
