@@ -5,7 +5,7 @@
     <!-- turn, drive forward, place block -->
     <step action='Tank_rotations' left_speed='-10' right_speed='10' rotations='0.1' />
     <step action='Tank_rotations' left_speed='20' right_speed='20' rotations='0.7' />
-    <step action='Motor_onForRotations' motor='mediumMotor' speed='10' rotations='0.18' gearRatio='1.4' />
+    <step action='Motor_onForSeconds' motor='mediumMotor' speed='10' seconds='0.5' gearRatio='1.4' />
     <!-- reverse, turn back -->
     <step action='Delay_seconds' seconds='0.3'/>
     <step action='Tank_rotations' left_speed='-20' right_speed='-20' rotations='0.9' />
