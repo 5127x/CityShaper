@@ -25,6 +25,7 @@ from Tank_seconds import Tank_seconds
 from Reset_gyro import Reset_gyro
 from StraightGyro_target import StraightGyro_target
 from StraightGyro_current import StraightGyro_current
+from StraightGyro_target_colourStop import StraightGyro_target_colourStop
 from StraightGyro_target_toLine import StraightGyro_target_toLine
 from StraightGyro_current_toLine import StraightGyro_current_toLine
 from Turn_degrees import Turn_degrees
@@ -90,9 +91,14 @@ def colourAttachment_values():
     button.wait_for_pressed(['enter'])
     blue = colourAttachment.raw
     print('Done!')
+    button.wait_for_pressed(['enter'])
 
+<<<<<<< HEAD
     attachment_values = [black, green, red, yellow, blue]
     print(black[0], file=stderr)
+=======
+    attachment_values = [black, green, red, yellow, white]
+>>>>>>> 9ce16b2b0a5a85a47657cf0132eee9713e465397
     return attachment_values
 
 # launch actions using threads
@@ -204,6 +210,16 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
+    if name == 'StraightGyro_target_colourStop': # (stop, speed, target, sensor, value)
+        print("Starting StraightGyro_target_colourStop", file=stderr)
+        speed = float(action.get('speed'))
+        target = float(action.get('target'))
+        sensor = action.get('sensor')
+        value = float(action.get('value'))
+        thread = threading.Thread(target=StraightGyro_target_colourStop, args=(stop, speed, target, sensor, value))
+        thread.start()
+        return thread
+
     if name == 'StraightGyro_current': # (stop, speed, rotations)
         print("Starting StraightGyro_current", file=stderr)
         speed = float(action.get('speed'))
@@ -264,14 +280,14 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
-    if name == 'BlackLine_rotation': # (stop, speed, rotations, sensor, lineSide, correction)
+    if name == 'BlackLine_rotations': # (stop, speed, rotations, sensor, lineSide, correction)
         print("Starting BlackLine_rotations", file=stderr)
         speed = float(action.get('speed'))
         rotations = float(action.get('rotations'))
         sensor = action.get('sensor')
         lineSide = action.get('lineSide')
-        correction = float(action.get(correction))
-        thread = threading.Thread(target = BlackLine_rotations, args=((stop, speed, rotations, sensor, lineSide, correction)))
+        correction = float(action.get('correction'))
+        thread = threading.Thread(target = BlackLine_rotations, args=(stop, speed, rotations, sensor, lineSide, correction))
         thread.start()
         return thread
 
@@ -319,7 +335,6 @@ def main():
                 # run each step individually unless they are run in parallel
                 for step in steps:
                     action = step.get('action')
-                    print('Action {}'.format (action),file = stderr)
                     # loop through actions that should be run in parallel
                     if action == 'launchInParallel':
                         for subSteps in step:
@@ -330,13 +345,13 @@ def main():
                         thread = launchStep(lambda:stopProcessing, step)
                         threadPool.append(thread)
                     while not stopProcessing:
+                        # if there are no threads running start the next action
+                        if not threadPool:
+                            break
                         # remove any completed threads from the pool
                         for thread in threadPool:
                             if not thread.isAlive():
                                 threadPool.remove(thread)
-                        # if there are no threads running start the next action
-                        if not threadPool:
-                            break
                         # if the robot has been lifted or t=
                         # '?e key removed then stop everything
                         if isKeyTaken(rProgram, gProgram, bProgram):
