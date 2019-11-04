@@ -19,7 +19,7 @@ mediumMotor = MediumMotor(OUTPUT_D)
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
-def BlackLine_rotations(stop, speed, rotations, sensor, lineSide, correction):
+def BlackLine_colourStop(stop, speed, sensor, lineSide, correction):
     rotations = rotations*360
     currentDegrees_left = largeMotor_Left.position
     currentDegrees_right = largeMotor_Right.position
@@ -31,11 +31,12 @@ def BlackLine_rotations(stop, speed, rotations, sensor, lineSide, correction):
     
     if sensor == "RIGHT":
         if lineSide == "LEFT":
-            while currentDegrees_left < target_left: 
+            while left_RLI > 20: 
                 #and currentDegrees_right < target_right:
                 currentDegrees_left = largeMotor_Left.position
                 #currentDegrees_right = largeMotor_Right.position
                 right_RLI = colourRight.reflected_light_intensity
+                left_RLI = colourLeft.reflected_light_intensity
                 error = right_RLI - target_RLI
 
                 steering = 0
