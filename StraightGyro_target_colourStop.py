@@ -16,7 +16,7 @@ largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
 
 def StraightGyro_target_colourStop(stop, speed, target, sensor, value):
-    print("In StraightGyro_target", file=stderr)
+    print("In StraightGyro_target_colourStop", file=stderr)
     current_gyro_reading = gyro.angle
     # print("Current Gyro Reading: {}".format(current_gyro_reading))
     if sensor == 'LEFT':
@@ -24,29 +24,30 @@ def StraightGyro_target_colourStop(stop, speed, target, sensor, value):
     elif sensor == 'RIGHT':
         current_RLI = colourRight.reflected_light_intensity
 
-    while current_RLI > target_rotations:
+    while current_RLI > value:
         if stop(): 
             break
         current_gyro_reading=gyro.angle
         if sensor == 'LEFT':
             current_RLI = colourLeft.reflected_light_intensity
+            print(current_RLI, file=stderr)
         elif sensor == 'RIGHT':
             current_RLI = colourRight.reflected_light_intensity
 
         if current_gyro_reading < target:
             correction = target - current_gyro_reading
-            correction = correction * .25
+            correction = correction * 0.25
             steering_drive.on(steering = -correction , speed = speed)
         if current_gyro_reading > target:
             correction = target - current_gyro_reading
-            correction = correction * .25
+            correction = correction * 0.25
             steering_drive.on(steering = -correction , speed = speed)
         if current_gyro_reading == target:
             steering_drive.on(steering = 0 , speed = speed)
         if stop():
             break
     tank_block.off()
-    print('Leaving StraightGyro_target', file=stderr)
+    print('Leaving StraightGyro_target_colourStop', file=stderr)
 
 #stopProcessing=False
 #StraightGyro_target(lambda:stopProcessing, speed=30, rotations=3)

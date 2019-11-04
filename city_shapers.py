@@ -206,12 +206,12 @@ def launchStep(stop, action):
         return thread
 
     if name == 'StraightGyro_target_colourStop': # (stop, speed, target, sensor, value)
-        print("Starting StraightGyro_target", file=stderr)
+        print("Starting StraightGyro_target_colourStop", file=stderr)
         speed = float(action.get('speed'))
         target = float(action.get('target'))
         sensor = action.get('sensor')
         value = float(action.get('value'))
-        thread = threading.Thread(target=StraightGyro_target, args=(stop, speed, target, sensor, value))
+        thread = threading.Thread(target=StraightGyro_target_colourStop, args=(stop, speed, target, sensor, value))
         thread.start()
         return thread
 

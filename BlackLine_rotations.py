@@ -5,6 +5,7 @@ from ev3dev2.sensor import INPUT_1, INPUT_2, INPUT_3, INPUT_4
 import xml.etree.ElementTree as ET
 import threading
 import time
+from time import sleep
 from sys import stderr
 
 colourAttachment = ColorSensor(INPUT_4)
@@ -37,26 +38,29 @@ def BlackLine_rotations(stop, speed, rotations, sensor, lineSide, correction):
                 #currentDegrees_right = largeMotor_Right.position
                 right_RLI = colourRight.reflected_light_intensity
                 error = right_RLI - target_RLI
-
                 steering = 0
-
-                if abs(error) < 5:
-                    steering = error * 0.25
-
-                elif abs(error) >= 5 and abs(error) <=10:
-                    steering = error * 0.5
-
-                elif abs(error) >= 10 and abs(error) <=25:
-                    steering = error * 1
-
-                elif abs(error) >= 25:
-                    steering = error * 1.25
-                
-                #steering = error * correction
-
+                if speed < 12:
+                    if abs(error) < 5:
+                        steering = error * 0.2
+                    elif abs(error) >= 5 and abs(error) <=10:
+                        steering = error * 0.5
+                    elif abs(error) >= 10 and abs(error) <=25:
+                        steering = error * 1
+                    elif abs(error) >= 25:
+                        steering = error * 1.25
+                if speed >= 12:
+                    if abs(error) < 5:
+                        steering = error * 0.1
+                    elif abs(error) >= 5 and abs(error) <=10:
+                        steering = error * 0.3
+                    elif abs(error) >= 10 and abs(error) <=25:
+                        steering = error * 0.8
+                    elif abs(error) >= 25:
+                        steering = error * 1
                 steering_drive.on(speed=speed, steering = steering)
                 if stop():
                     break
+                sleep(0.01)
         elif lineSide == "RIGHT":
             while currentDegrees_left < target_left and currentDegrees_right < target_right:
                 currentDegrees_left = largeMotor_Left.position
