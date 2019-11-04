@@ -57,7 +57,7 @@ def StraightGyro_target_toLine(stop, speed, rotations, target, whiteOrBlack):
             currentLeft_RLI = colourLeft.reflected_light_intensity
 
             if whiteOrBlack == "WHITE":
-                if currentRight_RLI > 65 or currentLeft_RLI > 65:
+                if currentRight_RLI > 70 or currentLeft_RLI > 70:
                     break
 
             if whiteOrBlack == "BLACK":
