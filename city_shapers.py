@@ -2,11 +2,12 @@
 from ev3dev2.motor import MoveSteering, MoveTank, MediumMotor, LargeMotor, OUTPUT_A, OUTPUT_B, OUTPUT_C, OUTPUT_D
 from ev3dev2.sensor.lego import TouchSensor, ColorSensor, GyroSensor
 from ev3dev2.sensor import INPUT_1, INPUT_2, INPUT_3, INPUT_4
+from ev3dev2.button import Button
 import xml.etree.ElementTree as ET
 import threading
 import time
 from sys import stderr
-
+import os
 
 # import the functions 
 
@@ -20,23 +21,24 @@ from Steering_rotations import Steering_rotations
 from Steering_seconds import Steering_seconds
 from Tank_rotations import Tank_rotations
 from Tank_seconds import Tank_seconds
-from StraightGyro_current_toLine import StraightGyro_current_toLine
+
 from Reset_gyro import Reset_gyro
 from StraightGyro_target import StraightGyro_target
-from StraightGyro_target_toLine import StraightGyro_target_toLine
 from StraightGyro_current import StraightGyro_current
+from StraightGyro_target_toLine import StraightGyro_target_toLine
+from StraightGyro_current_toLine import StraightGyro_current_toLine
 from Turn_degrees import Turn_degrees
 from Turn_from_start_position import Turn_from_start_position
 
 from BlackLine_rotations import BlackLine_rotations
 
-from squareOnLineWhite import squareOnLineWhite
 from squareOnLine import squareOnLine
-colourAttachment = ColorSensor(INPUT_4)
-
+from squareOnLineWhite import squareOnLineWhite
 
 # define the different sensors, motors and motor blocks
+button = Button()
 
+colourAttachment = ColorSensor(INPUT_4)
 colourLeft = ColorSensor(INPUT_3) 
 colourRight = ColorSensor(INPUT_2)
 gyro = GyroSensor(INPUT_1)
@@ -48,19 +50,50 @@ mediumMotor = MediumMotor(OUTPUT_D)
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
-
-def isRobotLifted(fileName): # has the robot been lifted?
-    # return true if the robot was lifted and stop the motors IF we are not doing run5
-    # driving over the gaps in bridge can accidently trigger isRobotLifted()
-    if fileName != 'programming_run_5.xml':
-         return colourLeft.reflected_light_intensity < 2 
-        # alternate values: colourLeft.raw[0] < 5 and colourLeft.raw[1] < 5 and colourLeft.raw[2] < 5
-
 def isKeyTaken(rProgram, gProgram, bProgram): # has the key been removed?
     # return True if the key was removed and stop the motors 
     rbgA = colourAttachment.raw
     # rgb values are 50, 62, 57 when the slot is empty
     return abs(rbgA[0] - rProgram) > 10 and abs(rbgA[1] - gProgram) > 10 and abs(rbgA[2] - bProgram) > 10 
+
+def colourAttachment_values():
+    stop = False
+    os.system('setfont Lat15-TerminusBold14')
+    # os.system('setfont Lat15-TerminusBold32x16')  # Try this larger font
+
+    print('Insert black', file=stderr)
+    print('Insert black')
+    button.wait_for_pressed(['enter'])
+    black = colourAttachment.raw
+    print('Next.')
+
+    print('Insert green', file=stderr)
+    print('Insert green')
+    button.wait_for_pressed(['enter'])
+    green = colourAttachment.raw
+    print('Next.')
+
+    print('Insert red', file=stderr)
+    print('Insert red')
+    button.wait_for_pressed(['enter'])
+    red = colourAttachment.raw
+    print('Next.')
+
+    print('Insert yellow', file=stderr)
+    print('Insert yellow')
+    button.wait_for_pressed(['enter'])
+    yellow = colourAttachment.raw
+    print('Next.')
+
+    print('Insert white', file=stderr)
+    print('Insert white')
+    button.wait_for_pressed(['enter'])
+    white = colourAttachment.raw
+    print('Done!')
+
+    attachment_values = [black, green, red, yellow, white]
+    print(black[0], file=stderr)
+    return attachment_values
 
 # launch actions using threads
 def launchStep(stop, action):
@@ -171,6 +204,14 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
+    if name == 'StraightGyro_current': # (stop, speed, rotations)
+        print("Starting StraightGyro_current", file=stderr)
+        speed = float(action.get('speed'))
+        rotations = float(action.get('rotations'))
+        thread = threading.Thread(target=StraightGyro_current, args=(stop, speed, rotations))
+        thread.start()
+        return thread
+
     if name == 'StraightGyro_target_toLine': # (stop, speed, rotations, target, whiteOrBlack)
         print("Starting StraightGyro_target", file=stderr)
         speed = float(action.get('speed'))
@@ -178,14 +219,6 @@ def launchStep(stop, action):
         target = float(action.get('target'))
         whiteOrBlack = action.get('whiteOrBlack')
         thread = threading.Thread(target=StraightGyro_target_toLine, args=(stop, speed, rotations, target, whiteOrBlack))
-        thread.start()
-        return thread
-
-    if name == 'StraightGyro_current': # (stop, speed, rotations)
-        print("Starting StraightGyro_current", file=stderr)
-        speed = float(action.get('speed'))
-        rotations = float(action.get('rotations'))
-        thread = threading.Thread(target=StraightGyro_current, args=(stop, speed, rotations))
         thread.start()
         return thread
 
@@ -243,13 +276,6 @@ def launchStep(stop, action):
         return thread
 
 
-    if name == 'StraightGyro_current_toLine': # stop, speed, rotations, whiteOrBlack
-        rotations = float(action.get('rotations'))
-        speed = float(action.get('speed'))
-        whiteOrBlack = action.get('whiteOrBlack')   
-        thread = threading.Thread(target = StraightGyro_current_toLine, args=(stop, rotations, speed, colourSensor))
-        thread.start()
-        return thread
 
 # main section of the program
 def main():
@@ -260,6 +286,12 @@ def main():
     # open and read the overall XML file 
     programXML = ET.parse('overall_programming.xml')
     programs = programXML.getroot()
+    attachment_values = colourAttachment_values()
+    black = attachment_values[0]
+    green = attachment_values[1]
+    red = attachment_values[2]
+    yellow = attachment_values[3]
+    white = attachment_values[4]
     while True:
         # reset stopProcessing each repetition
         stopProcessing = False
@@ -268,13 +300,14 @@ def main():
         rgb = colourAttachment.raw
         for program in programs:
             programName = program.get('name')
-            rProgram = int(program.get('r'))
-            gProgram = int(program.get('g'))
-            bProgram = int(program.get('b'))
+            colourValue = int(program.get('colourValue'))
+            colourProgram = attachment_values[colourValue]
+            rProgram = colourProgram[0]
+            gProgram = colourProgram[1]
+            bProgram = colourProgram[2]
             rColourSensor = rgb[0]
             gColourSensor = rgb[1]
             bColourSensor = rgb[2]
-            print("R {} G {} B {}".format (rColourSensor, gColourSensor, bColourSensor), file=stderr)
             # if the values match, run the corresponding program
             if abs(rColourSensor - rProgram) < 10 and abs(gColourSensor - gProgram) < 10 and abs(bColourSensor - bProgram) < 10:
                 mediumMotor.reset 
