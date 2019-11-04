@@ -5,7 +5,7 @@
     <!-- turn, drive forward, place block -->
     <step action='Tank_rotations' left_speed='-10' right_speed='10' rotations='0.1' />
     <step action='Tank_rotations' left_speed='20' right_speed='20' rotations='0.7' />
-    <step action='Motor_onForRotations' motor='mediumMotor' speed='10' rotations='0.2' gearRatio='1.4' />
+    <step action='Motor_onForRotations' motor='mediumMotor' speed='10' rotations='0.18' gearRatio='1.4' />
     <!-- reverse, turn back -->
     <step action='Delay_seconds' seconds='0.3'/>
     <step action='Tank_rotations' left_speed='-20' right_speed='-20' rotations='0.9' />
@@ -20,10 +20,10 @@
     <!-- reverse, turn to bridge -->
     <step action='Delay_seconds' seconds='0.3'/>
     <step action='Tank_rotations' left_speed='-20' right_speed='-20' rotations='1' />
-    <step action='Turn_from_start_position' speed='15' degrees='120' /> <!--twice for accuracy-->
-    <step action='Turn_from_start_position' speed='5' degrees='120' />
+    <step action='Turn_from_start_position' speed='15' degrees='125' /> <!--twice for accuracy-->
+    <step action='Turn_from_start_position' speed='5' degrees='125' />
     <!-- drive onto bridge -->
-    <step action='Tank_rotations' left_speed='20' right_speed='20' rotations='1.5' />
-    <step action='Tank_rotations' left_speed='80' right_speed='80' rotations='1' />
+    <step action='Tank_rotations' left_speed='20' right_speed='20' rotations='1' />
+    <step action='Tank_rotations' left_speed='80' right_speed='80' rotations='5' />
     <step action='Do_nothing' />
 </steps>
