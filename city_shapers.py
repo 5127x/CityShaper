@@ -86,14 +86,14 @@ def colourAttachment_values():
     yellow = colourAttachment.raw
     print('Next.')
 
-    print('Insert white', file=stderr)
-    print('Insert white')
+    print('Insert blue', file=stderr)
+    print('Insert blue')
     button.wait_for_pressed(['enter'])
-    white = colourAttachment.raw
+    blue = colourAttachment.raw
     print('Done!')
     button.wait_for_pressed(['enter'])
 
-    attachment_values = [black, green, red, yellow, white]
+    attachment_values = [black, green, red, yellow, blue]
     return attachment_values
 
 # launch actions using threads
@@ -302,7 +302,7 @@ def main():
     green = attachment_values[1]
     red = attachment_values[2]
     yellow = attachment_values[3]
-    white = attachment_values[4]
+    blue = attachment_values[4]
     while True:
         # reset stopProcessing each repetition
         stopProcessing = False

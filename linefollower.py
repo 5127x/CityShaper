@@ -66,4 +66,4 @@ def run(power, target, kp, ki, kd, direction, miniRef, maxRef):
             motor.duty_cycle_sp = pow
         sleep(0.01)
 
-run(50, 55, float(0.65), float(0.02), 1, 1, 40, 100)
+#run(50, 55, float(0.65), float(0.02), 1, 1, 40, 100)
