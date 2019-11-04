@@ -85,13 +85,13 @@ def colourAttachment_values():
     yellow = colourAttachment.raw
     print('Next.')
 
-    print('Insert white', file=stderr)
-    print('Insert white')
+    print('Insert Blue', file=stderr)
+    print('Insert Blue')
     button.wait_for_pressed(['enter'])
-    white = colourAttachment.raw
+    blue = colourAttachment.raw
     print('Done!')
 
-    attachment_values = [black, green, red, yellow, white]
+    attachment_values = [black, green, red, yellow, blue]
     print(black[0], file=stderr)
     return attachment_values
 
