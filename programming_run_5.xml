@@ -15,7 +15,7 @@
     <step action='Turn_from_start_position' speed='15' degrees='75' /> <!--twice for accuracy-->
     <step action='Turn_from_start_position' speed='5' degrees='75' />
     <!-- drive forward, place block -->
-    <step action='Tank_rotations' left_speed='30' right_speed='30' rotations='2.1' />
+    <step action='Tank_rotations' left_speed='30' right_speed='30' rotations='2.05' />
     <step action='Motor_onForRotations' motor='mediumMotor' speed='30' rotations='0.35' gearRatio='1.4' />
     <!-- reverse, turn to bridge -->
     <step action='Delay_seconds' seconds='0.3'/>
