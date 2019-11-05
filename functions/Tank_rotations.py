@@ -12,8 +12,6 @@ largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
 
 def Tank_rotations(stop, left_speed, right_speed, rotations):
-    if stop():
-        break
     print("In Tank_rotations", file=stderr)
     # create left target rotations
     current_degrees_left = largeMotor_Left.position 

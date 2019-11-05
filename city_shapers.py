@@ -11,29 +11,29 @@ import os
 
 # import the functions 
 
-from Do_nothing import Do_nothing
-from off import off
-from Delay_seconds import Delay_seconds
+from functions.Do_nothing import Do_nothing
+from functions.off import off
+from functions.Delay_seconds import Delay_seconds
 
-from Motor_onForRotations import Motor_onForRotations
-from Motor_onForSeconds import Motor_onForSeconds
-from Steering_rotations import Steering_rotations
-from Steering_seconds import Steering_seconds
-from Tank_rotations import Tank_rotations
-from Tank_seconds import Tank_seconds
+from functions.Motor_onForRotations import Motor_onForRotations
+from functions.Motor_onForSeconds import Motor_onForSeconds
+from functions.Steering_rotations import Steering_rotations
+from functions.Steering_seconds import Steering_seconds
+from functions.Tank_rotations import Tank_rotations
+from functions.Tank_seconds import Tank_seconds
 
-from Reset_gyro import Reset_gyro
-from StraightGyro_target import StraightGyro_target
-from StraightGyro_current import StraightGyro_current
-from StraightGyro_target_toLine import StraightGyro_target_toLine
-from StraightGyro_current_toLine import StraightGyro_current_toLine
-from Turn_degrees import Turn_degrees
-from Turn_from_start_position import Turn_from_start_position
+from functions.Reset_gyro import Reset_gyro
+from functions.StraightGyro_target import StraightGyro_target
+from functions.StraightGyro_current import StraightGyro_current
+from functions.StraightGyro_target_toLine import StraightGyro_target_toLine
+from functions.StraightGyro_current_toLine import StraightGyro_current_toLine
+from functions.Turn_degrees import Turn_degrees
+from functions.Turn_from_start_position import Turn_from_start_position
 
-from BlackLine_rotations import BlackLine_rotations
+from functions.BlackLine_rotations import BlackLine_rotations
 
-from squareOnLine import squareOnLine
-from squareOnLineWhite import squareOnLineWhite
+from functions.squareOnLine import squareOnLine
+from functions.squareOnLineWhite import squareOnLineWhite
 
 # define the different sensors, motors and motor blocks
 button = Button()
