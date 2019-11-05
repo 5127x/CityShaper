@@ -1,6 +1,7 @@
 <steps>
     <step action='Reset_gyro'/>
-    <step action='Tank_rotations' left_speed='28.5' right_speed='30' rotations='2.44' /> <!-- left_speed='19' right_speed='20' rotations='2.44'-->
+    <step action='Tank_rotations' left_speed='29' right_speed='30' rotations='2.41' /> <!-- left_speed='19' right_speed='20' rotations='2.44'-->
+    <step action='Delay_seconds' seconds='1' />
     <step action='launchInParallel' >
         <step action='BlackLine_rotations' speed='13' rotations='2.8' sensor='RIGHT' lineSide='LEFT' correction='0.8' /> 
         <step action='Motor_onForRotations' motor='mediumMotor' speed='30' rotations='0.1' gearRatio='1.4' />

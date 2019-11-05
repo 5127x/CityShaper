@@ -27,6 +27,7 @@ from functions.StraightGyro_target import StraightGyro_target
 from functions.StraightGyro_current import StraightGyro_current
 from functions.StraightGyro_target_toLine import StraightGyro_target_toLine
 from functions.StraightGyro_current_toLine import StraightGyro_current_toLine
+from functions.StraightGyro_target_colourStop import StraightGyro_target_colourStop
 from functions.Turn_degrees import Turn_degrees
 from functions.Turn_from_start_position import Turn_from_start_position
 
