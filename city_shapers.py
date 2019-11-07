@@ -65,7 +65,7 @@ def colourAttachment_values():
     print('Insert black', file=stderr)
     print('Insert black')
     button.wait_for_pressed(['enter'])
-    black = colourAttachment.raw
+    black = colourAttachment.raw 
     print('Next.')
 
     print('Insert green', file=stderr)
