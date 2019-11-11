@@ -1,15 +1,21 @@
 <steps>
+    <!-- drive out -->
     <step action='Reset_gyro'/>
     <!-- Going forward and facing circle -->
     <step action='Tank_rotations' left_speed = '20' right_speed = '20' rotations = '1' />
+    <!-- turn to target, place blocks -->
     <step action='Turn_degrees' speed = '5' degrees = '-46.5'/>
+<<<<<<< HEAD
     <!-- Driving into circle -->
     <step action='Tank_rotations' left_speed = '30' right_speed = '30' rotations = '1.5' />
     <!-- Slowly reversing -->
+=======
+    <step action='Tank_rotations' left_speed = '30' right_speed = '30' rotations = '1.5' />
+    <!-- back up, turn, return to base -->
+>>>>>>> 251a9044f7e4c066417a83421082915ae8d60cc5
     <step action='Tank_rotations' left_speed = '-10' right_speed = '-10' rotations = '.6' />
     <!-- Curving out and straight -->
     <step action='Tank_rotations' left_speed = '-25' right_speed = '-40' rotations = '.5' />
     <step action='Tank_rotations' left_speed = '-80' right_speed = '-80' rotations = '3' />
-    <!--  -->
     <step action='Do_nothing' />
 </steps>
