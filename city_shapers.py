@@ -55,7 +55,7 @@ def isKeyTaken(rProgram, gProgram, bProgram): # has the key been removed?
     # return True if the key was removed and stop the motors 
     rbgA = colourAttachment.raw
     # rgb values are 50, 62, 57 when the slot is empty
-    return abs(rbgA[0] - rProgram) > 12 and abs(rbgA[1] - gProgram) > 12 and abs(rbgA[2] - bProgram) > 12 
+    return abs(rbgA[0] - rProgram) > 18 and abs(rbgA[1] - gProgram) > 18 and abs(rbgA[2] - bProgram) > 18 
 
 def colourAttachment_values():
     stop = False
@@ -320,7 +320,7 @@ def main():
             gColourSensor = rgb[1]
             bColourSensor = rgb[2]
             # if the values match, run the corresponding program
-            if abs(rColourSensor - rProgram) < 12 and abs(gColourSensor - gProgram) < 12 and abs(bColourSensor - bProgram) < 12:
+            if abs(rColourSensor - rProgram) < 20 and abs(gColourSensor - gProgram) < 20 and abs(bColourSensor - bProgram) < 20:
                 mediumMotor.reset 
                 # read the relevant program XML
                 fileName = program.get('fileName')
