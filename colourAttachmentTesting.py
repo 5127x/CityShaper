@@ -8,7 +8,9 @@ import threading
 import time
 from sys import stderr
 import os
+from ev3dev2.sound import Sound
 
+sound = Sound()
 button = Button()
 colourAttachment = ColorSensor(INPUT_4)
 colourLeft = ColorSensor(INPUT_3) 

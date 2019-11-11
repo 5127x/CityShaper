@@ -1,15 +1,21 @@
 <steps>
+    <!-- drive out -->
     <step action='Reset_gyro'/>
     <step action='StraightGyro_target' speed='15' rotations='.875' target='0'/>
-    <step action='Turn_degrees' speed = '4' degrees = '-45'  />       
+    <!-- turn to tree -->
+    <step action='Turn_degrees' speed = '4' degrees = '-45'  />    
+    <!-- going to tree and lifting arm-->   
     <step action='launchInParallel' >
         <step action='StraightGyro_target_toLine' speed='25' rotations='2.6' target = '-45' whiteOrBlack='WHITE'/>
-        <step action='Motor_onForRotations' motor='mediumMotor' speed='25' rotations='0.4' gearRatio='1.4' />
+        <step action='Motor_onForRotations' motor='mediumMotor' speed='100' rotations='0.4' gearRatio='1.4' />
     </step>
+    <!--lining up to put blocks into tree-->
     <step action = 'Tank_rotations' left_speed = '-5' right_speed = '-5' rotations = '.115' />
-    <step action='Motor_onForSeconds' motor='mediumMotor' speed='25' seconds='1.5' gearRatio='1.4' />
-    <step action = 'Tank_rotations' left_speed = '-5' right_speed = '-5' rotations = '.5' />
-    <step action = 'Tank_rotations' left_speed = '-50' right_speed = '-70' rotations = '1.25' />
+    <!-- Placing in blocks-->
+    <step action='Motor_onForSeconds' motor='mediumMotor' speed='15' seconds='1.5' gearRatio='1.4' />
+    <!-- curving back to home-->
+    <step action = 'Tank_rotations' left_speed = '-5' right_speed = '-5' rotations = '.4' />
+    <step action = 'Tank_rotations' left_speed = '-50' right_speed = '-70' rotations = '1.35' />
     <step action = 'Tank_rotations' left_speed = '-100' right_speed = '-100' rotations = '2.5' />
     <step action='Do_nothing'/>
 </steps>
