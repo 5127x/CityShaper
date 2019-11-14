@@ -20,8 +20,8 @@
     <!-- reverse, turn to bridge -->
     <step action='Delay_seconds' seconds='0.3'/>
     <step action='Tank_rotations' left_speed='-20' right_speed='-20' rotations='1' />
-    <step action='Turn_from_start_position' speed='15' degrees='127' /> <!--twice for accuracy-->
-    <step action='Turn_from_start_position' speed='5' degrees='127' />
+    <step action='Turn_from_start_position' speed='15' degrees='125' /> <!--twice for accuracy-->
+    <step action='Turn_from_start_position' speed='5' degrees='125' />
     <!-- drive onto bridge -->
     <step action='Tank_rotations' left_speed='20' right_speed='20' rotations='1' />
     <step action='Tank_rotations' left_speed='60' right_speed='60' rotations='2.5' />
