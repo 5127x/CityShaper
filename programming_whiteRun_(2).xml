@@ -1,0 +1,5 @@
+<steps>
+    <step action='Reset_gyro'/>
+
+    <step action='Do_nothing' />
+</steps>
