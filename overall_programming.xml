@@ -1,8 +1,8 @@
 <programs>     <!-- NOT 50, 62, 57 bcs thats what it reads without anything inserted -->
-    <!--<program name="Run1" fileName="programming_run_1.xml" colourValue="0" />  Black --> <!-- r="33" g="53" b="35" -->
-    <program name="Run2" fileName="programming_run_2.xml" colourValue="1" /> <!-- Green --> <!-- 34, 148, 43 -->
-    <program name="Run3" fileName="programming_run_3.xml" colourValue="2" />  <!-- Red -->
-    <program name="Run4" fileName="programming_run_4.xml" colourValue="3" /> <!-- Yellow -->
-    <program name="Run5" fileName="programming_run_5.xml" colourValue="4" /> <!-- blue --> <!--r="323" g="397" b="272"-->
+    <!--<program name="Run1" fileName="programming_redRun_(1).xml" colourValue="0" />  Black --> <!-- r="33" g="53" b="35" -->
+    <program name="Run2" fileName="programming_greenRun_(2).xml" colourValue="1" /> <!-- Green --> <!-- 34, 148, 43 -->
+    <program name="Run3" fileName="programming_blackRun_(3).xml" colourValue="2" />  <!-- Red -->
+    <program name="Run4" fileName="programming_yellowRun_(4).xml" colourValue="3" /> <!-- Yellow -->
+    <program name="Run5" fileName="programming_blueRun_(5).xml" colourValue="4" /> <!-- blue --> <!--r="323" g="397" b="272"-->
 </programs>
  
