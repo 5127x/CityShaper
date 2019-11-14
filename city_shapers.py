@@ -65,10 +65,10 @@ def colourAttachment_values():
     os.system('setfont Lat15-TerminusBold14')
     # os.system('setfont Lat15-TerminusBold32x16')  # Try this larger font
 
-    print('Insert black', file=stderr)
-    print('Insert black')
+    print('Insert red', file=stderr)
+    print('Insert red')
     button.wait_for_pressed(['enter'])
-    black = colourAttachment.raw 
+    red = colourAttachment.raw 
     print('Next.')
 
     print('Insert green', file=stderr)
@@ -77,10 +77,16 @@ def colourAttachment_values():
     green = colourAttachment.raw
     print('Next.')
 
-    print('Insert red', file=stderr)
-    print('Insert red')
+    print('Insert black', file=stderr)
+    print('Insert black')
     button.wait_for_pressed(['enter'])
-    red = colourAttachment.raw
+    black = colourAttachment.raw
+    print('Next.')
+
+    print('Insert white', file=stderr)
+    print('Insert white')
+    button.wait_for_pressed(['enter'])
+    white = colourAttachment.raw
     print('Next.')
 
     print('Insert yellow', file=stderr)
@@ -96,7 +102,7 @@ def colourAttachment_values():
     print('Done!')
     button.wait_for_pressed(['enter'])
 
-    attachment_values = [black, green, red, yellow, blue]
+    attachment_values = [red, green, white, black, yellow, blue]
     return attachment_values
 
 # launch actions using threads
