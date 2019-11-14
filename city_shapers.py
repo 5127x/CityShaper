@@ -3,6 +3,7 @@ from ev3dev2.motor import MoveSteering, MoveTank, MediumMotor, LargeMotor, OUTPU
 from ev3dev2.sensor.lego import TouchSensor, ColorSensor, GyroSensor
 from ev3dev2.sensor import INPUT_1, INPUT_2, INPUT_3, INPUT_4
 from ev3dev2.button import Button
+from ev3dev2.sound import Sound
 import xml.etree.ElementTree as ET
 import threading
 import time
@@ -36,8 +37,10 @@ from functions.BlackLine_rotations import BlackLine_rotations
 from functions.squareOnLine import squareOnLine
 from functions.squareOnLineWhite import squareOnLineWhite
 
+
 # define the different sensors, motors and motor blocks
 button = Button()
+sound = Sound()
 
 colourAttachment = ColorSensor(INPUT_4)
 colourLeft = ColorSensor(INPUT_3) 
@@ -55,7 +58,7 @@ def isKeyTaken(rProgram, gProgram, bProgram): # has the key been removed?
     # return True if the key was removed and stop the motors 
     rbgA = colourAttachment.raw
     # rgb values are 50, 62, 57 when the slot is empty
-    return abs(rbgA[0] - rProgram) > 12 and abs(rbgA[1] - gProgram) > 12 and abs(rbgA[2] - bProgram) > 12 
+    return abs(rbgA[0] - rProgram) > 17 and abs(rbgA[1] - gProgram) > 17 and abs(rbgA[2] - bProgram) > 17 
 
 def colourAttachment_values():
     stop = False
@@ -320,7 +323,9 @@ def main():
             gColourSensor = rgb[1]
             bColourSensor = rgb[2]
             # if the values match, run the corresponding program
-            if abs(rColourSensor - rProgram) < 12 and abs(gColourSensor - gProgram) < 12 and abs(bColourSensor - bProgram) < 12:
+            if abs(rColourSensor - rProgram) < 17 and abs(gColourSensor - gProgram) < 17 and abs(bColourSensor - bProgram) < 17:
+                os.system('setfont Lat15-TerminusBold32x16')
+                print('Run {}'.format(colourValue))
                 mediumMotor.reset 
                 # read the relevant program XML
                 fileName = program.get('fileName')
