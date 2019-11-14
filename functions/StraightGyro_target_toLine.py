@@ -31,11 +31,12 @@ def StraightGyro_target_toLine(stop, speed, rotations, target, whiteOrBlack):
             break
         current_gyro_reading = gyro.angle
         current_degrees = largeMotor_Left.position
-        if current_gyro_reading < target:
+
+        if current_gyro_reading < target: # If gyro reading is smaller than target reAading turn Right
             correction = target - current_gyro_reading
             correction = correction * .25
             steering_drive.on(steering = -correction , speed = speed)
-        if current_gyro_reading > target:
+        if current_gyro_reading > target: # If gyro reading is larger than target reAading turn Left
             correction = target - current_gyro_reading
             correction = correction * .25
             steering_drive.on(steering = -correction , speed = speed)
