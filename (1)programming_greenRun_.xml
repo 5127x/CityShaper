@@ -1,11 +1,11 @@
 <steps>
     <!-- drive out -->
     <step action='Reset_gyro'/>
-    <!--Getting in line with tree-->
+    <!--Getting in line with tree, raising arm -->
     <step action='StraightGyro_target' speed='15' rotations='.875' target='0'/>
     <step action='Turn_degrees' speed = '4' degrees = '-46'  />  
-
-    <step action='launchInParallel' > <!-- going to tree & lifting arm up -->
+    <!-- going to tree & lifting arm up -->
+    <step action='launchInParallel' > 
         <step action='StraightGyro_target_toLine' speed='25' rotations='2.6' target = '-45' whiteOrBlack='WHITE'/>
         <step action='Motor_onForRotations' motor='mediumMotor' speed='100' rotations='0.4' gearRatio='1.4' />
     </step>
