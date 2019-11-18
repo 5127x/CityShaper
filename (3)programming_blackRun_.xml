@@ -3,7 +3,7 @@
     <step action='Tank_rotations' left_speed = '20.8' right_speed = '20' rotations = '2' />
     <step action='Tank_rotations' left_speed = '-15' right_speed = '-15' rotations = '.6' />
     <step action='Turn_degrees' speed = '15' degrees = '50'/>
-    <step action='Tank_rotations' left_speed = '40' right_speed = '50' rotations = '1.5' />
+    <step action='Tank_rotations' left_speed = '40' right_speed = '50' rotations = '2' />
     <step action='Do_nothing' />
 </steps>
 

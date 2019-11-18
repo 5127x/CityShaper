@@ -11,6 +11,6 @@
     <step action='Tank_rotations' left_speed = '-10' right_speed = '-10' rotations = '.6' />
     <!-- Curving out and straight -->
     <step action='Tank_rotations' left_speed = '-25' right_speed = '-40' rotations = '.5' />
-    <step action='Tank_rotations' left_speed = '-80' right_speed = '-80' rotations = '3' />
+    <step action='Tank_rotations' left_speed = '-80' right_speed = '-80' rotations = '3.5' />
     <step action='Do_nothing' />
 </steps>

@@ -16,6 +16,6 @@
     <!-- curving back to home-->
     <step action = 'Tank_rotations' left_speed = '-5' right_speed = '-5' rotations = '.5' />
     <step action = 'Tank_rotations' left_speed = '-50' right_speed = '-70' rotations = '1.25' />
-    <step action = 'Tank_rotations' left_speed = '-80' right_speed = '-100' rotations = '2.75' />
+    <step action = 'Tank_rotations' left_speed = '-80' right_speed = '-100' rotations = '3' />
     <step action='Do_nothing'/>
 </steps>
