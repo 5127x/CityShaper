@@ -21,11 +21,14 @@ mediumMotor = MediumMotor(OUTPUT_D)
 
 def squareOnLine(stop, speed, target):
     print("In squareOnLine", file=stderr)
+    # setting up program
     colourLeft_RLI = 0
     colourRight_RLI = 0
     lineFound = False
+    #Turning on motor
     steering_drive.on(steering=0,speed=speed)
     while True:
+        #reading in the colour sensor values (reflected light intensity)
         colourLeft_RLI = colourLeft.reflected_light_intensity
         colourRight_RLI = colourRight.reflected_light_intensity
         

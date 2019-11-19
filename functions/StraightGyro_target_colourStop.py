@@ -15,6 +15,7 @@ tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
 
+#_________________________________________________________________________________________________________________________________
 def StraightGyro_target_colourStop(stop, speed, target, sensor, value):
     print("In StraightGyro_target_colourStop", file=stderr)
     current_gyro_reading = gyro.angle
@@ -38,6 +39,7 @@ def StraightGyro_target_colourStop(stop, speed, target, sensor, value):
             correction = target - current_gyro_reading
             correction = correction * 0.25
             steering_drive.on(steering = -correction , speed = speed)
+            
         if current_gyro_reading > target:
             correction = target - current_gyro_reading
             correction = correction * 0.25

@@ -31,7 +31,9 @@ def Motor_onForRotations(stop, motor, speed, rotations, gearRatio):
     target_rotations = current_degrees + target_rotations
     # turn the motor on until current_degrees matches target_rotations
     motor.on(speed=speed)
-    if current_degrees > target_rotations:
+    
+    if current_degrees > target_rotations:# current degrees can also be how many rotations a motor has done
+        #
         while current_degrees > target_rotations:
             current_degrees = motor.position
             if stop():

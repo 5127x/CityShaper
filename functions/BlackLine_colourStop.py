@@ -29,7 +29,9 @@ def BlackLine_colourStop(stop, speed, sensor, lineSide, correction):
     left_RLI = colourLeft.reflected_light_intensity
     target_RLI = 40
     
+    #if the colour sensor that you are using = Right then do this part of the program (being called from defined section above)
     if sensor == "RIGHT":
+        #Choosing which side of the line to follow
         if lineSide == "LEFT":
             while left_RLI > 20: 
                 #and currentDegrees_right < target_right:
@@ -58,6 +60,7 @@ def BlackLine_colourStop(stop, speed, sensor, lineSide, correction):
                 steering_drive.on(speed=speed, steering = steering)
                 if stop():
                     break
+        #Choosing which side of the line to follow
         elif lineSide == "RIGHT":
             while currentDegrees_left < target_left and currentDegrees_right < target_right:
                 currentDegrees_left = largeMotor_Left.position
@@ -68,8 +71,9 @@ def BlackLine_colourStop(stop, speed, sensor, lineSide, correction):
                 steering_drive.on(speed=speed, steering = steering)
                 if stop():
                     break
-
+    #if the colour sensor that you are using = Right then do this part of the program (being called from defined section above)                  
     elif sensor == "LEFT":
+        #Choosing which side of the line to follow
         if lineSide == "RIGHT":
             while currentDegrees_left < target_left and currentDegrees_right < target_right:
                 currentDegrees_left = largeMotor_Left.position
@@ -80,6 +84,7 @@ def BlackLine_colourStop(stop, speed, sensor, lineSide, correction):
                 steering_drive.on(speed=speed, steering = steering)
                 if stop():
                     break
+        #Choosing which side of the line to follow
         elif lineSide == "LEFT":
             while currentDegrees_left < target_left and currentDegrees_right < target_right:
                 currentDegrees_left = largeMotor_Left.position
