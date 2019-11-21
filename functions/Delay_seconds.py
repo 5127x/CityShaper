@@ -7,17 +7,15 @@ import threading
 import time
 from sys import stderr
 
-colourLeft = ColorSensor(INPUT_3) # bcs apparently they have to be backwards...
+# Defining ports
+colourLeft = ColorSensor(INPUT_3) 
 colourRight = ColorSensor(INPUT_2)
-#gyro = GyroSensor(INPUT_1)
-
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
-
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
-# mediumMotor_Left = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
+#_________________________________________________________________________________________________________________________________
 
 def Delay_seconds(stop, seconds):
     # wait for a certain number of seconds
@@ -28,5 +26,3 @@ def Delay_seconds(stop, seconds):
             break
     print('Leaving Delay_seconds', file=stderr)
 
-#stopProcessing=False
-#Delay_seconds(lambda:stopProcessing, seconds=2)

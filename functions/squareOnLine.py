@@ -7,17 +7,17 @@ import threading
 import time
 from sys import stderr
 
-colourLeft = ColorSensor(INPUT_3) # bcs apparently they have to be backwards...
+colourLeft = ColorSensor(INPUT_3)
 colourRight = ColorSensor(INPUT_2)
 gyro = GyroSensor(INPUT_1)
+largeMotor_Left= LargeMotor(OUTPUT_B)
+largeMotor_Right= LargeMotor(OUTPUT_C)
+mediumMotor = MediumMotor(OUTPUT_D)
 
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
+#_________________________________________________________________________________________________________________________________
 
-largeMotor_Left= LargeMotor(OUTPUT_B)
-largeMotor_Right= LargeMotor(OUTPUT_C)
-# mediumMotor_Left = MediumMotor(OUTPUT_A)
-mediumMotor = MediumMotor(OUTPUT_D)
 
 def squareOnLine(stop, speed, target):
     print("In squareOnLine", file=stderr)
@@ -31,17 +31,18 @@ def squareOnLine(stop, speed, target):
         #reading in the colour sensor values (reflected light intensity)
         colourLeft_RLI = colourLeft.reflected_light_intensity
         colourRight_RLI = colourRight.reflected_light_intensity
-        
+        # if the left Rli is smaller than the target/aim then turn to the right
         if colourLeft_RLI <= target:
             largeMotor_Left.on(-speed)
             largeMotor_Right.on(speed)
-            lineFound = True
+            lineFound = True #setting bool varisable for cancelling movment later on
             print('{} left found it'.format(colourLeft_RLI), file = stderr)
 
+        # if the right Rli is smaller than the target/aim then turn to the left
         if colourRight_RLI <=target:
             largeMotor_Left.on(speed)
             largeMotor_Right.on(-speed)
-            lineFound = True
+            lineFound = True #setting bool varisable for cancelling movment later on
             print('{} right found it'.format(colourRight_RLI), file = stderr)
 
         print('{} left, {} right'.format(colourLeft_RLI, colourRight_RLI), file = stderr)

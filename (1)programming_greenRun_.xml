@@ -13,7 +13,7 @@
     <step action = 'Tank_rotations' left_speed = '-5' right_speed = '-5' rotations = '.115' />
     <!-- Placing in blocks -->
     <step action='Motor_onForSeconds' motor='mediumMotor' speed='15' seconds='1.5' gearRatio='1.4' />
-    <!-- curving back to home-->
+    <!-- curving back to home (slowly reverses) -->
     <step action = 'Tank_rotations' left_speed = '-5' right_speed = '-5' rotations = '.5' />
     <step action = 'Tank_rotations' left_speed = '-50' right_speed = '-70' rotations = '1.25' />
     <step action = 'Tank_rotations' left_speed = '-80' right_speed = '-100' rotations = '3' />

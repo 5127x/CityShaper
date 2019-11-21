@@ -12,16 +12,16 @@
     <step action='Turn_from_start_position' speed='5' degrees='0' />
     <!-- drive forward, turn -->
     <step action='Tank_rotations' left_speed='20' right_speed='20.5' rotations='2.5' />
-    <step action='Turn_from_start_position' speed='15' degrees='77' /> <!--twice for accuracy-->
-    <step action='Turn_from_start_position' speed='5' degrees='77' />
+    <step action='Turn_from_start_position' speed='15' degrees='77' />
+    <step action='Turn_from_start_position' speed='5' degrees='77' /> <!--twice for accuracy-->
     <!-- drive forward, place block -->
     <step action='Tank_rotations' left_speed='30' right_speed='30' rotations='2.1' />
     <step action='Motor_onForRotations' motor='mediumMotor' speed='50' rotations='0.2' gearRatio='1.4' />
     <!-- reverse, turn to bridge -->
     <step action='Delay_seconds' seconds='0.3'/>
-    <step action='Tank_rotations' left_speed='-20' right_speed='-20' rotations='1' />
-    <step action='Turn_from_start_position' speed='15' degrees='125' /> <!--twice for accuracy-->
-    <step action='Turn_from_start_position' speed='5' degrees='135' />
+    <step action='Tank_rotations' left_speed='-20' right_speed='-20' rotations='1.2' />
+    <step action='Turn_from_start_position' speed='15' degrees='123' /> <!-- Increasing value turns more to the bridgr-->
+    <step action='Turn_from_start_position' speed='5' degrees='123' /><!--twice for accuracy-->
     <!-- drive onto bridge -->
     <step action='Tank_rotations' left_speed='20' right_speed='20' rotations='1' />
     <step action='Tank_rotations' left_speed='60' right_speed='60' rotations='2.5' />

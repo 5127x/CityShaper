@@ -7,17 +7,17 @@ import threading
 import time
 from sys import stderr
 
-colourLeft = ColorSensor(INPUT_3) # bcs apparently they have to be backwards...
+colourLeft = ColorSensor(INPUT_3) 
 colourRight = ColorSensor(INPUT_2)
 gyro = GyroSensor(INPUT_1)
+largeMotor_Left= LargeMotor(OUTPUT_B)
+largeMotor_Right= LargeMotor(OUTPUT_C)
+mediumMotor = MediumMotor(OUTPUT_D)
 
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
+#_________________________________________________________________________________________________________________________________
 
-largeMotor_Left= LargeMotor(OUTPUT_B)
-largeMotor_Right= LargeMotor(OUTPUT_C)
-# mediumMotor_Left = MediumMotor(OUTPUT_A)
-mediumMotor = MediumMotor(OUTPUT_D)
 
 def Motor_onForSeconds(stop, motor, speed, seconds):
     print("In Motor_onForSeconds", file=stderr)

@@ -33,7 +33,7 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 # = MediumMotor(OUTPUT_A)
 mediumMotor = MediumMotor(OUTPUT_D)
 '''
-colourAttachment = ColorSensor(INPUT_4)
+
 '''
 x=0 
 stopProcessing=False
@@ -43,7 +43,7 @@ while True:
     x = x + 1
     Delay_seconds(lambda:stopProcessing, 5)
 '''
-
+colourAttachment = ColorSensor(INPUT_4)
 def colourAttachment_values():
     button = Button()
     stop = False

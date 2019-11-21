@@ -21,7 +21,9 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 mediumMotor = MediumMotor(OUTPUT_D)
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
+#_________________________________________________________________________________________________________________________________
 
+# this is a program that we do not use that we where testing inbtween nregionals and nationals
 while True:
     x = 0
     r = 0
