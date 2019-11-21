@@ -23,7 +23,7 @@ def Motor_onForSeconds(stop, motor, speed, seconds):
     print("In Motor_onForSeconds", file=stderr)
     # turn motor on for a number of seconds
     start_time = time.time()
-    motor.on(speed=speed)  # turn the motor on forever
+    motor.on(speed=speed)# turn the motor on forever
     while time.time() < start_time + seconds: # while the current time is smaller than the number of seconds
         if stop():
             break

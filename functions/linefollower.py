@@ -1,3 +1,9 @@
+#Hey judges,
+#this aint in use
+#this was fone on the 21st of November              (Just for reference)
+
+
+'''
 #!/usr/bin/env python3
 from ev3dev2.motor import MoveSteering, MoveTank, MediumMotor, LargeMotor, OUTPUT_A, OUTPUT_B, OUTPUT_C, OUTPUT_D
 from ev3dev2.sensor.lego import TouchSensor, ColorSensor, GyroSensor
@@ -66,3 +72,4 @@ def run(power, target, kp, ki, kd, direction, miniRef, maxRef):
         sleep(0.01)
 
 #run(50, 55, float(0.65), float(0.02), 1, 1, 40, 100)
+'''
