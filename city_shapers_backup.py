@@ -10,7 +10,7 @@ from sys import stderr
 import os
 
 # import the functions 
-x
+
 from functions.Do_nothing import Do_nothing
 from functions.off import off
 from functions.Delay_seconds import Delay_seconds
@@ -24,7 +24,7 @@ from functions.Tank_seconds import Tank_seconds
 
 from functions.Reset_gyro import Reset_gyro
 from functions.StraightGyro_target import StraightGyro_target
-from functions.StraightGyro_current import StraightGyro_current 
+from functions.StraightGyro_current import StraightGyro_current
 from functions.StraightGyro_target_toLine import StraightGyro_target_toLine
 from functions.StraightGyro_current_toLine import StraightGyro_current_toLine
 from functions.StraightGyro_target_colourStop import StraightGyro_target_colourStop
@@ -32,6 +32,7 @@ from functions.Turn_degrees import Turn_degrees
 from functions.Turn_from_start_position import Turn_from_start_position
 
 from functions.BlackLine_rotations import BlackLine_rotations
+
 from functions.squareOnLine import squareOnLine
 from functions.squareOnLineWhite import squareOnLineWhite
 
@@ -50,21 +51,18 @@ mediumMotor = MediumMotor(OUTPUT_D)
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
-# check if the key has been removed
-def isKeyTaken(rProgram, gProgram, bProgram): 
+def isKeyTaken(rProgram, gProgram, bProgram): # has the key been removed?
     # return True if the key was removed and stop the motors 
     rbgA = colourAttachment.raw
-    # compare the current values to the values shown when the key is inserted   
-    # (rgb values are 50, 62, 57 when the slot is empty)
+    # rgb values are 50, 62, 57 when the slot is empty
     return abs(rbgA[0] - rProgram) > 12 and abs(rbgA[1] - gProgram) > 12 and abs(rbgA[2] - bProgram) > 12 
 
-# calibrate the colourAttachment values for the different keys
-def colourAttachment_values(): 
+'''
+def colourAttachment_values():
     stop = False
-    # set a larger font 
-    os.system('setfont Lat15-TerminusBold14') # os.system('setfont Lat15-TerminusBold32x16')  
+    os.system('setfont Lat15-TerminusBold14')
+    # os.system('setfont Lat15-TerminusBold32x16') 
 
-    # print instructions and collect the rgb values for each key
     print('Insert red', file=stderr)
     print('Insert red')
     button.wait_for_pressed(['enter'])
@@ -102,14 +100,15 @@ def colourAttachment_values():
     print('Done!')
     button.wait_for_pressed(['enter'])
 
-    # return the values for the different keys
     attachment_values = [red, green, white, black, yellow, blue]
     return attachment_values
+'''
 
 # launch actions using threads
 def launchStep(stop, action):
-    # compare the 'name' to the functions and start a thread with the matching function
-    # return the thread to be added to the threadPool
+
+    # compare the 'name' to our functions and start a thread with the matching function
+    # return the thread to add to threadPool
     name = action.get('action')
 
     if name == 'Do_nothing': # (stop)
@@ -306,26 +305,22 @@ def main():
     # open and read the overall XML file 
     programXML = ET.parse('overall_programming.xml')
     programs = programXML.getroot()
-    attachment_values = colourAttachment_values()
+    
     while True:
         # reset stopProcessing each repetition
         stopProcessing = False
         # collect the raw rgb light values from colourAttachment and the overall XML file
-        rgb = colourAttachment.raw
+        # compare the sets of values
+        up = button.check_buttons('up')
+        right = button.check_buttons('right')
+        down = button.check_buttons('down')
+        left = button.check_buttons('left')
+        enter = button.check_buttons('enter')
+        buttons = [up, right, down, left, right]
         for program in programs:
             programName = program.get('name')
             colourValue = int(program.get('colourValue'))
-            # use the calibrated values in comparison 
-            colourProgram = attachment_values[colourValue]
-            rProgram = colourProgram[0]
-            gProgram = colourProgram[1]
-            bProgram = colourProgram[2]
-            rColourSensor = rgb[0]
-            gColourSensor = rgb[1]
-            bColourSensor = rgb[2]
-            # compare the sets of values
-            # if the values match, run the corresponding program
-            if abs(rColourSensor - rProgram) < 12 and abs(gColourSensor - gProgram) < 12 and abs(bColourSensor - bProgram) < 12:
+            if buttons[colourValue] == True:
                 mediumMotor.reset 
                 # read the relevant program XML
                 fileName = program.get('fileName')
@@ -354,7 +349,7 @@ def main():
                                 threadPool.remove(thread)
                         # if the robot has been lifted or t=
                         # '?e key removed then stop everything
-                        if isKeyTaken(rProgram, gProgram, bProgram):
+                        if button.check_buttons(buttons=['up', 'enter']):
                             stopProcessing = True
                             break
                     # if the 'stopProcessing' flag has been set then finish the whole loop

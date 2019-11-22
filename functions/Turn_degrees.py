@@ -10,22 +10,23 @@ from sys import stderr
 gyro = GyroSensor(INPUT_1)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
+#_________________________________________________________________________________________________________________________________
 def Turn_degrees(stop, speed, degrees): 
     # create the target degrees
     print("In Turn_degrees", file=stderr)
+    #read in the current gyro
     current_gyro_reading = gyro.angle
     target_degrees = current_gyro_reading + degrees
-    # turn until it has turned the needed degrees
-    if current_gyro_reading > target_degrees:
-        tank_block.on(right_speed = -speed, left_speed = speed)
-        while current_gyro_reading > target_degrees:
+    if current_gyro_reading > target_degrees: # if the current reading is smaller than the target 
+        tank_block.on(right_speed = -speed, left_speed = speed) # turn
+        while current_gyro_reading > target_degrees: #while the gyro is bigger than the target rotations
             current_gyro_reading = gyro.angle
             if stop():
                 break
 
-    elif current_gyro_reading < target_degrees:
-        tank_block.on(right_speed = speed, left_speed = -speed)
-        while current_gyro_reading < target_degrees:
+    elif current_gyro_reading < target_degrees:  # if the current reading is larger than the target 
+        tank_block.on(right_speed = speed, left_speed = -speed) # turn
+        while current_gyro_reading < target_degrees: #while the gyro is smaller than the target rotations
             current_gyro_reading = gyro.angle
             if stop():
                 break

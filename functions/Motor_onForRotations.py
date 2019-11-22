@@ -7,18 +7,16 @@ import threading
 import time
 from sys import stderr
 
-colourLeft = ColorSensor(INPUT_3) # bcs apparently they have to be backwards...
+colourLeft = ColorSensor(INPUT_3) 
 colourRight = ColorSensor(INPUT_2)
-#gyro = GyroSensor(INPUT_1)
-
+largeMotor_Left= LargeMotor(OUTPUT_B)
+largeMotor_Right= LargeMotor(OUTPUT_C)
+mediumMotor = MediumMotor(OUTPUT_D)
 
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
-largeMotor_Left= LargeMotor(OUTPUT_B)
-largeMotor_Right= LargeMotor(OUTPUT_C)
-# mediumMotor_Left = MediumMotor(OUTPUT_A)
-mediumMotor = MediumMotor(OUTPUT_D)
+#_________________________________________________________________________________________________________________________________
 
 def Motor_onForRotations(stop, motor, speed, rotations, gearRatio): 
     print("In onForRotations", file=stderr)
@@ -31,16 +29,22 @@ def Motor_onForRotations(stop, motor, speed, rotations, gearRatio):
     target_rotations = current_degrees + target_rotations
     # turn the motor on until current_degrees matches target_rotations
     motor.on(speed=speed)
-    if current_degrees > target_rotations:
-        while current_degrees > target_rotations:
-            current_degrees = motor.position
+    
+    # Just a note. The larger and smaller is because if the robot is going backward. 
+    
+    if current_degrees > target_rotations:# current degrees can also be how many rotations a motor has done
+        while current_degrees > target_rotations: # while current rotations is larger than target
+            current_degrees = motor.position # reading current rotations into the paramater
+            # continue speed until one of the following staements become true
             if stop():
                 break
             if current_degrees <= target_rotations:
                 break
+
     elif current_degrees < target_rotations:
-        while current_degrees < target_rotations:
-            current_degrees = motor.position
+        while current_degrees < target_rotations: # while current rotations is smaller than target
+            current_degrees = motor.position # reading current rotations into the paramater
+            # continue speed until one of the following staements become true
             if stop():
                 break
             if current_degrees >= target_rotations:

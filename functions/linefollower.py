@@ -1,3 +1,9 @@
+#Hey judges,
+#this aint in use
+#this was fone on the 21st of November              (Just for reference)
+
+
+'''
 #!/usr/bin/env python3
 from ev3dev2.motor import MoveSteering, MoveTank, MediumMotor, LargeMotor, OUTPUT_A, OUTPUT_B, OUTPUT_C, OUTPUT_D
 from ev3dev2.sensor.lego import TouchSensor, ColorSensor, GyroSensor
@@ -11,18 +17,17 @@ from sys import stderr
 import os
 
 button = Button()
-
 colourAttachment = ColorSensor(INPUT_4)
 colourLeft = ColorSensor(INPUT_3) 
 colourRight = ColorSensor(INPUT_2)
 gyro = GyroSensor(INPUT_1)
-
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
 mediumMotor = MediumMotor(OUTPUT_D)
 
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
+#_________________________________________________________________________________________________________________________________
 
 def steering(course, power):
     power_left = power_right = power
@@ -67,3 +72,4 @@ def run(power, target, kp, ki, kd, direction, miniRef, maxRef):
         sleep(0.01)
 
 #run(50, 55, float(0.65), float(0.02), 1, 1, 40, 100)
+'''

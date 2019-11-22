@@ -10,7 +10,7 @@ from sys import stderr
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
-
+#_________________________________________________________________________________________________________________________________
 def Tank_rotations(stop, left_speed, right_speed, rotations):
     print("In Tank_rotations", file=stderr)
     # create left target rotations
@@ -29,8 +29,10 @@ def Tank_rotations(stop, left_speed, right_speed, rotations):
     # turn the motors on until either motor reaches it's target rotations
     tank_block.on(right_speed=right_speed, left_speed=left_speed)
 
-    if current_degrees_left < target_left and current_degrees_right < target_right:
+
+    if current_degrees_left < target_left and current_degrees_right < target_right: # if the current rotations of a specific motor is smaller than the target rotations of a specific motor
         while current_degrees_left < target_left or current_degrees_right < target_right: # how its done in tank onForRotations
+            # reading in the values for currenrt readings (current rotations)
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position
             if stop():
@@ -41,6 +43,7 @@ def Tank_rotations(stop, left_speed, right_speed, rotations):
     elif current_degrees_left < target_left and current_degrees_right > target_right:
         #print("2", file=stderr)
         while current_degrees_left < target_left or current_degrees_right > target_right: # how its done in tank onForRotations
+            # reading in the values for currenrt readings (current rotations)
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position
             if stop():
@@ -49,8 +52,9 @@ def Tank_rotations(stop, left_speed, right_speed, rotations):
                 break
     
     elif current_degrees_left > target_left and current_degrees_right < target_right:
-        #print("3", file=stderr)
+        #print("3", file=stderr
         while current_degrees_left > target_left or current_degrees_right < target_right: # how its done in tank onForRotations
+            # reading in the values for currenrt readings (current rotations)
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position
             if stop():
@@ -61,8 +65,10 @@ def Tank_rotations(stop, left_speed, right_speed, rotations):
     elif current_degrees_left > target_left and current_degrees_right > target_right:
         #print("4", file=stderr)
         while current_degrees_left > target_left or current_degrees_right > target_right: # how its done in tank onForRotations
+            # reading in the values for currenrt readings (current rotations)
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position
+            
             if stop():
                 break
             if current_degrees_left <= target_left or current_degrees_right <= target_right:

@@ -18,3 +18,7 @@
 *.json
 *.json
 *.json
+*.json
+*.json
+.mypy_cache/3.7/city_shapers.meta.json
+.mypy_cache/3.7/city_shapers.meta.json

@@ -9,10 +9,11 @@ from sys import stderr
 
 gyro = GyroSensor(INPUT_1)
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
-tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
 
+tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
+#_________________________________________________________________________________________________________________________________
 def StraightGyro_target(stop, speed, rotations, target):
     print("In StraightGyro_target", file=stderr)
     current_degrees = largeMotor_Left.position 
@@ -23,22 +24,34 @@ def StraightGyro_target(stop, speed, rotations, target):
     while float(current_degrees) < target_rotations:
         if stop(): 
             break
+
+        # reading in current gyro and  rotations
         current_gyro_reading=gyro.angle
         current_degrees = largeMotor_Left.position
+
+        #if the gyro is smaller than the target
         if current_gyro_reading < target:
-            correction = target - current_gyro_reading
-            correction = correction * .25
-            steering_drive.on(steering = -correction , speed = speed)
+            correction = target - current_gyro_reading # calculate full error by target - gyro
+            correction = correction * .25 # 1/4 of the correction (so the robot doesn't over correct)
+            steering_drive.on(steering = -correction , speed = speed) # turn by the correctuion and doesn't over correct
+
+        #if the gyro is larger than the target
         if current_gyro_reading > target:
-            correction = target - current_gyro_reading
-            correction = correction * .25
-            steering_drive.on(steering = -correction , speed = speed)
+            correction = target - current_gyro_reading # calculate full error by target - gyro
+            correction = correction * .25  # 1/4 of the correction (so the robot doesn't over correct)
+            steering_drive.on(steering = -correction , speed = speed) # turn by the correctuion and doesn't over correct
+
+        #if the gyro is == to the target just go straight
         if current_gyro_reading == target:
             steering_drive.on(steering = 0 , speed = speed)
+
+        # if the current rotations is larger than the target then break the loop which will stop the robot
         if float(current_degrees) >= target_rotations:
             break
+
         if stop():
             break
+
     tank_block.off()
     print('Leaving StraightGyro_target', file=stderr)
 

@@ -11,13 +11,13 @@ colourAttachment = ColorSensor(INPUT_4)
 colourLeft = ColorSensor(INPUT_3) 
 colourRight = ColorSensor(INPUT_2)
 gyro = GyroSensor(INPUT_1)
-
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
 mediumMotor = MediumMotor(OUTPUT_D)
 
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
+#_________________________________________________________________________________________________________________________________
 
 def BlackLine_colourStop(stop, speed, sensor, lineSide, correction):
     rotations = rotations*360
@@ -29,7 +29,10 @@ def BlackLine_colourStop(stop, speed, sensor, lineSide, correction):
     left_RLI = colourLeft.reflected_light_intensity
     target_RLI = 40
     
+    #if the colour sensor that you are using = Right then do this part of the program (being called from defined section above)
     if sensor == "RIGHT":
+        #Choosing which side of the line to follow
+        
         if lineSide == "LEFT":
             while left_RLI > 20: 
                 #and currentDegrees_right < target_right:
@@ -41,14 +44,14 @@ def BlackLine_colourStop(stop, speed, sensor, lineSide, correction):
 
                 steering = 0
 
-                if abs(error) < 5:
+                if abs(error) < 5: #If the absaloute error (positive error) is smaller than 5
                     steering = error * 0.25
 
-                elif abs(error) >= 5 and abs(error) <=10:
+                elif abs(error) >= 5 and abs(error) <=10: #If the absaloute error (positive error) is larger of equal to 5 AND smaller than 10
                     steering = error * 0.5
 
-                elif abs(error) >= 10 and abs(error) <=25:
-                    steering = error * 1
+                elif abs(error) >= 10 and abs(error) <=25: #If the absaloute error (positive error) is larger of equal to 10 AND smaller or equal to 25
+                    steering = error * 1 
 
                 elif abs(error) >= 25:
                     steering = error * 1.25
@@ -58,6 +61,7 @@ def BlackLine_colourStop(stop, speed, sensor, lineSide, correction):
                 steering_drive.on(speed=speed, steering = steering)
                 if stop():
                     break
+        #Choosing which side of the line to follow
         elif lineSide == "RIGHT":
             while currentDegrees_left < target_left and currentDegrees_right < target_right:
                 currentDegrees_left = largeMotor_Left.position
@@ -69,8 +73,14 @@ def BlackLine_colourStop(stop, speed, sensor, lineSide, correction):
                 if stop():
                     break
 
+
+    #if the colour sensor that you are using = Right then do this part of the program (being called from defined section above)                  
+
     elif sensor == "LEFT":
+
+        #Choosing which side of the line to follow
         if lineSide == "RIGHT":
+            
             while currentDegrees_left < target_left and currentDegrees_right < target_right:
                 currentDegrees_left = largeMotor_Left.position
                 currentDegrees_right = largeMotor_Right.position
@@ -80,6 +90,8 @@ def BlackLine_colourStop(stop, speed, sensor, lineSide, correction):
                 steering_drive.on(speed=speed, steering = steering)
                 if stop():
                     break
+
+        #Choosing which side of the line to follow
         elif lineSide == "LEFT":
             while currentDegrees_left < target_left and currentDegrees_right < target_right:
                 currentDegrees_left = largeMotor_Left.position
@@ -91,7 +103,3 @@ def BlackLine_colourStop(stop, speed, sensor, lineSide, correction):
                 if stop():
                     break
     steering_drive.off()
-'''
-stopProcessing = False
-BlackLine_rotations(lambda:stopProcessing, 10, 15, "RIGHT", "LEFT", 0.8)
-'''

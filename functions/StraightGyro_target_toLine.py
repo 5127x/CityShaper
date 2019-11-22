@@ -9,14 +9,13 @@ from sys import stderr
 
 gyro = GyroSensor(INPUT_1)
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
-tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
-
 colourLeft = ColorSensor(INPUT_3)
 colourRight = ColorSensor(INPUT_2)
 
-
+tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
+#_________________________________________________________________________________________________________________________________
 def StraightGyro_target_toLine(stop, speed, rotations, target, whiteOrBlack):
 
     print("In StraightGyro_target_toLine", file=stderr)
@@ -31,38 +30,50 @@ def StraightGyro_target_toLine(stop, speed, rotations, target, whiteOrBlack):
             break
         current_gyro_reading = gyro.angle
         current_degrees = largeMotor_Left.position
-        if current_gyro_reading < target:
-            correction = target - current_gyro_reading
-            correction = correction * .25
+
+        if current_gyro_reading < target: # If gyro reading is smaller than target reaading turn Right
+            correction = target - current_gyro_reading # calculate the correction by the target - current
+            correction = correction * .25 #turns by the corrrection
             steering_drive.on(steering = -correction , speed = speed)
-        if current_gyro_reading > target:
-            correction = target - current_gyro_reading
-            correction = correction * .25
+
+
+        if current_gyro_reading > target: # If gyro reading is larger than target reAading turn Left
+            correction = target - current_gyro_reading # calculate the correction by the target - current
+            correction = correction * .25 #turns by the corrrection
             steering_drive.on(steering = -correction , speed = speed)
+
+        # if the gyro is = to target just continue straight
         if current_gyro_reading == target:
             steering_drive.on(steering = 0 , speed = speed)
+
+        #if the current rotations is larger than target quit out of code
         if float(current_degrees) >= target_rotations:
             break
+
         if stop():
             break
     
 
     # Now find the line
     
-    if not stop():
+    if not stop(): # if the key has not been taken out of the slot
         while True:
             if stop(): 
                 break
+            # reading in the colour values (RLI)
             currentRight_RLI = colourRight.reflected_light_intensity
             currentLeft_RLI = colourLeft.reflected_light_intensity
 
+            # if the whiteOrBlack paramater is white then:
             if whiteOrBlack == "WHITE":
-                if currentRight_RLI > 80 or currentLeft_RLI > 80:
+                if currentRight_RLI > 90 or currentLeft_RLI > 90: #if the left or right sensor read over 90 then stop the robot (done by breaking out of the loop)
                     break
 
             if whiteOrBlack == "BLACK":
-                if currentRight_RLI < 10 or currentLeft_RLI < 10:
+                if currentRight_RLI < 10 or currentLeft_RLI < 10:#if the left or right sensor read under 10 then stop the robot (done by breaking out of the loop)
                     break
+            
+            #otherwise continue straight BUT go slower so the colours are easier to detect
             steering_drive.on(steering = 0 , speed = speed / 2)                
 
 

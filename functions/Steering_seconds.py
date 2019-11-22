@@ -7,22 +7,23 @@ import threading
 import time
 from sys import stderr
 
-colourLeft = ColorSensor(INPUT_3) # bcs apparently they have to be backwards...
+colourLeft = ColorSensor(INPUT_3)
 colourRight = ColorSensor(INPUT_2)
 gyro = GyroSensor(INPUT_1)
-
+mediumMotor = MediumMotor(OUTPUT_D)
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
-# mediumMotor_Left = MediumMotor(OUTPUT_A)
-mediumMotor = MediumMotor(OUTPUT_D)
+#_________________________________________________________________________________________________________________________________
+
 
 def Steering_seconds(stop, speed, seconds, steering): 
     print("In Steering_seconds", file=stderr)
     start_time = time.time()
     steering_drive.on(steering=steering, speed=speed)
+
     while time.time() < start_time + seconds:
         if stop():
             break

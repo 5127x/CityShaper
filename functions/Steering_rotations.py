@@ -7,17 +7,17 @@ import threading
 import time
 from sys import stderr
 
-colourLeft = ColorSensor(INPUT_3) # bcs apparently they have to be backwards...
+colourLeft = ColorSensor(INPUT_3) 
 colourRight = ColorSensor(INPUT_2)
 gyro = GyroSensor(INPUT_1)
+largeMotor_Left= LargeMotor(OUTPUT_B)
+largeMotor_Right= LargeMotor(OUTPUT_C)
+mediumMotor = MediumMotor(OUTPUT_D)
 
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
-largeMotor_Left= LargeMotor(OUTPUT_B)
-largeMotor_Right= LargeMotor(OUTPUT_C)
-# mediumMotor_Left = MediumMotor(OUTPUT_A)
-mediumMotor = MediumMotor(OUTPUT_D)
+#_________________________________________________________________________________________________________________________________
 
 def Steering_rotations(stop, speed, rotations, steering):
     print("In Steering_rotations", file=stderr)
@@ -27,14 +27,17 @@ def Steering_rotations(stop, speed, rotations, steering):
     target_rotations_left = current_degrees_left + target_rotations
     target_rotations_right = current_degrees_right + target_rotations
 
-    steering_drive.on(steering = steering, speed= speed)
+    steering_drive.on(steering = steering, speed= speed) # turn the robot on forever calling the parameters from above
+
     if current_degrees_left < target_left and current_degrees_right < target_right:
         #print("1", file=stderr)
         while current_degrees_left < target_left or current_degrees_right < target_right: # how its done in tank onForRotations
+            #reading in the current rotations of the left and right motor
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position
             if stop():
                 break
+            #if the current rotations of the motor on either left or right side is larger than there specific target then cancel the program or break
             if current_degrees_left >= target_left or current_degrees_right >= target_right:
                 break
     # < >
@@ -47,7 +50,7 @@ def Steering_rotations(stop, speed, rotations, steering):
                 break
             if current_degrees_left >= target_left or current_degrees_right <= target_right:
                 break
-    # > <
+    # if left motor's current rotations is larger and the right current rotations are smaller do the code
     elif current_degrees_left > target_left and current_degrees_right < target_right:
         #print("3", file=stderr)
         while current_degrees_left > target_left or current_degrees_right < target_right: # how its done in tank onForRotations
@@ -58,9 +61,11 @@ def Steering_rotations(stop, speed, rotations, steering):
             if current_degrees_left <= target_left or current_degrees_right >= target_right:
                 break
     # > > 
+    # if left motor's current rotations is larger and the right current rotations are larger do the code
     elif current_degrees_left > target_left and current_degrees_right > target_right:
         #print("4", file=stderr)
         while current_degrees_left > target_left or current_degrees_right > target_right: # how its done in tank onForRotations
+            #re reading in the current rotations into the variable
             current_degrees_left = largeMotor_Left.position 
             current_degrees_right = largeMotor_Right.position
             if stop():
