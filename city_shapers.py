@@ -24,7 +24,7 @@ from functions.Tank_seconds import Tank_seconds
 
 from functions.Reset_gyro import Reset_gyro
 from functions.StraightGyro_target import StraightGyro_target
-from functions.StraightGyro_current import StraightGyro_current
+from functions.StraightGyro_current import StraightGyro_current 
 from functions.StraightGyro_target_toLine import StraightGyro_target_toLine
 from functions.StraightGyro_current_toLine import StraightGyro_current_toLine
 from functions.StraightGyro_target_colourStop import StraightGyro_target_colourStop
