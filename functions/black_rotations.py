@@ -200,4 +200,4 @@ def BlackLine_rotations(stop, speed, rotations, sensor, lineSide, correction):
     steering_drive.off()
     print("Leaving BlackLine_rotations", file=stderr)
 stopProcessing=False
-black_rotations(lambda:stopProcessing, 10, 10, 'RIGHT', 'RIGHT', 50)
+BlackLine_rotations(lambda:stopProcessing, 10, 10, 'RIGHT', 'RIGHT', 50)
