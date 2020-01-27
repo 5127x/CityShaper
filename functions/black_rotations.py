@@ -8,13 +8,13 @@ import time
 from time import sleep
 from sys import stderr
 
-colourAttachment = ColorSensor(INPUT_4)
+#colourAttachment = ColorSensor(INPUT_4)
 colourLeft = ColorSensor(INPUT_3) 
 colourRight = ColorSensor(INPUT_2)
-gyro = GyroSensor(INPUT_1)
+#gyro = GyroSensor(INPUT_1)
 largeMotor_Left= LargeMotor(OUTPUT_B)
 largeMotor_Right= LargeMotor(OUTPUT_C)
-mediumMotor = MediumMotor(OUTPUT_D)
+#mediumMotor = MediumMotor(OUTPUT_D)
 
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
@@ -200,4 +200,4 @@ def BlackLine_rotations(stop, speed, rotations, sensor, lineSide, correction):
     steering_drive.off()
     print("Leaving BlackLine_rotations", file=stderr)
 stopProcessing=False
-BlackLine_rotations(lambda:stopProcessing, 10, 10, 'RIGHT', 'RIGHT', 50)
+black_rotations(lambda:stopProcessing, 10, 10, 'RIGHT', 'RIGHT', 50)
