@@ -53,4 +53,4 @@ def Motor_onForRotations(stop, motor, speed, rotations, gearRatio):
     print('Leaving onForRotations', file=stderr)
 
 #stopProcessing=False
-#Motor_onForRotations(lambda:stopProcessing, motor=mediumMotor, speed=30, rotations=2, gearRatio=1.4)
+Motor_onForRotations(lambda:stopProcessing, motor=mediumMotor, speed=30, rotations=2, gearRatio=1.4)
