@@ -56,7 +56,7 @@ def isKeyTaken(rProgram, gProgram, bProgram):
     rbgA = colourAttachment.raw
     # compare the current values to the values shown when the key is inserted   
     # (rgb values are 50, 62, 57 when the slot is empty)
-    return abs(rbgA[0] - rProgram) > 12 and abs(rbgA[1] - gProgram) > 12 and abs(rbgA[2] - bProgram) > 12 
+    return abs(rbgA[0] - rProgram) > 12 and abs(rbgA[1] - gProgram) > 12 and abs(rbgA[2] - bProgram) > 12 #returns which run to run
 
 # calibrate the colourAttachment values for the different keys
 def colourAttachment_values(): 
