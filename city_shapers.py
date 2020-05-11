@@ -22,7 +22,7 @@ from functions.Steering_seconds import Steering_seconds
 from functions.Tank_rotations import Tank_rotations
 from functions.Tank_seconds import Tank_seconds
 
-from functions.Reset_gyro import Reset_gyro
+from functions.Reset_gyro import Reset_gyroo
 from functions.StraightGyro_target import StraightGyro_target
 from functions.StraightGyro_current import StraightGyro_current 
 from functions.StraightGyro_target_toLine import StraightGyro_target_toLine
@@ -284,14 +284,11 @@ def launchStep(stop, action):
         thread.start()
         return thread
 
-    if name == 'BlackLine_rotations': # (stop, speed, rotations, sensor, lineSide, correction)
-        print("Starting BlackLine_rotations", file=stderr)
+    if name == 'Blacklinetestinghome': # (stop, speed, correction)
+        print("Blackline testing home", file=stderr)
         speed = float(action.get('speed'))
-        rotations = float(action.get('rotations'))
-        sensor = action.get('sensor')
-        lineSide = action.get('lineSide')
         correction = float(action.get('correction'))
-        thread = threading.Thread(target = BlackLine_rotations, args=(stop, speed, rotations, sensor, lineSide, correction))
+        thread = threading.Thread(target = Blacklinetestinghome, args=(stop, speed, rotations, sensor, lineSide, correction))
         thread.start()
         return thread
 
