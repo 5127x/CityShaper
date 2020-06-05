@@ -51,58 +51,6 @@ mediumMotor = MediumMotor(OUTPUT_D)
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
-def isKeyTaken(rProgram, gProgram, bProgram): # has the key been removed?
-    # return True if the key was removed and stop the motors 
-    rbgA = colourAttachment.raw
-    # rgb values are 50, 62, 57 when the slot is empty
-    return abs(rbgA[0] - rProgram) > 12 and abs(rbgA[1] - gProgram) > 12 and abs(rbgA[2] - bProgram) > 12 
-
-'''
-def colourAttachment_values():
-    stop = False
-    os.system('setfont Lat15-TerminusBold14')
-    # os.system('setfont Lat15-TerminusBold32x16') 
-
-    print('Insert red', file=stderr)
-    print('Insert red')
-    button.wait_for_pressed(['enter'])
-    red = colourAttachment.raw 
-    print('Next.')
-
-    print('Insert green', file=stderr)
-    print('Insert green')
-    button.wait_for_pressed(['enter'])
-    green = colourAttachment.raw
-    print('Next.')
-
-    print('Insert white', file=stderr)
-    print('Insert white')
-    button.wait_for_pressed(['enter'])
-    white = colourAttachment.raw
-    print('Next.')
-
-    print('Insert black', file=stderr)
-    print('Insert black')
-    button.wait_for_pressed(['enter'])
-    black = colourAttachment.raw
-    print('Next.')
-
-    print('Insert yellow', file=stderr)
-    print('Insert yellow')
-    button.wait_for_pressed(['enter'])
-    yellow = colourAttachment.raw
-    print('Next.')
-
-    print('Insert blue', file=stderr)
-    print('Insert blue')
-    button.wait_for_pressed(['enter'])
-    blue = colourAttachment.raw
-    print('Done!')
-    button.wait_for_pressed(['enter'])
-
-    attachment_values = [red, green, white, black, yellow, blue]
-    return attachment_values
-'''
 
 # launch actions using threads
 def launchStep(stop, action):
@@ -307,16 +255,8 @@ def main():
     programs = programXML.getroot()
     
     while True:
-        # reset stopProcessing each repetition
         stopProcessing = False
-        # collect the raw rgb light values from colourAttachment and the overall XML file
-        # compare the sets of values
-        up = button.check_buttons('up')
-        right = button.check_buttons('right')
-        down = button.check_buttons('down')
-        left = button.check_buttons('left')
-        enter = button.check_buttons('enter')
-        buttons = [up, right, down, left, right]
+        # FIXXX
         for program in programs:
             programName = program.get('name')
             colourValue = int(program.get('colourValue'))
