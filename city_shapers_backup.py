@@ -10,7 +10,7 @@ from sys import stderr
 import os
 
 # import the functions 
-
+'''
 from functions.Do_nothing import Do_nothing
 from functions.off import off
 from functions.Delay_seconds import Delay_seconds
@@ -35,12 +35,14 @@ from functions.BlackLine_rotations import BlackLine_rotations
 
 from functions.squareOnLine import squareOnLine
 from functions.squareOnLineWhite import squareOnLineWhite
-
+'''
+from RLI_testing import RLI_testing
 # define the different sensors, motors and motor blocks
 button = Button()
 
-colourAttachment = ColorSensor(INPUT_4)
-colourLeft = ColorSensor(INPUT_3) 
+#colourAttachment = ColorSensor(INPUT_4)
+colourLeft = ColorSensor(INPUT_2) #should be 3
+'''
 colourRight = ColorSensor(INPUT_2)
 gyro = GyroSensor(INPUT_1)
 
@@ -51,14 +53,14 @@ mediumMotor = MediumMotor(OUTPUT_D)
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
 tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
 
-
+'''
 # launch actions using threads
 def launchStep(stop, action):
 
     # compare the 'name' to our functions and start a thread with the matching function
     # return the thread to add to threadPool
     name = action.get('action')
-
+    '''
     if name == 'Do_nothing': # (stop)
         print("Do_nothing", file= stderr)
         thread = threading.Thread(target=Do_nothing, args=(stop,))
@@ -241,9 +243,13 @@ def launchStep(stop, action):
         thread = threading.Thread(target = BlackLine_rotations, args=(stop, speed, rotations, sensor, lineSide, correction))
         thread.start()
         return thread
-
-
-
+        '''
+    if name == 'RLI_testing': # (stop, speed, rotations, sensor, lineSide, correction)
+        print("RLI_Testing", file=stderr)
+        thread = threading.Thread(target=RLI_testing)
+        thread.start()
+        return thread
+        
 # main section of the program
 def main():
     # create dictionaries and variables
@@ -251,50 +257,39 @@ def main():
     actions = []
     stopProcessing = False
     # open and read the overall XML file 
-    programXML = ET.parse('overall_programming.xml')
-    programs = programXML.getroot()
-    
+    dataXML = ET.parse('light_testing.xml')
     while True:
         stopProcessing = False
-        # FIXXX
-        for program in programs:
-            programName = program.get('name')
-            colourValue = int(program.get('colourValue'))
-            if buttons[colourValue] == True:
-                mediumMotor.reset 
-                # read the relevant program XML
-                fileName = program.get('fileName')
-                print(fileName,file=stderr)
-                dataXML = ET.parse(fileName)
-                steps = dataXML.getroot()
-                # run each step individually unless they are run in parallel
-                for step in steps:
-                    action = step.get('action')
-                    # loop through actions that should be run in parallel
-                    if action == 'launchInParallel':
-                        for subSteps in step:
-                            thread = launchStep(lambda:stopProcessing, subSteps)
-                            threadPool.append(thread)
-                    # run each action that isn't run in parrallel idividually
-                    else:
-                        thread = launchStep(lambda:stopProcessing, step)
-                        threadPool.append(thread)
-                    while not stopProcessing:
-                        # if there are no threads running start the next action
-                        if not threadPool:
-                            break
-                        # remove any completed threads from the pool
-                        for thread in threadPool:
-                            if not thread.isAlive():
-                                threadPool.remove(thread)
-                        # if the robot has been lifted or t=
-                        # '?e key removed then stop everything
-                        if button.check_buttons(buttons=['up', 'enter']):
-                            stopProcessing = True
-                            break
-                    # if the 'stopProcessing' flag has been set then finish the whole loop
-                    if stopProcessing:
-                        off()
-                        break
+        #mediumMotor.reset
+        steps = dataXML.getroot()
+        # run each step individually unless they are run in parallel
+        for step in steps:
+            action = step.get('action')
+            # loop through actions that should be run in parallel
+            if action == 'launchInParallel':
+                for subSteps in step:
+                    thread = launchStep(lambda:stopProcessing, subSteps)
+                    threadPool.append(thread)
+            # run each action that isn't run in parrallel idividually
+            else:
+                thread = launchStep(lambda:stopProcessing, step)
+                threadPool.append(thread)
+            while not stopProcessing:
+                # if there are no threads running start the next action
+                if not threadPool:
+                    break
+                # remove any completed threads from the pool
+                for thread in threadPool:
+                    if not thread.isAlive():
+                        threadPool.remove(thread)
+                # if the robot has been lifted or t=
+                # '?e key removed then stop everything
+                if button.check_buttons(buttons=['up', 'enter']):
+                    stopProcessing = True
+                    break
+            # if the 'stopProcessing' flag has been set then finish the whole loop
+            if stopProcessing:
+                off()
+                break
 
 main()

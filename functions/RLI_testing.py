@@ -5,14 +5,15 @@ import time
 from sys import stderr
 
 # Defining ports
-colourLeft = ColorSensor(INPUT_3)
-x=0
+colourLeft = ColorSensor(INPUT_2)
+
 #_________________________________________________________________________________________________________________________________
 
-start_time = time.time()
-while time.time() < start_time + 1:
-    RLI = colourLeft.reflected_light_intensity
-    print(RLI, file=stderr)
-    x = x+1
-print(x, file=stderr)
+def RLI_testing():
+    x=0
+    start_time = time.time()
+    while time.time() < start_time + 1:
+        RLI = colourLeft.reflected_light_intensity
+        x = x+1
+    print(x, file=stderr)
 
