@@ -1,0 +1,6 @@
+<steps>
+    <!-- drive out -->
+    <step action='Reset_gyro'/>
+    <step action='Blacklinetestinghome' correction='-20' speed='-20'/>
+
+</steps>
