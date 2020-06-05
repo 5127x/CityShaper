@@ -4,7 +4,6 @@ from pybricks.ev3devices import ColorSensor
 from pybricks.parameters import Port
 import time
 import xml.etree.ElementTree as ET
-root = ET.parse('programming_test.xml').getroot()
 import threading
 import time
 from sys import stderr
@@ -17,7 +16,7 @@ colourLeft = ColorSensor(Port.S2)
 def launchStep(stop, action):
     # compare the ‘name’ to our functions and start a thread with the matching function
     # return the thread to add to threadPool
-    name = action.get(‘action’)
+    name = action.get('action')
     '''
     if name == ‘Do_nothing’: # (stop)
         print(“Do_nothing”, file= stderr)
@@ -187,6 +186,8 @@ def launchStep(stop, action):
         thread = threading.Thread(target=off)
         thread.start()
         return thread
+
+    
 # main section of the program
 def main():
     # create dictionaries and variables

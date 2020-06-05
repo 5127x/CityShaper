@@ -1,10 +1,12 @@
-#!/usr/bin/env python3
-from ev3dev2.motor import MoveSteering, MoveTank, MediumMotor, LargeMotor, OUTPUT_A, OUTPUT_B, OUTPUT_C, OUTPUT_D
-from ev3dev2.sensor.lego import TouchSensor, ColorSensor, GyroSensor
-from ev3dev2.sensor import INPUT_1, INPUT_2, INPUT_3, INPUT_4
+#!/usr/bin/env pybricks-micropython
+from pybricks.hubs import EV3Brick
+from pybricks.ev3devices import ColorSensor
+from pybricks.parameters import Port
 
-colourRight = ColorSensor(INPUT_2)
-steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
+ev3 = EV3Brick()
+colourLeft = ColorSensor(Port.S2)
+
+steering_drive = MoveSteering(Port.MA, Port.MC)
 
 def testing_blackline (correction, speed):
     while True:
@@ -15,3 +17,17 @@ def testing_blackline (correction, speed):
 
 
 testing_blackline (0.5, 5)
+
+#!/usr/bin/env pybricks-micropython
+
+import time
+from sys import stderr
+ev3 = EV3Brick()
+colourLeft = ColorSensor(Port.S2)
+def RLI_testing2():
+    x=0
+    start_time = time.time()
+    while time.time() < start_time + 1:
+        RLI = colourLeft.reflection()
+        x = x+1
+    print(x, file=stderr) 
