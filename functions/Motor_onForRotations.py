@@ -14,7 +14,7 @@ largeMotor_Right= LargeMotor(OUTPUT_C)
 mediumMotor = MediumMotor(OUTPUT_D)
 
 steering_drive = MoveSteering(OUTPUT_B, OUTPUT_C)
-tank_block = MoveTank(OUTPUT_B, OUTPUT_C)
+tank_block = MoveTank(OUTPUT_B, OUTPUT_C)z
 
 #_________________________________________________________________________________________________________________________________
 

@@ -1,12 +1,12 @@
 #!/usr/bin/env pybricks-micropython
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import ColorSensor
-from pybricks.parameters import Port
+from pybricks.parameters import Port, Color
 
 ev3 = EV3Brick()
 colourLeft = ColorSensor(Port.S2)
 
-steering_drive = MoveSteering(Port.MA, Port.MC)
+steering_drive = steering.drive(Motor(Port.B), Motor(Port.C))
 
 def testing_blackline (correction, speed):
     while True:
